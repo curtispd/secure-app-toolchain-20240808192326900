@@ -1,0 +1,334 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: secure-kube-pipeline
+spec:
+  params:
+    - name: api
+      description: The IBM Cloud API Endpoint
+      default: "https://cloud.ibm.com"    
+    - name: apikey
+      description: The IBM Cloud API Key
+    - name: repository
+      description: the git repo containing source code. If empty, the repository url will be found from toolchain
+      default: ""
+    - name: branch
+      description: the branch for the git repo
+      default: "master"
+    - name: revision
+      description: the git revision/commit for the git repo
+      default: ""
+    - name: fail-on-lint-errors
+      description: force failure of task when docker lint errors are found
+      default: "true"
+    - name: fail-on-scanned-issues
+      description: force failure of task when vulnerability advisor scan issues are found
+      default: "true"
+    - name: path-to-context
+      default: "."
+    - name: path-to-dockerfile
+      default: "."
+    - name: dockerfile
+      default: "Dockerfile"
+    - name: build-args
+      description: ibmcloud cr build argument list in the format 'KEY=VALUE' with a key-value pair per line.
+      default: ""
+    - name: registry-region
+      description: The IBM Cloud region for image registry
+    - name: registry-namespace
+      description: container registry namespace
+    - name: app-name
+      description: application name
+    - name: image-name
+      description: image name
+    - name: deployment-file
+      description: file containing the kubernetes deployment definition
+      default: "deployment.yml"
+    - name: keep-ingress-custom-domain
+      description: force keep of ingress custom domain in deployment-file if any (true|false)
+      default: "false"
+    - name: dev-region
+    - name: dev-resource-group
+    - name: cluster-name
+      description: the name of the cluster to target
+    - name: dev-cluster-namespace
+      description: the namespace
+    - name: pipeline-debug
+      default: "0"
+    - name: pr-url
+      description: pr url
+    - name: commit-timestamp
+    - name: scm-type
+    - name: project-id
+      default: ""
+    - name: registry-create-namespace
+      description: create container registry namespace if it doesn't already exists
+      default: "true"
+    - name: inventoryRepo
+      description: The variable storing git integration for the repository storing build inventory with the toolchain
+    - name: deployment-strategy
+      description: kubernetes deployment-strategy 
+  workspaces:
+    - name: pipeline-ws
+  tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone-repo
+      params:
+        - name: continuous-delivery-context-secret
+          value: "secure-properties"
+        - name: ibmcloud-apikey-secret-key
+          value: "toolchain-apikey"
+        - name: repository
+          value: $(params.repository)
+        - name: branch
+          value: $(params.branch)
+        - name: revision
+          value: $(params.revision)
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: output
+          workspace: pipeline-ws
+    - name: git-clone-inventory-repo
+      taskRef:
+        name: git-clone-repo
+      runAfter: [git-clone]
+      params:
+        - name: continuous-delivery-context-secret
+          value: "secure-properties"
+        - name: ibmcloud-apikey-secret-key
+          value: "apikey"
+        - name: repository
+          value: $(params.inventoryRepo)
+        - name: branch
+          value: "master"
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+        - name: git-credentials-json-file
+          value: credentials.json
+      workspaces:
+        - name: output
+          workspace: pipeline-ws
+          subpath: inventory-repo 
+    - name: extract-doi-enablement
+      taskRef:
+        name: toolchain-extract-value
+      params:
+        # count the number of service in the toolchain that are DevopsInsights
+        - name: expression
+          value: 'reduce .services[] as $service (0; if $service.service_id=="draservicebroker" then .+1 else . end)'
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+    - name: publish-doi-buildrecord
+      runAfter: [extract-doi-enablement]
+      when:
+        - input: $(tasks.extract-doi-enablement.results.extracted-value)
+          operator: in
+          values: ["1"]
+      taskRef:
+        name: doi-publish-buildrecord
+      params:
+        - name: toolchain-apikey-secret-key
+          value: "toolchain-apikey"
+        - name: app-name
+          value: $(params.app-name)
+        - name: git-repository
+          value: $(tasks.git-clone.results.git-repository)
+        - name: git-branch
+          value: $(tasks.git-clone.results.git-branch)
+        - name: git-commit
+          value: $(tasks.git-clone.results.git-commit)
+    - name: download-artifacts
+      taskRef:
+        name: download-artifacts
+      runAfter: 
+        - git-clone-inventory-repo 
+      params:
+        - name: api
+          value: $(params.api)
+        - name: apikey
+          value: "toolchain-apikey"
+        - name: shuttle-properties-file
+          value: "build.properties"
+      workspaces:
+        - name: output
+          workspace: pipeline-ws
+    - name: perform-deployment
+      taskRef:
+        name: iks-deploy-to-kubernetes
+      runAfter: [download-artifacts]
+      params:
+        - name: shuttle-properties-file
+          value: "build.properties"
+        - name: cluster-region
+          value: $(params.dev-region)
+        - name: resource-group
+          value: $(params.dev-resource-group)
+        - name: cluster-name
+          value: $(params.cluster-name)
+        - name: setup-script
+          value: |
+            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
+            export DEPLOYMENT_FILE="$(params.deployment-file)"
+            export KEEP_INGRESS_CUSTOM_DOMAIN="$(params.keep-ingress-custom-domain)"
+            # pipeline build number is the doi build record id (if any)
+            export SOURCE_BUILD_NUMBER=$BUILD_NUMBER
+            echo "SOURCE_BUILD_NUMBER=$BUILD_NUMBER" >> build.properties
+            # For doi plugin invocation if needed
+            export TOOLCHAIN_ID=$PIPELINE_TOOLCHAIN_ID
+        - name: script
+          value: |
+            DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
+            source ./build.properties
+            echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
+            if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
+            then
+            echo "Peforming Blue-Green deployment"
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_check_and_deploy_kubectl.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_create_deployment_files.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_perform_deployment.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_check_deployment.sh")
+            elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
+            then
+            echo "Peforming Rolling deployment"
+            source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_and_deploy_kubectl.sh")
+            else 
+            echo "No matching deployment found...."
+            exit 1
+            fi
+        - name: post-execution-script
+          value: |
+            # Keep APP_URL in build.properties shuttle file
+            echo "APP_URL=$APP_URL" >> build.properties
+            IMAGE="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}@${IMAGE_MANIFEST_SHA}"
+            echo "IMAGE=${IMAGE}" >> build.properties
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: artifacts
+          workspace: pipeline-ws
+    - name: acceptance-test
+      taskRef:
+        name: iks-deploy-to-kubernetes
+      runAfter: [perform-deployment]
+      params:
+        - name: shuttle-properties-file
+          value: "build.properties"
+        - name: cluster-region
+          value: $(params.dev-region)
+        - name: resource-group
+          value: $(params.dev-resource-group)
+        - name: cluster-name
+          value: $(params.cluster-name)
+        - name: setup-script
+          value: |
+            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
+            export DEPLOYMENT_FILE="$(params.deployment-file)"
+            export KEEP_INGRESS_CUSTOM_DOMAIN="$(params.keep-ingress-custom-domain)"
+            # pipeline build number is the doi build record id (if any)
+            export SOURCE_BUILD_NUMBER=$BUILD_NUMBER
+            echo "SOURCE_BUILD_NUMBER=$BUILD_NUMBER" >> build.properties
+            # For doi plugin invocation if needed
+            export TOOLCHAIN_ID=$PIPELINE_TOOLCHAIN_ID
+            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
+        - name: script
+          value: |
+            DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
+            source ./build.properties
+            sleep 10
+            echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
+            if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
+            then
+            echo "Peforming Blue-Green Testing"
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_acceptance_test.sh")
+            elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
+            then
+            echo "Peforming Rolling testing"
+            source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_health.sh")
+            else 
+            echo "No matching deployment found...."
+            exit 1
+            fi
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: artifacts
+          workspace: pipeline-ws
+    - name: release
+      taskRef:
+        name: iks-deploy-to-kubernetes
+      runAfter: [acceptance-test]
+      params:
+        - name: shuttle-properties-file
+          value: "build.properties"
+        - name: cluster-region
+          value: $(params.dev-region)
+        - name: resource-group
+          value: $(params.dev-resource-group)
+        - name: cluster-name
+          value: $(params.cluster-name)
+        - name: setup-script
+          value: |
+            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
+            export DEPLOYMENT_FILE="$(params.deployment-file)"
+            export KEEP_INGRESS_CUSTOM_DOMAIN="$(params.keep-ingress-custom-domain)"
+            # pipeline build number is the doi build record id (if any)
+            export SOURCE_BUILD_NUMBER=$BUILD_NUMBER
+            echo "SOURCE_BUILD_NUMBER=$BUILD_NUMBER" >> build.properties
+            # For doi plugin invocation if needed
+            export TOOLCHAIN_ID=$PIPELINE_TOOLCHAIN_ID
+        - name: script
+          value: |
+            DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
+            source ./build.properties
+            echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
+            if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
+            then
+            echo "Peforming Blue-Green Testing"
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_update_ingress.sh")
+            echo ""
+            echo "=========================================================="
+            echo "DEPLOYMENT SUCCEEDED"
+            APP_URL=""
+            APP_URL=$(kubectl get ing | grep ${INGRESS_NAME} | awk {'print $3'})
+            export APP_URL   # using 'export', the env var gets passed to next job in stage
+            echo -e "VIEW THE APPLICATION AT: ${APP_URL}"
+            elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
+            then
+            echo "Peforming Rolling testing"
+            echo "application is released..."
+            else 
+            echo "No matching deployment found...."
+            exit 1
+            fi
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: artifacts
+          workspace: pipeline-ws
+    - name: publish-doi-deployrecord
+      taskRef:
+        name: publish-doi-deployrecord
+      runAfter: [release]
+      when:
+        - input: $(tasks.extract-doi-enablement.results.extracted-value)
+          operator: in
+          values: ["1"]
+      params:
+        - name: api
+          value: $(params.api)
+        - name: apikey
+          value: $(params.apikey)
+        - name: appname
+          value: $(params.app-name)
+        - name: inventoryrepo
+          value: $(params.inventoryRepo)
+        - name: target
+          value: 'prod'
+        - name: build_number
+          value: $(tasks.download-artifacts.results.build_number)
+      workspaces:
+        - name: output
+          workspace: pipeline-ws
