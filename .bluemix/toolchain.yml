@@ -63,7 +63,7 @@ services:
     parameters:
       repo_name: "secure-kube-toolchain-{{timestamp}}"
       repo_url: $env.repository
-      source_repo_url: "https://us-south.git.cloud.ibm.com/akshay-dev/secure-kube"  
+      source_repo_url: "https://github.ibm.com/AkshayKumar-Vijapur/secure-app-toolchain"  
       type: $env.type || 'clone'
       has_issues: false
       enable_traceability: false
