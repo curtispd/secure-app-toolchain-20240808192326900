@@ -286,15 +286,25 @@ spec:
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
             then
-            echo "Peforming Blue-Green Testing"
+            echo "Peforming Blue-Green release"
+            source ./pipeline.data
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_update_ingress.sh")
             echo ""
             echo "=========================================================="
             echo "DEPLOYMENT SUCCEEDED"
             APP_URL=""
+            if [ ! -z "${CLUSTER_INGRESS_SUBDOMAIN}" ] && [ "${KEEP_INGRESS_CUSTOM_DOMAIN}" != true ]; 
+            then
             APP_URL=$(kubectl get ing | grep ${INGRESS_NAME} | awk {'print $3'})
             export APP_URL   # using 'export', the env var gets passed to next job in stage
             echo -e "VIEW THE APPLICATION AT: ${APP_URL}"
+            else 
+            IP_ADDR=$( ibmcloud ks workers --cluster ${CLUSTER_ID} | grep normal | head -n 1 | awk '{ print $2 }' )
+            PORT=$( kubectl get service ${NODEPORT_SERVICE_NAME} --namespace ${CLUSTER_NAMESPACE} -o json | jq -r '.spec.ports[0].nodePort' )
+            APP_URL=http://${IP_ADDR}:${PORT}
+            echo -e "VIEW THE APPLICATION AT: ${APP_URL}"
+            fi
+            
             elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
             then
             echo "Peforming Rolling testing"
