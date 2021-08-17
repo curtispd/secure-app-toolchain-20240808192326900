@@ -51,6 +51,11 @@ triggers:
     name: manual-run
     eventListener: manual-run
     properties: []
+  - type: manual
+    name: switch-manual-run
+    eventListener: switch-manual-run
+    properties: []
+  
 properties:
   - type: secure
     name: toolchain-apikey
