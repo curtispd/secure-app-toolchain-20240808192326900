@@ -246,7 +246,12 @@ spec:
             elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
             then
             echo "Peforming Rolling testing"
-            source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_health.sh")
+            if source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_health.sh")
+            then
+            echo "acceptance test passed.."
+            else 
+            kubectl rollout undo deployment ${DEPLOYMENT_NAME}
+            fi
             else 
             echo "No matching deployment found...."
             exit 1
