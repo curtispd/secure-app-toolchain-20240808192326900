@@ -44,10 +44,10 @@ services:
       repo_name: "hello-containers-{{timestamp}}"
       repo_url: >
         $env.type === 'link' ?
-          $env.app_repo : 'https://us-south.git.cloud.ibm.com/AkshayKumar.Vijapur/hello-containers-20210727075729540'
+          $env.app_repo : 'https://github.ibm.com/AkshayKumar-Vijapur/hello-containers'
       source_repo_url: >
         $env.type === 'fork' || $env.type === 'clone' ?
-          $env.app_repo : 'https://us-south.git.cloud.ibm.com/AkshayKumar.Vijapur/hello-containers-20210727075729540'
+          $env.app_repo : 'https://github.ibm.com/AkshayKumar-Vijapur/hello-containers'
       type: $env.type || 'clone'
       has_issues: true
       enable_traceability: true
