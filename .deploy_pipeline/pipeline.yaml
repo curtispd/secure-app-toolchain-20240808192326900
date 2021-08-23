@@ -398,46 +398,10 @@ spec:
       workspaces:
         - name: output
           workspace: pipeline-ws
-    - name: git-clone-inventory-repo
-      taskRef:
-        name: git-clone-repo
-      runAfter: [git-clone]
-      params:
-        - name: continuous-delivery-context-secret
-          value: "secure-properties"
-        - name: ibmcloud-apikey-secret-key
-          value: "apikey"
-        - name: repository
-          value: $(params.inventoryRepo)
-        - name: branch
-          value: "master"
-        - name: pipeline-debug
-          value: $(params.pipeline-debug)
-        - name: git-credentials-json-file
-          value: credentials.json
-      workspaces:
-        - name: output
-          workspace: pipeline-ws
-          subpath: inventory-repo 
-    - name: download-artifacts
-      taskRef:
-        name: download-artifacts
-      runAfter: 
-        - git-clone-inventory-repo 
-      params:
-        - name: api
-          value: $(params.api)
-        - name: apikey
-          value: "toolchain-apikey"
-        - name: shuttle-properties-file
-          value: "build.properties"
-      workspaces:
-        - name: output
-          workspace: pipeline-ws
     - name: perform-switch
       taskRef:
         name: iks-deploy-to-kubernetes
-      runAfter: [download-artifacts]
+      runAfter: [git-clone]
       params:
         - name: shuttle-properties-file
           value: "build.properties"
@@ -460,12 +424,28 @@ spec:
         - name: script
           value: |
             DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
+            export CLUSTER_INGRESS_SUBDOMAIN
+            export CLUSTER_INGRESS_SECRET
+            if [ -z "${KUBERNETES_MASTER_ADDRESS}" ]; then
+            CLUSTER_ID=${PIPELINE_KUBERNETES_CLUSTER_ID:-${PIPELINE_KUBERNETES_CLUSTER_NAME}} # use cluster id instead of cluster name to handle case where there are multiple clusters with same name
+            IP_ADDR=$( ibmcloud ks workers --cluster ${CLUSTER_ID} | grep normal | head -n 1 | awk '{ print $2 }' )
+            if [ -z "${IP_ADDR}" ]; then
+            echo -e "${PIPELINE_KUBERNETES_CLUSTER_NAME} not created or workers not ready"
+            exit 1
+            fi
+            # Use alternate operator .ingress.XXX for vpc/gen2 / apiv2 cluster
+            CLUSTER_INGRESS_SUBDOMAIN=$( ibmcloud ks cluster get --cluster ${CLUSTER_ID} --json | jq -r '.ingressHostname // .ingress.hostname' | cut -d, -f1 )
+            CLUSTER_INGRESS_SECRET=$( ibmcloud ks cluster get --cluster ${CLUSTER_ID} --json | jq -r '.ingressSecretName // .ingress.secretName' | cut -d, -f1 )
+            else
+            CLUSTER_INGRESS_SUBDOMAIN=""
+            CLUSTER_INGRESS_SECRET=""
+            fi
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
             then
             echo "Peforming Blue-Green switch"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_check_and_deploy_kubectl.sh")
+            #source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_check_and_deploy_kubectl.sh")
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_create_deployment_files.sh")
             source ./pipeline.data
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_perform_switch.sh")
