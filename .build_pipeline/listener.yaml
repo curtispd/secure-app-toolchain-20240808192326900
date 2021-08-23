@@ -36,20 +36,8 @@ spec:
     - name: fail-on-scanned-issues
       description: force failure of task when vulnerability advisor scan issues are found
       default: "false"
-    - name: deployment-file
-      description: file containing the kubernetes deployment definition
-      default: "deployment.yml"
-    - name: keep-ingress-custom-domain
-      description: force keep of ingress custom domain in deployment-file if any (true|false)
-      default: "false"
     - name: pipeline-debug
       default: "0"
-    - name: cluster-name
-      description: the name of the cluster to target
-    - name: dev-region
-    - name: dev-resource-group
-    - name: dev-cluster-namespace
-      description: namespace dev
     - name: pr-url
       description: PR url
     - name: apikey

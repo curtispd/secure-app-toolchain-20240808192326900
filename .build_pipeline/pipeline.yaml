@@ -37,18 +37,6 @@ spec:
       description: application name
     - name: image-name
       description: image name
-    - name: deployment-file
-      description: file containing the kubernetes deployment definition
-      default: "deployment.yml"
-    - name: keep-ingress-custom-domain
-      description: force keep of ingress custom domain in deployment-file if any (true|false)
-      default: "false"
-    - name: dev-region
-    - name: dev-resource-group
-    - name: cluster-name
-      description: the name of the cluster to target
-    - name: dev-cluster-namespace
-      description: the namespace
     - name: pipeline-debug
       default: "0"
     - name: pr-url
