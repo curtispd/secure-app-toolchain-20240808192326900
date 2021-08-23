@@ -52,8 +52,8 @@ triggers:
     eventListener: manual-run
     properties: []
   - type: manual
-    name: switch-manual-run
-    eventListener: switch-manual-run
+    name: switch-blue-green
+    eventListener: switch-blue-green
     properties: []
   
 properties:

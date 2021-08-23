@@ -321,7 +321,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: switch-manual-run
+  name: switch-blue-green
 spec:
   triggers:
     - binding:
