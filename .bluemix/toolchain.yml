@@ -122,7 +122,8 @@ services:
           ARTIFACTORY_DOCKER_CONFIG_JSON: '{{form.artifactoryComp.parameters.docker_config_json}}'
           PRIVATE_WORKER: '{{services.privateWorker.parameters.name}}'
           PIPELINE_REPO_BRANCH: >
-            $env.branch ? $env.branch : "master"
+            $env.branch ? $env.branch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
           TEKTON_CATALOG_REPO: tekton-catalog-repo
           REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
           REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
@@ -142,6 +143,13 @@ services:
                 'gitlab-pr-listener';
               }
             }
+          COMMONS_HOSTED_REGION: >
+            $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/commons/-/raw/main':
+            'https://raw.githubusercontent.com/open-toolchain/commons/master'
+          DEFINITIONS_BRANCH: >
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          APP_REPO_BRANCH: >
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
         execute: false
   build:
     service_id: pipeline
@@ -169,7 +177,8 @@ services:
           PIPELINE_REPO: pipeline-repo
           INVENTORY_REPO: inventory-repo
           PIPELINE_REPO_BRANCH: >
-            $env.branch ? $env.branch : "master"
+            $env.branch ? $env.branch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
           TEKTON_CATALOG_REPO: tekton-catalog-repo
           GIT_COMMIT_EVENT_LISTENER_NAME: >
             if ( $env.ENABLE_SETUP_WIZARD === 'true') {
@@ -187,6 +196,13 @@ services:
                 'grit-or-gitlab-commit';
               }
             }
+          COMMONS_HOSTED_REGION: >
+            $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/commons/-/raw/main':
+            'https://raw.githubusercontent.com/open-toolchain/commons/master'
+          DEFINITIONS_BRANCH: >
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          APP_REPO_BRANCH: >
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
         execute: false
   deploy:
     service_id: pipeline
@@ -214,7 +230,8 @@ services:
           PIPELINE_REPO: pipeline-repo
           DEPLOYMENT_STRATEGY: "{{form.deployment_strategy.parameters.deployment-strategy}}"
           PIPELINE_REPO_BRANCH: >
-            $env.branch ? $env.branch : "master"
+            $env.branch ? $env.branch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
           INVENTORY_REPO: inventory-repo
           TEKTON_CATALOG_REPO: tekton-catalog-repo
           GIT_COMMIT_EVENT_LISTENER_NAME: >
@@ -233,6 +250,13 @@ services:
                 'grit-or-gitlab-commit';
               }
             }
+          COMMONS_HOSTED_REGION: >
+            $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/commons/-/raw/main':
+            'https://raw.githubusercontent.com/open-toolchain/commons/master'
+          DEFINITIONS_BRANCH: >
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          APP_REPO_BRANCH: >
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
         execute: false
   devops-insights:
       service_id: >
