@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: secure-kube-pipeline
+  name: secure-app-pipeline
 spec:
   params:
     - name: api
@@ -330,7 +330,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: switch-secure-kube-pipeline
+  name: switch-secure-app-pipeline
 spec:
   params:
     - name: api

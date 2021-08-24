@@ -54,7 +54,7 @@ spec:
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
-        name: secure-kube-$(uid)-pvc
+        name: secure-app-$(uid)-pvc
       spec:
         resources:
           requests:
@@ -65,10 +65,10 @@ spec:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
-        name: secure-kube-$(uid)
+        name: secure-app-$(uid)
       spec:
         pipelineRef:
-          name: secure-kube-pipeline
+          name: secure-app-pipeline
         params:
           - name: repository
             value: $(params.repository)
@@ -125,7 +125,7 @@ spec:
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
-              claimName: secure-kube-$(uid)-pvc
+              claimName: secure-app-$(uid)-pvc
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
