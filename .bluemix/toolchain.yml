@@ -29,7 +29,7 @@ template:
   wizard:
     $ref: wizard.yml
 toolchain:
-  name: "kube-toolchain-{{timestamp}}"
+  name: "secure-app-toolchain-{{timestamp}}"
   template:
     getting_started:
       $ref: "#/messages/template.gettingStarted"
