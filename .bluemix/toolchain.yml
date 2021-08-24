@@ -45,12 +45,12 @@ services:
       repo_name: "hello-containers-{{timestamp}}"
       repo_url: >
         $env.type === 'link' ? 
-          $env.app_repo : $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/AkshayKumar-Vijapur/hello-containers':
-          'https://github.ibm.com/AkshayKumar-Vijapur/hello-containers'
+          $env.app_repo : $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/hello-containers':
+          'https://github.com/open-toolchain/hello-containers'
       source_repo_url: >
         $env.type === 'fork' || $env.type === 'clone' ?
-          $env.app_repo : $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/AkshayKumar-Vijapur/hello-containers':
-          'https://github.ibm.com/AkshayKumar-Vijapur/hello-containers'
+          $env.app_repo : $env.template.info.hosted_region !== "" ? 'https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/hello-containers':
+          'https://github.com/open-toolchain/hello-containers'
       type: $env.type || 'clone'
       has_issues: true
       enable_traceability: true
@@ -64,16 +64,16 @@ services:
         $env.pipeline_type !== 'tekton' ? '' : $env.source_provider ? $env.source_provider : 'hostedgit'
       }
     parameters:
-      repo_name: "secure-kube-toolchain-{{timestamp}}"
+      repo_name: "secure-app-toolchain-{{timestamp}}"
       repo_url: >
         if ( $env.template.info.hosted_region !== "" ) {
-          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/secure-kube-toolchain"
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/AkshayKumar.Vijapur/secure-app-toolchain"
         } else {
           "https://github.ibm.com/AkshayKumar-Vijapur/secure-app-toolchain"
         }
       source_repo_url: >
         if ( $env.template.info.hosted_region !== "" ) {
-          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/AkshayKumar-Vijapur/secure-app-toolchain"
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/AkshayKumar.Vijapur/secure-app-toolchain"
         } else {
           "https://github.ibm.com/AkshayKumar-Vijapur/secure-app-toolchain"
         }
@@ -107,12 +107,12 @@ services:
   tekton-catalog-repo:
     service_id: >
       if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
-        $env.pipeline_type !== 'tekton' ? '' : 'hostedgit';
+        'hostedgit';
       } else {
-        $env.pipeline_type !== 'tekton' ? '' : $env.source_provider ? $env.source_provider : 'hostedgit'
+        $env.source_provider ? $env.source_provider : 'hostedgit';
       }
     parameters:
-      repo_name: 'tekton-catalog-{{timestamp}}'  
+      repo_name: 'tekton-catalog-{{timestamp}}'
       repo_url: >
         if ( $env.template.info.hosted_region !== "" ) {
           "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/tekton-catalog"
@@ -129,6 +129,7 @@ services:
       has_issues: false
       enable_traceability: false
       kind: ['pipeline']
+      source_provider: 'hostedgit'
   pr:
     service_id: >
       $env.pipeline_type === 'tekton' ? 'pipeline' : ''
