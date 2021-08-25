@@ -98,3 +98,6 @@ properties:
     value: ${APP_REPO}
     type: integration
     path: parameters.repo_url  
+  - name: branch
+    type: text
+    value: ${APP_REPO_BRANCH}
