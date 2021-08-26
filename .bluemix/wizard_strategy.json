@@ -38,17 +38,5 @@
       "showLabel": false,
       "orientation": "horizontal"
     }
-  },
-  {
-    "type": "notification",
-    "display": {
-      "title": "Note: ",
-      "subtitle": {
-        "$ref": "#/messages/wizard.deployment_strategy.note"
-      },
-      "showInAdvancedMode": true,
-      "advancedModePosition": "bottom"
-    },
-    "visible": true
   }]
 }
