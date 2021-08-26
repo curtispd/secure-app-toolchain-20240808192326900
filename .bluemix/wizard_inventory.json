@@ -56,10 +56,10 @@
     "enum": ["clone", "link"],
     "titleMap": {
       "clone": {
-        "$ref": "#/messages/wizard.app.clone"
+        "$ref": "#/messages/wizard.inventory.clone"
       },
       "link": {
-        "$ref": "#/messages/wizard.app.link"
+        "$ref": "#/messages/wizard.inventory.link"
       }
     },
     "items": [{
