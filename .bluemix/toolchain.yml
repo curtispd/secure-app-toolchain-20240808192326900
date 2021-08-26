@@ -59,9 +59,9 @@ services:
   pipeline-repo:
     service_id: >
       if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
-        $env.pipeline_type !== 'tekton' ? '' : 'hostedgit';
+        'hostedgit';
       } else {
-        $env.pipeline_type !== 'tekton' ? '' : $env.source_provider ? $env.source_provider : 'hostedgit'
+        $env.source_provider ? $env.source_provider : 'hostedgit';
       }
     parameters:
       repo_name: "secure-app-toolchain-{{timestamp}}"
@@ -82,6 +82,7 @@ services:
       enable_traceability: false
       legal: true
       kind: ['pipeline']
+      source_provider: 'hostedgit'
   inventory-repo:
     service_id: >
       if ( $env.ENABLE_SETUP_WIZARD === 'true' ) {
@@ -131,15 +132,13 @@ services:
       kind: ['pipeline']
       source_provider: 'hostedgit'
   pr:
-    service_id: >
-      $env.pipeline_type === 'tekton' ? 'pipeline' : ''
+    service_id: pipeline
     parameters:
       services:
         - repo
         - tekton-catalog-repo
       name: 'pr-pipeline'
-      type: >
-        $env.pipeline_type === 'tekton' ? 'tekton': 'classic'
+      type: tekton
       ui-pipeline: true
       configuration:
         content:
@@ -189,8 +188,7 @@ services:
         - inventory-repo
       name: 'ci-pipeline'
       ui-pipeline: true
-      type: >
-        $env.pipeline_type === 'tekton' ? 'tekton': 'classic'
+      type: tekton
       configuration:
         content:
           $text: "build_pipeline_tekton.yml"
@@ -242,8 +240,7 @@ services:
         - inventory-repo
       name: 'cd-pipeline'
       ui-pipeline: true
-      type: >
-        $env.pipeline_type === 'tekton' ? 'tekton': 'classic'
+      type: tekton
       configuration:
         content:
           $text: "deploy_pipeline_tekton.yml"
