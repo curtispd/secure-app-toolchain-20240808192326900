@@ -243,7 +243,7 @@ services:
       type: tekton
       configuration:
         content:
-          $text: "deploy_pipeline_tekton.yml"
+          $text: "deploy_rolling_pipeline_tekton.yml"
         env:
           APP_REPO: repo
           APP_NAME: "{{form.pipeline.parameters.app-name}}"
