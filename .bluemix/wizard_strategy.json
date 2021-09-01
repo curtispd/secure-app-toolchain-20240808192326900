@@ -16,15 +16,15 @@
     "deploymentStrategy": {
       "type": "string",
       "enum": [{
-          "name": "rolling",
+          "name": {
+            "$ref": "#/messages/wizard.deploymentStrategy.rolling.title"
+          },
           "value": "rolling"
         },
         {
-          "name": "rolling",
-          "value": "blueGreen"
-        },
-        {
-          "name": "rolling",
+          "name": {
+            "$ref": "#/messages/wizard.deploymentStrategy.blueGreen.title"
+          },
           "value": "blueGreen"
         }
       ]
