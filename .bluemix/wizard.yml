@@ -24,9 +24,62 @@ steps:
     title:
       $ref: "#/messages/wizard.step.vault.title"
     form: wizard_vault
-    secretsStep: true
     conditions:
-      $ref: conditions.yml#/vault_conditions
+      - condition:
+          any:
+            - parameter: key-protect
+              value: true
+        actions:
+          - type: create-service
+            service_id: keyprotect
+            service_label: kp-vault
+            parameters:
+              name: kp-compliance-secrets
+      - condition:
+          any:
+            - parameter: key-protect
+              value: false
+        actions:
+          - type: delete-service
+            service_id: keyprotect
+            service_label: kp-vault
+      - condition:
+          any:
+            - parameter: secrets-manager
+              value: true
+        actions:
+          - type: create-service
+            service_id: secretsmanager
+            service_label: sm-vault
+            parameters:
+              name: sm-compliance-secrets
+      - condition:
+          any:
+            - parameter: secrets-manager
+              value: false
+        actions:
+          - type: delete-service
+            service_id: secretsmanager
+            service_label: sm-vault
+      - condition:
+          any:
+            - parameter: hashicorp-vault
+              value: true
+        actions:
+          - type: create-service
+            service_id: hashicorpvault
+            service_label: hc-vault
+            parameters:
+              name: 'hc-compliance-secrets'
+              authentication_method: 'approle'
+      - condition:
+          any:
+            - parameter: hashicorp-vault
+              value: false
+        actions:
+          - type: delete-service
+            service_id: hashicorpvault
+            service_label: hc-vault
   - name: keyprotect
     indent_level: 1
     title:
@@ -37,6 +90,17 @@ steps:
         any:
           - form: wizard_vault
             parameter: key-protect
+            value: true
+  - name: secretsmanager
+    indent_level: 1
+    form: secretsmanager
+    title:
+      $ref: "#/messages/wizard.step.secretsmanager.title"
+    visible:
+      condition:
+        any:
+          - form: wizard_vault
+            parameter: secrets-manager
             value: true
   - name: hashicorpvault
     indent_level: 1
@@ -79,6 +143,7 @@ steps:
                 content:
                   $text: "deploy_rolling_pipeline_tekton.yml"
   - name: deploy
+    indent_level: 1
     label: 
       $ref: "#/messages/wizard.step.deploy.label"
     title:
