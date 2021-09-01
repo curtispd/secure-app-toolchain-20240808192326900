@@ -40,7 +40,7 @@
     "key": "deploymentStrategy",
     "display": {
       "showLabel": false,
-      "orientation": "vertical"
+      "orientation": "horizontal"
     }
   }]
 }
