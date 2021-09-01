@@ -116,7 +116,32 @@ steps:
   - name: deployment_strategy
     form: deployment_strategy
     title:
-      $ref: "#/messages/wizard.step.deploymentStrategy.title"            
+      $ref: "#/messages/wizard.step.deployment_strategy.title"
+    conditions:
+      - condition:
+          any:
+            - parameter: deployment-strategy
+              value: blueGreen
+        actions:
+          - type: update-service-parameters
+            service_id: pipeline
+            service_label: deploy
+            parameters:
+              configuration:
+                content:
+                  $text: "deploy_blue_green_pipeline_tekton.yml"
+      - condition:
+          any:
+            - parameter: deployment-strategy
+              value: rolling
+        actions:
+          - type: update-service-parameters
+            service_id: pipeline
+            service_label: deploy
+            parameters:
+              configuration:
+                content:
+                  $text: "deploy_rolling_pipeline_tekton.yml"
   - name: deploy
     indent_level: 1
     label: 

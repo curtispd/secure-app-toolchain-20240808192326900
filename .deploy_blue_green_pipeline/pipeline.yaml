@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: secure-kube-pipeline
+  name: secure-app-pipeline
 spec:
   params:
     - name: api
@@ -162,21 +162,11 @@ spec:
             DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
-            then
             echo "Peforming Blue-Green deployment"
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_check_and_deploy_kubectl.sh")
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_create_deployment_files.sh")
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_perform_deployment.sh")
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_check_deployment.sh")
-            elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
-            then
-            echo "Peforming Rolling deployment"
-            source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_and_deploy_kubectl.sh")
-            else 
-            echo "No matching deployment found...."
-            exit 1
-            fi
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file
@@ -218,23 +208,8 @@ spec:
             source ./build.properties
             sleep 10
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
-            then
             echo "Peforming Blue-Green Testing"
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_acceptance_test.sh")
-            elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
-            then
-            echo "Peforming Rolling testing"
-            if source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_health.sh")
-            then
-            echo "acceptance test passed.."
-            else 
-            kubectl rollout undo deployment ${DEPLOYMENT_NAME}
-            fi
-            else 
-            echo "No matching deployment found...."
-            exit 1
-            fi
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:
@@ -268,8 +243,6 @@ spec:
             DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
-            then
             echo "Peforming Blue-Green release"
             source ./pipeline.data
             source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_update_ingress.sh")
@@ -287,15 +260,6 @@ spec:
             PORT=$( kubectl get service ${NODEPORT_SERVICE_NAME} --namespace ${CLUSTER_NAMESPACE} -o json | jq -r '.spec.ports[0].nodePort' )
             APP_URL=http://${IP_ADDR}:${PORT}
             echo -e "VIEW THE APPLICATION AT: ${APP_URL}"
-            fi
-            
-            elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
-            then
-            echo "Peforming Rolling testing"
-            echo "application is released..."
-            else 
-            echo "No matching deployment found...."
-            exit 1
             fi
         - name: pipeline-debug
           value: $(params.pipeline-debug)
@@ -330,7 +294,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: switch-secure-kube-pipeline
+  name: switch-secure-app-pipeline
 spec:
   params:
     - name: api

@@ -50,7 +50,7 @@ spec:
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
-        name: secure-kube-$(uid)-pvc
+        name: secure-app-$(uid)-pvc
       spec:
         resources:
           requests:
@@ -61,10 +61,10 @@ spec:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
-        name: secure-kube-$(uid)
+        name: secure-app-$(uid)
       spec:
         pipelineRef:
-          name: secure-kube-pipeline
+          name: secure-app-pipeline
         params:
           - name: repository
             value: $(params.repository)
@@ -105,127 +105,12 @@ spec:
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
-              claimName: secure-kube-$(uid)-pvc
----
-apiVersion: tekton.dev/v1beta1
-kind: TriggerTemplate
-metadata:
-  name: switch-trigger-template-secure-kube
-spec:
-  params:
-    - name: repository
-      description: The git repo
-    - name: branch
-      description: the branch for the git repo
-      default: "master"
-    - name: revision
-      description: the git revision/commit for the git repo
-      default: ""
-    - name: app-name
-      description: application name
-    - name: deployment-file
-      description: file containing the kubernetes deployment definition
-      default: "deployment.yml"
-    - name: keep-ingress-custom-domain
-      description: force keep of ingress custom domain in deployment-file if any (true|false)
-      default: "false"
-    - name: pipeline-debug
-      default: "0"
-    - name: cluster-name
-      description: the name of the cluster to target
-    - name: dev-region
-    - name: dev-resource-group
-    - name: dev-cluster-namespace
-      description: namespace dev
-    - name: pr-url
-      description: PR url
-    - name: apikey
-    - name: commit-timestamp
-      description: commit timestamp
-    - name: scm-type
-      description: source code type used (github, github-ent, gitlab)
-    - name: project-id
-      description: project id
-      default: ""
-    - name: inventoryRepo
-      description: The variable storing git integration for the repository storing build inventory with the toolchain
-    - name: api
-      description: the IBM Cloud api endpoint
-      default: "https://cloud.ibm.com"
-    - name: deployment-strategy
-      description: kubernetes deployment-strategy 
-  resourcetemplates:
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: secure-kube-$(uid)-pvc
-      spec:
-        resources:
-          requests:
-            storage: 5Gi
-        volumeMode: Filesystem
-        accessModes:
-          - ReadWriteOnce
-    - apiVersion: tekton.dev/v1beta1
-      kind: PipelineRun
-      metadata:
-        name: secure-kube-$(uid)
-      spec:
-        pipelineRef:
-          name: switch-secure-kube-pipeline
-        params:
-          - name: repository
-            value: $(params.repository)
-          - name: branch
-            value: $(params.branch)
-          - name: revision
-            value: $(params.revision)
-          - name: app-name
-            value: $(params.app-name)
-          - name: deployment-file
-            value: $(params.deployment-file)
-          - name: keep-ingress-custom-domain
-            value: $(params.keep-ingress-custom-domain)
-          - name: dev-region
-            value: $(params.dev-region)
-          - name: dev-resource-group
-            value: $(params.dev-resource-group)
-          - name: cluster-name
-            value: $(params.cluster-name)
-          - name: dev-cluster-namespace
-            value: $(params.dev-cluster-namespace)
-          - name: pipeline-debug
-            value: $(params.pipeline-debug)
-          - name: apikey
-            value: $(params.apikey)
-          - name: pr-url
-            value: $(params.pr-url)
-          - name: commit-timestamp
-            value: $(params.commit-timestamp)
-          - name: scm-type
-            value: $(params.scm-type)
-          - name: project-id
-            value: $(params.project-id) 
-          - name: inventoryRepo
-            value: $(params.inventoryRepo) 
-          - name: deployment-strategy
-            value: $(params.deployment-strategy)
-        workspaces:
-          - name: pipeline-ws
-            persistentVolumeClaim:
-              claimName: secure-kube-$(uid)-pvc
+              claimName: secure-app-$(uid)-pvc
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
   name: trigger-binding-manual
-spec:
-  params:
----
-apiVersion: tekton.dev/v1beta1
-kind: TriggerBinding
-metadata:
-  name: switch-trigger-binding-manual
 spec:
   params:
 ---
@@ -239,17 +124,6 @@ spec:
         name: trigger-binding-manual
       template:
         name: trigger-template-secure-kube
----
-apiVersion: tekton.dev/v1beta1
-kind: EventListener
-metadata:
-  name: switch-blue-green
-spec:
-  triggers:
-    - binding:
-        name: switch-trigger-binding-manual
-      template:
-        name: switch-trigger-template-secure-kube
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding

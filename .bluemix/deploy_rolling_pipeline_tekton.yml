@@ -3,7 +3,7 @@ inputs:
   - type: git
     branch: ${PIPELINE_REPO_BRANCH}
     service: ${PIPELINE_REPO}
-    path: .build_pipeline
+    path: .deploy_rolling_pipeline
   - type: git
     branch: ${DEFINITIONS_BRANCH}
     service: ${TEKTON_CATALOG_REPO}
@@ -44,13 +44,14 @@ triggers:
   - type: git
     name: commit-push
     eventListener: ${GIT_COMMIT_EVENT_LISTENER_NAME}
-    service: ${APP_REPO}
+    service: ${INVENTORY_REPO}
     branch: ${APP_REPO_BRANCH}
     events: { "push": true }
   - type: manual
     name: manual-run
     eventListener: manual-run
     properties: []
+  
 properties:
   - type: secure
     name: toolchain-apikey
@@ -81,6 +82,9 @@ properties:
     type: text
   - name: dev-resource-group
     value: ${PROD_RESOURCE_GROUP}
+    type: text
+  - name: deployment-strategy
+    value: ${DEPLOYMENT_STRATEGY}
     type: text
   - name: inventoryRepo
     value: ${INVENTORY_REPO}
