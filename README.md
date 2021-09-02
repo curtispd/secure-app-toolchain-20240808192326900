@@ -14,7 +14,7 @@ Any code change to the Git repo will automatically be built, validated and deplo
 
 It implements the following best practices:
 - seperate Continuous Integration(CI) and Continuous Delivery(CD) pipelines.
-- different deployment strategies (Rolling and Canary) 
+- different deployment strategies (Rolling, Blue/Green and Canary) 
 - sanity check the Dockerfile prior to attempting creating the image,
 - build container image on every Git commit, setting a tag based on build number, timestamp and commit id for traceability
 - use a private image registry to store the built image, automatically configure access permissions for target cluster deployment using API tokens than can be revoked,
