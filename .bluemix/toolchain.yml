@@ -308,7 +308,26 @@ form:
       prod-resource-group: '{{prodResourceGroup}}'
       prod-cluster-name: '{{prodClusterName}}'
     schema:
-      $ref: deploy.json
+      $ref: deploy.json    
+
+  pipeline_canary:
+    parameters:
+      app-name: >
+        $env.appName ?
+          '{{appName}}' : '{{services.repo.parameters.repo_name}}'
+      prod-cluster-namespace: >
+        $env.prodClusterNamespace ?
+          '{{prodClusterNamespace}}' : 'prod'
+      registry-region: '{{registryRegion}}'
+      registry-namespace: '{{registryNamespace}}'
+      api-key: '{{apiKey}}'
+      prod-region: '{{prodRegion}}'
+      prod-resource-group: '{{prodResourceGroup}}'
+      prod-cluster-name: '{{prodClusterName}}'
+      canary-step-size: '{{canaryStepSize}}'
+      canary-step-interval: '{{canaryStepInterval}}'
+    schema:
+      $ref: deploy_canary.json
 
   wizard_inventory:
     schema:

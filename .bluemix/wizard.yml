@@ -6,6 +6,13 @@ welcome:
   description: 
       $ref: "#/messages/wizard.welcome.description"
 steps:
+  - name: deployment_strategy
+    form: deployment_strategy
+    title:
+      $ref: "#/messages/wizard.step.deployment_strategy.title"
+    conditions:
+      $ref: conditions.yml#/deploy_conditions
+
   - name: app
     title:
       $ref: "#/messages/wizard.step.application.title"
@@ -116,42 +123,45 @@ steps:
             parameter: hashicorp-vault
             value: true
 
-  - name: deployment_strategy
-    form: deployment_strategy
-    title:
-      $ref: "#/messages/wizard.step.deployment_strategy.title"
-    conditions:
-      - condition:
-          any:
-            - parameter: deployment-strategy
-              value: blueGreen
-        actions:
-          - type: update-service-parameters
-            service_id: pipeline
-            service_label: deploy
-            parameters:
-              configuration:
-                content:
-                  $text: "deploy_blue_green_pipeline_tekton.yml"
-      - condition:
-          any:
-            - parameter: deployment-strategy
-              value: rolling
-        actions:
-          - type: update-service-parameters
-            service_id: pipeline
-            service_label: deploy
-            parameters:
-              configuration:
-                content:
-                  $text: "deploy_rolling_pipeline_tekton.yml"
   - name: deploy
-    indent_level: 1
     label: 
       $ref: "#/messages/wizard.step.deploy.label"
     title:
       $ref: "#/messages/wizard.step.deploy.title"
     form: pipeline
+    visible:
+      condition:
+        any:
+          - form: deployment_strategy
+            parameter: deploymentStrategy
+            value: rolling
+  
+  - name: deploy_blue_green
+    label: 
+      $ref: "#/messages/wizard.step.deploy.label"
+    title:
+      $ref: "#/messages/wizard.step.deploy.title"
+    form: pipeline
+    visible:
+      condition:
+        any:
+          - form: deployment_strategy
+            parameter: deploymentStrategy
+            value: blueGreen
+    
+  - name: deploy_canary
+    label: 
+      $ref: "#/messages/wizard.step.deploy.label"
+    title:
+      $ref: "#/messages/wizard.step.deploy.title"
+    form: pipeline_canary
+    visible:
+      condition:
+        any:
+          - form: deployment_strategy
+            parameter: deploymentStrategy
+            value: canary
+
 
   - name: optionaltools
     title:
