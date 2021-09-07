@@ -163,10 +163,10 @@ spec:
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             echo "Peforming Blue-Green deployment"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_check_and_deploy_kubectl.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_create_deployment_files.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_perform_deployment.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_check_deployment.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_check_and_deploy_kubectl.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_create_deployment_files.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_perform_deployment.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_check_deployment.sh")
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file
@@ -209,7 +209,7 @@ spec:
             sleep 10
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             echo "Peforming Blue-Green Testing"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_acceptance_test.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_acceptance_test.sh")
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:
@@ -245,7 +245,7 @@ spec:
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             echo "Peforming Blue-Green release"
             source ./pipeline.data
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/kube_blue_green_update_ingress.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_update_ingress.sh")
             echo ""
             echo "=========================================================="
             echo "DEPLOYMENT SUCCEEDED"
