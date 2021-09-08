@@ -51,6 +51,10 @@ triggers:
     name: manual-run
     eventListener: manual-run
     properties: []
+  - type: manual
+    name: abort-deployment
+    eventListener: abort-deployment
+    properties: []
   
 properties:
   - type: secure
