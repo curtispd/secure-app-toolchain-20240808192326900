@@ -255,7 +255,7 @@ services:
           PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
           PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
           PIPELINE_REPO: pipeline-repo
-          DEPLOYMENT_STRATEGY: "{{form.deployment_strategy.parameters.deployment-strategy}}"
+          DEPLOYMENT_STRATEGY: "{{form.deployment_strategy.parameters.deploymentStrategy}}"
           PIPELINE_REPO_BRANCH: >
             $env.branch ? $env.branch : 
             $env.template.info.hosted_region !== "" ? 'main': 'master'
@@ -335,7 +335,7 @@ form:
 
   deployment_strategy:
     parameters:
-      deployment-strategy:  >
+      deploymentStrategy:  >
         $env.deploymentStrategy ?
           '{{deploymentStrategy}}' : 'rolling' 
     schema:
