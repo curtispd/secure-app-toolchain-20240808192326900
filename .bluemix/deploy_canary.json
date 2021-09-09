@@ -131,20 +131,24 @@
             "type": "table",
             "columnCount": 3,
             "widths": ["50%", "3%", "47%"],
-            "items": [{
+            "items": [
+                {
                 "type": "label",
                 "title": {
                     "$ref": "#/messages/deploy.containerregRegion"
                 }
-            }, {
+            }, 
+            {
                 "type": "label",
                 "title": ""
-            }, {
+            }, 
+            {
                 "type": "label",
                 "title": {
                     "$ref": "#/messages/deploy.containerregns"
                 }
-            }, {
+            },
+            {
                 "type": "select",
                 "title": {
                     "$ref": "#/messages/deploy.containerregRegion"
@@ -160,73 +164,62 @@
                     "$ref": "#/messages/deploy.containerregns"
                 },
                 "key": "registry-namespace"
-            }]
-        }, {
-            "type": "table",
-            "columnCount": 7,
-            "widths": ["24%", "2%", "24%", "3%", "23%", "1%", "23%"],
-            "items": [{
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/region"
-                    }
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.rg"
-                    }
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.cluster"
-                    }
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.clusterNs"
-                    }
-                }, {
-                    "type": "select",
-                    "key": "prod-region"
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "select",
-                    "key": "prod-resource-group",
-                    "readonly": false
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "select",
-                    "key": "prod-cluster-name",
-                    "readonly": false
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "text",
-                    "key": "prod-cluster-namespace",
-                    "readonly": false
+            }, {
+                "type": "label",
+                "title": {
+                    "$ref": "#/messages/region"
                 }
-            ]
-        }, {
+            }, {
+                "type": "label",
+                "title": ""
+            },
+            {
+                "type": "label",
+                "title": {
+                    "$ref": "#/messages/deploy.rg"
+                }
+            },  {
+                "type": "select",
+                "key": "prod-region"
+            }, {
+                "type": "label",
+                "title": ""
+            },
+            {
+                "type": "select",
+                "key": "prod-resource-group",
+                "readonly": false
+            },
+            {
+                "type": "label",
+                "title": {
+                    "$ref": "#/messages/deploy.cluster"
+                }
+            }, {
+                "type": "label",
+                "title": ""
+            },
+            {
+                "type": "label",
+                "title": {
+                    "$ref": "#/messages/deploy.clusterNs"
+                }
+            },
+            {
+                "type": "select",
+                "key": "prod-cluster-name",
+                "readonly": false
+            }, {
+                "type": "label",
+                "title": ""
+            },
+            {
+                "type": "text",
+                "key": "prod-cluster-namespace",
+                "readonly": false
+            }
+        ]
+        },  {
             "type": "table",
             "columnCount": 1,
             "widths": ["100%"],

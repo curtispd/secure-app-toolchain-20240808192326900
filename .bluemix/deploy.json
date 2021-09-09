@@ -146,12 +146,9 @@
                     "$ref": "#/messages/deploy.containerregns"
                 },
                 "key": "registry-namespace"
-            }]
+            
         }, {
-            "type": "table",
-            "columnCount": 7,
-            "widths": ["24%", "2%", "24%", "3%", "23%", "1%", "23%"],
-            "items": [{
+            
                     "type": "label",
                     "title": {
                         "$ref": "#/messages/region"
@@ -165,11 +162,19 @@
                     "title": {
                         "$ref": "#/messages/deploy.rg"
                     }
+                    },  {
+                        "type": "select",
+                        "key": "prod-region"                  
                 }, {
                     "type": "label",
                     "title": ""
                 },
                 {
+                "type": "select",
+                "key": "prod-resource-group",
+                "readonly": false
+            },
+            {                
                     "type": "label",
                     "title": {
                         "$ref": "#/messages/deploy.cluster"
@@ -183,20 +188,6 @@
                     "title": {
                         "$ref": "#/messages/deploy.clusterNs"
                     }
-                }, {
-                    "type": "select",
-                    "key": "prod-region"
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "select",
-                    "key": "prod-resource-group",
-                    "readonly": false
-                }, {
-                    "type": "label",
-                    "title": ""
                 },
                 {
                     "type": "select",
