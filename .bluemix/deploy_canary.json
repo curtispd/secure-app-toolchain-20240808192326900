@@ -86,6 +86,20 @@
             "type": "string",
             "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
         },
+        "canary-step-size": {
+            "description": {
+                "$ref": "#/messages/deploy.canaryStepSize"
+            },
+            "type": "string",
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+        },
+        "canary-step-interval": {
+            "description": {
+                "$ref": "#/messages/deploy.canaryStepInterval"
+            },
+            "type": "string",
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+        },
         "app-name": {
             "description": {
                 "$ref": "#/messages/deploy.appDescription"
@@ -94,7 +108,7 @@
             "pattern": "\\S"
         }
     },
-    "required": ["app-name", "api-key", "registry-region", "registry-namespace", "prod-region", "prod-resource-group", "prod-cluster-name", "prod-cluster-namespace"],
+    "required": ["app-name", "api-key", "registry-region", "registry-namespace", "prod-region", "prod-resource-group", "prod-cluster-name", "prod-cluster-namespace","canary-step-size","canary-step-interval"],
     "form": [{
             "type": "validator",
             "url": "/devops/validator/validator-v1.html"
@@ -117,20 +131,24 @@
             "type": "table",
             "columnCount": 3,
             "widths": ["50%", "3%", "47%"],
-            "items": [{
+            "items": [
+                {
                 "type": "label",
                 "title": {
                     "$ref": "#/messages/deploy.containerregRegion"
                 }
-            }, {
+            }, 
+            {
                 "type": "label",
                 "title": ""
-            }, {
+            }, 
+            {
                 "type": "label",
                 "title": {
                     "$ref": "#/messages/deploy.containerregns"
                 }
-            }, {
+            },
+            {
                 "type": "select",
                 "title": {
                     "$ref": "#/messages/deploy.containerregRegion"
@@ -146,64 +164,62 @@
                     "$ref": "#/messages/deploy.containerregns"
                 },
                 "key": "registry-namespace"
-            
-        }, {
-            
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/region"
-                    }
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.rg"
-                    }
-                    },  {
-                        "type": "select",
-                        "key": "prod-region"                  
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
+            }, {
+                "type": "label",
+                "title": {
+                    "$ref": "#/messages/region"
+                }
+            }, {
+                "type": "label",
+                "title": ""
+            },
+            {
+                "type": "label",
+                "title": {
+                    "$ref": "#/messages/deploy.rg"
+                }
+            },  {
+                "type": "select",
+                "key": "prod-region"
+            }, {
+                "type": "label",
+                "title": ""
+            },
+            {
                 "type": "select",
                 "key": "prod-resource-group",
                 "readonly": false
             },
-            {                
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.cluster"
-                    }
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.clusterNs"
-                    }
-                },
-                {
-                    "type": "select",
-                    "key": "prod-cluster-name",
-                    "readonly": false
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "text",
-                    "key": "prod-cluster-namespace",
-                    "readonly": false
+            {
+                "type": "label",
+                "title": {
+                    "$ref": "#/messages/deploy.cluster"
                 }
-            ]
-        }, {
+            }, {
+                "type": "label",
+                "title": ""
+            },
+            {
+                "type": "label",
+                "title": {
+                    "$ref": "#/messages/deploy.clusterNs"
+                }
+            },
+            {
+                "type": "select",
+                "key": "prod-cluster-name",
+                "readonly": false
+            }, {
+                "type": "label",
+                "title": ""
+            },
+            {
+                "type": "text",
+                "key": "prod-cluster-namespace",
+                "readonly": false
+            }
+        ]
+        },  {
             "type": "table",
             "columnCount": 1,
             "widths": ["100%"],
@@ -218,6 +234,29 @@
                     "$ref": "#/messages/deploy.clusternsDescription"
                 }
             }]
+        },
+         {
+            "type": "label",
+            "title": ""
+        },
+        {
+            "type": "text",
+            "key": "canary-step-size",
+            "title": {
+                "$ref": "#/messages/deploy.canaryStepSizeTitle"
+            },
+            "readonly": false
+        }, {
+            "type": "label",
+            "title": ""
+        },
+        {
+            "type": "text",
+            "key": "canary-step-interval",
+            "title": {
+                "$ref": "#/messages/deploy.canaryStepIntervalTitle"
+            },
+            "readonly": false
         }
     ]
 }

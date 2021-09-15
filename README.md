@@ -28,7 +28,7 @@ It implements the following best practices:
 
 - Toolchain Name - Unique name to identify your toolchain
 
-- Region - Select the region where toolchain is to be deployed (Ex: us-south)
+- Region - Select the region where toolchain is to be deployed (Ex: us-south).
 
 #### Application Repository Configuration
 
@@ -81,6 +81,18 @@ In Kubernetes there are a few different ways to release an application, it is ne
 
 These are the different deployment strategies that are supported by the toolchain.
 
+
+##### Rolling
+
+Rolling updates allow deployments update to take place with zero downtime by incrementally updating pods instances with new ones. The new pods will be scheduled on nodes with available resources. Similar to application Scaling, if a deployment is exposed publicly, the service will load-balance the traffic only to available pods during the update. An available pod is an instance that is available to the users of the application.
+
+Rolling updates allow the following actions:
+
+1. Promote an application from one environment to another (via container image updates)
+2. Rollback to previous versions
+3. Continuous Integration and Continuous Delivery of applications with zero downtime
+
+
 ##### Blue Green Deployment
 
 For the first deployment:- 
@@ -100,6 +112,27 @@ For the subsequent deployment:-
 
 ```
 ![Blue-Green-Kubernetes](https://media.github.ibm.com/user/333953/files/00742e80-f194-11eb-8a48-a98ced4f6d50)
+
+
+##### Canary Deployment
+
+For the first deployment:- 
+```
+1. Check if the Ingress controller exists
+2. If not, update the current deployment as prod and perform deployment.
+
+For the subsequent deployment:-
+
+1. Deploy the latest deployment as canary deployment.
+2. A percentage(`step-size`) of incoming traffic will be routed to canary deployment, A tests will be performed against the canary deployment.
+3. If the test passes, then we can increase the `step-size` which will increase the incoming traffic to canary deployment.
+4. Once the step-size is 100 percent and all the tests are passed, existing production deployment will be updated with latest changes which are tested in canary deployment.
+5. Now canary deployment will be removed and incoming traffic will be routed back to production.
+
+```
+
+
+
 
 ---
 ### Learn more 

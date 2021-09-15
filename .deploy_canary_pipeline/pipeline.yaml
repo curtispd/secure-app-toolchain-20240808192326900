@@ -48,6 +48,10 @@ spec:
       description: The variable storing git integration for the repository storing build inventory with the toolchain
     - name: deployment-strategy
       description: kubernetes deployment-strategy 
+    - name: canary-step-interval
+      description: Defines duration of each test performed against canary deployment
+    - name: canary-step-size
+      description: Defines number of tests should be performed against canary deployment
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -134,7 +138,7 @@ spec:
       workspaces:
         - name: output
           workspace: pipeline-ws
-    - name: perform-deployment
+    - name: canary-deployment
       taskRef:
         name: iks-deploy-to-kubernetes
       runAfter: [download-artifacts]
@@ -162,11 +166,10 @@ spec:
             DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            echo "Peforming Blue-Green deployment"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_check_and_deploy_kubectl.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_create_deployment_files.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_perform_deployment.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_check_deployment.sh")
+            echo "Peforming canary deployment"
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/prepare_deployment_file.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/create_deployment_files.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/perform_deployment.sh")
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file
@@ -178,10 +181,10 @@ spec:
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
-    - name: acceptance-test
+    - name: canary-test
       taskRef:
         name: iks-deploy-to-kubernetes
-      runAfter: [perform-deployment]
+      runAfter: [canary-deployment]
       params:
         - name: shuttle-properties-file
           value: "build.properties"
@@ -205,20 +208,22 @@ spec:
         - name: script
           value: |
             DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
+            export STEP_INTERVAL="$(params.canary-step-interval)"
+            export STEP_SIZE="$(params.canary-step-size)"
             source ./build.properties
             sleep 10
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            echo "Peforming Blue-Green Testing"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_acceptance_test.sh")
+            echo "Peforming canary Testing"
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/canary_test.sh")
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
-    - name: release
+    - name: prod-deployment
       taskRef:
         name: iks-deploy-to-kubernetes
-      runAfter: [acceptance-test]
+      runAfter: [canary-test]
       params:
         - name: shuttle-properties-file
           value: "build.properties"
@@ -243,24 +248,16 @@ spec:
             DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            echo "Peforming Blue-Green release"
+            echo "Peforming production release"
             source ./pipeline.data
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_update_ingress.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/prod_deployment.sh")
             echo ""
             echo "=========================================================="
             echo "DEPLOYMENT SUCCEEDED"
             APP_URL=""
-            if [ ! -z "${CLUSTER_INGRESS_SUBDOMAIN}" ] && [ "${KEEP_INGRESS_CUSTOM_DOMAIN}" != true ]; 
-            then
             APP_URL=$(kubectl get ing | grep ${INGRESS_NAME} | awk {'print $3'})
             export APP_URL   # using 'export', the env var gets passed to next job in stage
             echo -e "VIEW THE APPLICATION AT: ${APP_URL}"
-            else 
-            IP_ADDR=$( ibmcloud ks workers --cluster ${CLUSTER_ID} | grep normal | head -n 1 | awk '{ print $2 }' )
-            PORT=$( kubectl get service ${NODEPORT_SERVICE_NAME} --namespace ${CLUSTER_NAMESPACE} -o json | jq -r '.spec.ports[0].nodePort' )
-            APP_URL=http://${IP_ADDR}:${PORT}
-            echo -e "VIEW THE APPLICATION AT: ${APP_URL}"
-            fi
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:
@@ -269,7 +266,7 @@ spec:
     - name: publish-doi-deployrecord
       taskRef:
         name: publish-doi-deployrecord
-      runAfter: [release]
+      runAfter: [prod-deployment]
       when:
         - input: $(tasks.extract-doi-enablement.results.extracted-value)
           operator: in
@@ -290,11 +287,55 @@ spec:
       workspaces:
         - name: output
           workspace: pipeline-ws
+  finally:
+    - name: check-if-roll-back-required
+      taskRef:
+        name: iks-deploy-to-kubernetes
+      params:
+        - name: shuttle-properties-file
+          value: "build.properties"
+        - name: cluster-region
+          value: $(params.dev-region)
+        - name: resource-group
+          value: $(params.dev-resource-group)
+        - name: cluster-name
+          value: $(params.cluster-name)
+        - name: setup-script
+          value: |
+            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
+            export DEPLOYMENT_FILE="$(params.deployment-file)"
+            export KEEP_INGRESS_CUSTOM_DOMAIN="$(params.keep-ingress-custom-domain)"
+            # pipeline build number is the doi build record id (if any)
+            export SOURCE_BUILD_NUMBER=$BUILD_NUMBER
+            echo "SOURCE_BUILD_NUMBER=$BUILD_NUMBER" >> build.properties
+            # For doi plugin invocation if needed
+            export TOOLCHAIN_ID=$PIPELINE_TOOLCHAIN_ID
+        - name: script
+          value: |
+            source ./build.properties
+            echo "params.canaryTestStatus is $(tasks.canary-test.status)"
+            if [ $(tasks.canary-test.status) == "Failed"  ]; then
+            echo "Peforming canary rollback"
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/rollback_deployment.sh")
+            else
+            echo "Canary test passed. Roll-back not required."
+            fi           
+        - name: post-execution-script
+          value: |
+            # Keep APP_URL in build.properties shuttle file
+            IMAGE="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}@${IMAGE_MANIFEST_SHA}"
+            echo "IMAGE=${IMAGE}" >> build.properties
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: artifacts
+          workspace: pipeline-ws
+
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: switch-secure-app-pipeline
+  name: abort-app-pipeline
 spec:
   params:
     - name: api
@@ -340,6 +381,10 @@ spec:
       description: The variable storing git integration for the repository storing build inventory with the toolchain
     - name: deployment-strategy
       description: kubernetes deployment-strategy 
+    - name: canary-step-interval
+      description: Defines duration of each test performed against canary deployment
+    - name: canary-step-size
+      description: Defines number of tests should be performed against canary deployment
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -362,10 +407,46 @@ spec:
       workspaces:
         - name: output
           workspace: pipeline-ws
-    - name: perform-switch
+    - name: git-clone-inventory-repo
+      taskRef:
+        name: git-clone-repo
+      runAfter: [git-clone]
+      params:
+        - name: continuous-delivery-context-secret
+          value: "secure-properties"
+        - name: ibmcloud-apikey-secret-key
+          value: "apikey"
+        - name: repository
+          value: $(params.inventoryRepo)
+        - name: branch
+          value: "master"
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+        - name: git-credentials-json-file
+          value: credentials.json
+      workspaces:
+        - name: output
+          workspace: pipeline-ws
+          subpath: inventory-repo 
+    - name: download-artifacts
+      taskRef:
+        name: download-artifacts
+      runAfter: 
+        - git-clone-inventory-repo 
+      params:
+        - name: api
+          value: $(params.api)
+        - name: apikey
+          value: "toolchain-apikey"
+        - name: shuttle-properties-file
+          value: "build.properties"
+      workspaces:
+        - name: output
+          workspace: pipeline-ws
+    - name: canary-abort
       taskRef:
         name: iks-deploy-to-kubernetes
-      runAfter: [git-clone]
+      runAfter: [download-artifacts]
       params:
         - name: shuttle-properties-file
           value: "build.properties"
@@ -388,28 +469,15 @@ spec:
         - name: script
           value: |
             DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
-            export CLUSTER_INGRESS_SUBDOMAIN
-            export CLUSTER_INGRESS_SECRET
-            if [ -z "${KUBERNETES_MASTER_ADDRESS}" ]; then
-            CLUSTER_ID=${PIPELINE_KUBERNETES_CLUSTER_ID:-${PIPELINE_KUBERNETES_CLUSTER_NAME}} # use cluster id instead of cluster name to handle case where there are multiple clusters with same name
-            IP_ADDR=$( ibmcloud ks workers --cluster ${CLUSTER_ID} | grep normal | head -n 1 | awk '{ print $2 }' )
-            if [ -z "${IP_ADDR}" ]; then
-            echo -e "${PIPELINE_KUBERNETES_CLUSTER_NAME} not created or workers not ready"
-            exit 1
-            fi
-            # Use alternate operator .ingress.XXX for vpc/gen2 / apiv2 cluster
-            CLUSTER_INGRESS_SUBDOMAIN=$( ibmcloud ks cluster get --cluster ${CLUSTER_ID} --json | jq -r '.ingressHostname // .ingress.hostname' | cut -d, -f1 )
-            CLUSTER_INGRESS_SECRET=$( ibmcloud ks cluster get --cluster ${CLUSTER_ID} --json | jq -r '.ingressSecretName // .ingress.secretName' | cut -d, -f1 )
-            else
-            CLUSTER_INGRESS_SUBDOMAIN=""
-            CLUSTER_INGRESS_SECRET=""
-            fi
+            export STEP_INTERVAL="$(params.canary-step-interval)"
+            export STEP_SIZE="$(params.canary-step-size)"
             source ./build.properties
-            echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_create_deployment_files.sh")
-            source ./pipeline.data
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_perform_switch.sh")
-            
+            echo " STEP_INTERVAL :- ${STEP_INTERVAL}"
+            echo " STEP_SIZE :- ${STEP_SIZE}"
+            echo "Peforming canary deployment"
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/prepare_deployment_file.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/create_deployment_files.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/stop_deployment.sh")
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file
@@ -421,49 +489,4 @@ spec:
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
-    - name: test-application
-      taskRef:
-        name: iks-deploy-to-kubernetes
-      runAfter: [perform-switch]
-      params:
-        - name: shuttle-properties-file
-          value: "build.properties"
-        - name: cluster-region
-          value: $(params.dev-region)
-        - name: resource-group
-          value: $(params.dev-resource-group)
-        - name: cluster-name
-          value: $(params.cluster-name)
-        - name: setup-script
-          value: |
-            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
-            export DEPLOYMENT_FILE="$(params.deployment-file)"
-            export KEEP_INGRESS_CUSTOM_DOMAIN="$(params.keep-ingress-custom-domain)"
-            # pipeline build number is the doi build record id (if any)
-            export SOURCE_BUILD_NUMBER=$BUILD_NUMBER
-            echo "SOURCE_BUILD_NUMBER=$BUILD_NUMBER" >> build.properties
-            # For doi plugin invocation if needed
-            export TOOLCHAIN_ID=$PIPELINE_TOOLCHAIN_ID
-            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
-        - name: script
-          value: |
-            DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
-            source ./build.properties
-            sleep 10
-            echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            if [ "${DEPLOYMENT_STRATEGY}" == "blueGreen" ]
-            then
-            echo "Peforming Blue-Green Testing"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/blue-green/kube_blue_green_acceptance_test.sh")
-            elif [ "${DEPLOYMENT_STRATEGY}" == "rolling" ]
-            then
-            echo "Switch Operation is not available..."
-            else 
-            echo "No matching deployment found...."
-            exit 1
-            fi
-        - name: pipeline-debug
-          value: $(params.pipeline-debug)
-      workspaces:
-        - name: artifacts
-          workspace: pipeline-ws
+    

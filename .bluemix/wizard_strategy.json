@@ -25,6 +25,12 @@
             "$ref": "#/messages/wizard.deploymentStrategy.blueGreen.title"
           },
           "value": "blueGreen"
+        },
+        {
+          "name": {
+            "$ref": "#/messages/wizard.deploymentStrategy.canary.title"
+          },
+          "value": "canary"
         }
       ]
     }
