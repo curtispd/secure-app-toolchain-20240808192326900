@@ -28,7 +28,7 @@ It implements the following best practices:
 
 - Toolchain Name - Unique name to identify your toolchain
 
-- Region - Select the region where toolchain is to be deployed (Ex: us-south)
+- Region - Select the region where toolchain is to be deployed (Ex: us-south).
 
 #### Application Repository Configuration
 
