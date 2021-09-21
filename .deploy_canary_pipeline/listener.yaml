@@ -50,6 +50,8 @@ spec:
       description: Defines duration of each test performed against canary deployment
     - name: canary-step-size
       description: Defines number of tests should be performed against canary deployment
+    - name: commons-hosted-region
+      default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -110,6 +112,8 @@ spec:
             value: $(params.canary-step-interval)
           - name: canary-step-size
             value: $(params.canary-step-size)
+          - name: commons-hosted-region
+            value: $(params.commons-hosted-region)
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
@@ -316,6 +320,8 @@ spec:
       description: Defines duration of each test performed against canary deployment
     - name: canary-step-size
       description: Defines number of tests should be performed against canary deployment
+    - name: commons-hosted-region
+      default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -376,6 +382,8 @@ spec:
             value: $(params.canary-step-interval)
           - name: canary-step-size
             value: $(params.canary-step-size)
+          - name: commons-hosted-region
+            value: $(params.commons-hosted-region)
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:

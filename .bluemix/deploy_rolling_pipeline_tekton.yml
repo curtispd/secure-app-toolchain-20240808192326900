@@ -97,3 +97,7 @@ properties:
   - name: branch
     type: text
     value: ${APP_REPO_BRANCH}
+  - name: commons-hosted-region
+    value: ${COMMONS_HOSTED_REGION}
+    type: text
+  

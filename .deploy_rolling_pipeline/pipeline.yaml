@@ -48,6 +48,8 @@ spec:
       description: The variable storing git integration for the repository storing build inventory with the toolchain
     - name: deployment-strategy
       description: kubernetes deployment-strategy 
+    - name: commons-hosted-region
+      default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -163,7 +165,7 @@ spec:
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             echo "Peforming Rolling deployment"
-            source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_and_deploy_kubectl.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/check_and_deploy_kubectl.sh")
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file

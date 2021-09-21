@@ -107,4 +107,7 @@ properties:
   - name: canary-step-size
     value: ${CANARY_STEP_SIZE}
     type: text
+  - name: commons-hosted-region
+    value: ${COMMONS_HOSTED_REGION}
+    type: text
 

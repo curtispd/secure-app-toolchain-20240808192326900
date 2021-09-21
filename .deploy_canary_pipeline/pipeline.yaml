@@ -52,6 +52,8 @@ spec:
       description: Defines duration of each test performed against canary deployment
     - name: canary-step-size
       description: Defines number of tests should be performed against canary deployment
+    - name: commons-hosted-region
+      default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -167,9 +169,9 @@ spec:
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             echo "Peforming canary deployment"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/prepare_deployment_file.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/create_deployment_files.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/perform_deployment.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/prepare_deployment_file.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/create_deployment_files.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/perform_deployment.sh")
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file
@@ -214,7 +216,7 @@ spec:
             sleep 10
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             echo "Peforming canary Testing"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/canary_test.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/canary_test.sh")
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:
@@ -250,7 +252,7 @@ spec:
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
             echo "Peforming production release"
             source ./pipeline.data
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/prod_deployment.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/prod_deployment.sh")
             echo ""
             echo "=========================================================="
             echo "DEPLOYMENT SUCCEEDED"
@@ -316,7 +318,7 @@ spec:
             echo "params.canaryTestStatus is $(tasks.canary-test.status)"
             if [ $(tasks.canary-test.status) == "Failed"  ]; then
             echo "Peforming canary rollback"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/rollback_deployment.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/rollback_deployment.sh")
             else
             echo "Canary test passed. Roll-back not required."
             fi           
@@ -385,6 +387,8 @@ spec:
       description: Defines duration of each test performed against canary deployment
     - name: canary-step-size
       description: Defines number of tests should be performed against canary deployment
+    - name: commons-hosted-region
+      default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -475,9 +479,9 @@ spec:
             echo " STEP_INTERVAL :- ${STEP_INTERVAL}"
             echo " STEP_SIZE :- ${STEP_SIZE}"
             echo "Peforming canary deployment"
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/prepare_deployment_file.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/create_deployment_files.sh")
-            source <(curl -sSL "https://raw.githubusercontent.com/akshayvijapur/commons/master/scripts/deployment-strategy/canary/stop_deployment.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/prepare_deployment_file.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/create_deployment_files.sh")
+            source <(curl -sSL "$(params.commons-hosted-region)/scripts/deployment_strategies/canary/kube/stop_deployment.sh")
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file
