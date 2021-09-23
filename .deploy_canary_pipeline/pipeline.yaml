@@ -54,6 +54,8 @@ spec:
       description: Defines number of tests should be performed against canary deployment
     - name: commons-hosted-region
       default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
+    - name: insights
+      description: The variable storing DevOps Insight integration with the toolchain
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -97,34 +99,6 @@ spec:
         - name: output
           workspace: pipeline-ws
           subpath: inventory-repo 
-    - name: extract-doi-enablement
-      taskRef:
-        name: toolchain-extract-value
-      params:
-        # count the number of service in the toolchain that are DevopsInsights
-        - name: expression
-          value: 'reduce .services[] as $service (0; if $service.service_id=="draservicebroker" then .+1 else . end)'
-        - name: pipeline-debug
-          value: $(params.pipeline-debug)
-    - name: publish-doi-buildrecord
-      runAfter: [extract-doi-enablement]
-      when:
-        - input: $(tasks.extract-doi-enablement.results.extracted-value)
-          operator: in
-          values: ["1"]
-      taskRef:
-        name: doi-publish-buildrecord
-      params:
-        - name: toolchain-apikey-secret-key
-          value: "toolchain-apikey"
-        - name: app-name
-          value: $(params.app-name)
-        - name: git-repository
-          value: $(tasks.git-clone.results.git-repository)
-        - name: git-branch
-          value: $(tasks.git-clone.results.git-branch)
-        - name: git-commit
-          value: $(tasks.git-clone.results.git-commit)
     - name: download-artifacts
       taskRef:
         name: download-artifacts
@@ -270,9 +244,9 @@ spec:
         name: publish-doi-deployrecord
       runAfter: [prod-deployment]
       when:
-        - input: $(tasks.extract-doi-enablement.results.extracted-value)
+        - input: $(params.insights)
           operator: in
-          values: ["1"]
+          values: ["draservicebroker"]
       params:
         - name: api
           value: $(params.api)

@@ -93,3 +93,7 @@ properties:
   - name: branch
     type: text
     value: ${APP_REPO_BRANCH}
+  - name: insights
+    value: ${INSIGHTS}
+    type: integration
+    path: service_id 

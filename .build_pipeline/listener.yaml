@@ -50,6 +50,8 @@ spec:
       default: ""
     - name: inventoryRepo
       description: The variable storing git integration for the repository storing build inventory with the toolchain
+    - name: insights
+      description: The variable storing DevOps Insight integration with the toolchain
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -122,6 +124,8 @@ spec:
             value: $(params.project-id)
           - name: inventoryRepo
             value: $(params.inventoryRepo) 
+          - name: insights
+            value: $(params.insights) 
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:

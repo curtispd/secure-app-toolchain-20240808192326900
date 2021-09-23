@@ -100,4 +100,8 @@ properties:
   - name: commons-hosted-region
     value: ${COMMONS_HOSTED_REGION}
     type: text
+  - name: insights
+    value: ${INSIGHTS}
+    type: integration
+    path: service_id 
   

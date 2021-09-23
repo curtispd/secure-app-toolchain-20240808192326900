@@ -184,6 +184,7 @@ form:
     parameters:
       key-protect: false
       hashicorp-vault: false
+      secrets-manager: true
     schema:
       $ref: wizard_vault.json
 

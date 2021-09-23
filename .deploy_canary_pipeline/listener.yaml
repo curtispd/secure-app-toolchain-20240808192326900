@@ -52,6 +52,8 @@ spec:
       description: Defines number of tests should be performed against canary deployment
     - name: commons-hosted-region
       default: "https://raw.githubusercontent.com/open-toolchain/commons/master"
+    - name: insights
+      description: The variable storing DevOps Insight integration with the toolchain
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -114,6 +116,8 @@ spec:
             value: $(params.canary-step-size)
           - name: commons-hosted-region
             value: $(params.commons-hosted-region)
+          - name: insights
+            value: $(params.insights) 
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
