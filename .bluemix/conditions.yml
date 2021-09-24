@@ -458,7 +458,6 @@ deploy_conditions:
               PROD_CLUSTER_NAMESPACE: "{{form.pipeline_canary.parameters.prod-cluster-namespace}}"
               CANARY_STEP_SIZE: "{{form.pipeline_canary.parameters.canary-step-size}}"
               CANARY_STEP_INTERVAL: "{{form.pipeline_canary.parameters.canary-step-interval}}"
-
   - condition:
       any:
         - parameter: deploymentStrategy
