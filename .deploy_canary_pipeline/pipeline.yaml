@@ -196,7 +196,7 @@ spec:
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
-    - name: prod-deployment
+    - name: release
       taskRef:
         name: iks-deploy-to-kubernetes
       runAfter: [canary-test]
@@ -242,7 +242,7 @@ spec:
     - name: publish-doi-deployrecord
       taskRef:
         name: publish-doi-deployrecord
-      runAfter: [prod-deployment]
+      runAfter: [release]
       when:
         - input: $(params.insights)
           operator: in
