@@ -42,18 +42,18 @@ inputs:
     path: utils
 triggers:
   - type: git
-    name: commit-push
-    eventListener: ${GIT_COMMIT_EVENT_LISTENER_NAME}
+    name: canary-commit-push
+    eventListener: canary-${GIT_COMMIT_EVENT_LISTENER_NAME}
     service: ${INVENTORY_REPO}
     branch: ${APP_REPO_BRANCH}
     events: { "push": true }
   - type: manual
-    name: manual-run
-    eventListener: manual-run
+    name: canary-manual-run
+    eventListener: canary-manual-run
     properties: []
   - type: manual
-    name: abort-deployment
-    eventListener: abort-deployment
+    name: abort-canary
+    eventListener: abort-canary
     properties: []
   
 properties:

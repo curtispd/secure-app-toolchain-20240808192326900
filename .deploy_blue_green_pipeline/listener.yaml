@@ -244,7 +244,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: manual-run
+  name: blue-green-manual-run
 spec:
   triggers:
     - binding:
@@ -283,7 +283,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: github-ent-commit
+  name: blue-green-github-ent-commit
 spec:
   triggers:
     - bindings: 
@@ -311,7 +311,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: github-commit
+  name: blue-green-github-commit
 spec:
   triggers:
     - bindings:  
@@ -339,7 +339,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: grit-or-gitlab-commit
+  name:  blue-green-grit-or-gitlab-commit
 spec:
   triggers:
     - bindings:   
@@ -369,7 +369,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: bitbucket-commit
+  name: blue-green-bitbucket-commit
 spec:
   triggers:
     - binding:

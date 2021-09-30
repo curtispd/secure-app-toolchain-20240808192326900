@@ -133,7 +133,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: manual-run
+  name: canary-manual-run
 spec:
   triggers:
     - binding:
@@ -161,7 +161,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: github-ent-commit
+  name: canary-github-ent-commit
 spec:
   triggers:
     - bindings: 
@@ -189,7 +189,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: github-commit
+  name: canary-github-commit
 spec:
   triggers:
     - bindings:  
@@ -217,7 +217,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: grit-or-gitlab-commit
+  name:  canary-grit-or-gitlab-commit
 spec:
   triggers:
     - bindings:   
@@ -247,7 +247,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: bitbucket-commit
+  name: canary-bitbucket-commit
 spec:
   triggers:
     - binding:
@@ -258,7 +258,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: abort-deployment
+  name: abort-canary
 spec:
   triggers:
     - binding:

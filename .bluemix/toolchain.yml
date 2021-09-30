@@ -25,7 +25,7 @@ template:
       "[" + $env.branch + "]" +
         "(" + $env.repository +
           "/tree/" + $env.branch + ")"
-    hosted_region: us-south
+    hosted_region: ""
   wizard:
     $ref: wizard.yml
 toolchain:

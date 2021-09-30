@@ -42,16 +42,16 @@ inputs:
     path: utils
 triggers:
   - type: git
-    name: commit-push
-    eventListener: ${GIT_COMMIT_EVENT_LISTENER_NAME}
+    name: blue-green-commit-push
+    eventListener: blue-green-${GIT_COMMIT_EVENT_LISTENER_NAME}
     service: ${INVENTORY_REPO}
     branch: ${APP_REPO_BRANCH}
     events: { "push": true }
   - type: manual
-    name: manual-run
-    eventListener: manual-run
+    name: blue-green-manual-run
+    eventListener: blue-green-manual-run
     properties: []
-  - type: manual
+  - type: manual  
     name: switch-blue-green
     eventListener: switch-blue-green
     properties: []
