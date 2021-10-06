@@ -33,6 +33,7 @@ steps:
     title:
       $ref: "#/messages/wizard.step.vault.title"
     form: wizard_vault
+    secretsStep: true
     conditions:
       - condition:
           any:
