@@ -25,7 +25,7 @@ spec:
       mountPath: /output
   steps:
     - name: commit-build-metadata
-      image: ibmcom/pipeline-base-image:2.11
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.15
       workingDir: /artifacts
       env:
         - name: REPOSITORY
