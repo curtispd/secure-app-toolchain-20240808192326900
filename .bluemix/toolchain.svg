@@ -1389,24 +1389,24 @@
 	<polyline class="st3" points="260.7,141.4 254.7,147 248.7,141.4 	"/>
 	<polyline class="st3" points="260.7,130.1 254.7,124.5 248.7,130.1 	"/>
 </g>
-<text transform="matrix(1 0 0 1 220.0815 239.05)" class="st61 st62">CI Pipeline</text>
-<text transform="matrix(1 0 0 1 446.8273 239.05)" class="st61 st62">CD Pipeline</text>
-<text transform="matrix(1 0 0 1 345.6891 239.0497)" class="st61 st62">Inventory</text>
-<text transform="matrix(1 0 0 1 358.0891 255.8497)" class="st61 st62">Repo</text>
-<text transform="matrix(1 0 0 1 131.7168 239.05)" class="st61 st62">Code</text>
-<text transform="matrix(1 0 0 1 131.5168 255.85)" class="st61 st62">Repo</text>
-<text transform="matrix(0.9998 2.000000e-02 -2.000000e-02 0.9998 28.3458 239.0478)" class="st61 st62">Issue </text>
-<text transform="matrix(0.9998 2.000000e-02 -2.000000e-02 0.9998 22.5109 255.7345)" class="st61 st62">Tracker</text>
-<text transform="matrix(1 0 0 1 554.65 239.0495)" class="st61 st62">Kubernetes</text>
+<text id="headerSVG.ciPipeline" transform="matrix(1 0 0 1 220.0815 239.05)" class="st61 st62">CI Pipeline</text>
+<text id="headerSVG.cdPipeline" transform="matrix(1 0 0 1 446.8273 239.05)" class="st61 st62">CD Pipeline</text>
+<text id="headerSVG.inventory" transform="matrix(1 0 0 1 345.6891 239.0497)" class="st61 st62">Inventory</text>
+<text id="headerSVG.repo" transform="matrix(1 0 0 1 358.0891 255.8497)" class="st61 st62">Repo</text>
+<text id="headerSVG.code" transform="matrix(1 0 0 1 131.7168 239.05)" class="st61 st62">Code</text>
+<text id="headerSVG.repo" transform="matrix(1 0 0 1 131.5168 255.85)" class="st61 st62">Repo</text>
+<text id="headerSVG.issue" transform="matrix(0.9998 2.000000e-02 -2.000000e-02 0.9998 28.3458 239.0478)" class="st61 st62">Issue </text>
+<text id="headerSVG.tracker" transform="matrix(0.9998 2.000000e-02 -2.000000e-02 0.9998 22.5109 255.7345)" class="st61 st62">Tracker</text>
+<text id="headerSVG.kubernetes" transform="matrix(1 0 0 1 554.65 239.0495)" class="st61 st62">Kubernetes</text>
 <rect x="526.4" y="184.8" class="st0" width="29.3" height="4"/>
-<text transform="matrix(1 0 0 1 111.8001 96.6001)" class="st63 st62">PR Pipeline</text>
-<text transform="matrix(1 0 0 1 221.451 98.0001)" class="st63 st62">Code Risk</text>
-<text transform="matrix(1 0 0 1 225.151 114.8001)" class="st63 st62">Analyzer</text>
-<text transform="matrix(1 0 0 1 351.0676 97.5995)" class="st63 st62">DevOps</text>
-<text transform="matrix(1 0 0 1 349.7676 114.3995)" class="st63 st62">Insights</text>
-<text transform="matrix(1 0 0 1 304.066 359.1411)" class="st63 st62">Secrets</text>
-<text transform="matrix(1 0 0 1 300.566 375.9411)" class="st63 st62">Manager</text>
-<text transform="matrix(1 0 0 1 386.7487 358.5756)" class="st63 st62">Key Protect</text>
+<text id="headerSVG.prPipeline" transform="matrix(1 0 0 1 111.8001 96.6001)" class="st63 st62">PR Pipeline</text>
+<text id="headerSVG.codeRisk" transform="matrix(1 0 0 1 221.451 98.0001)" class="st63 st62">Code Risk</text>
+<text id="headerSVG.analyzer" transform="matrix(1 0 0 1 225.151 114.8001)" class="st63 st62">Analyzer</text>
+<text id="headerSVG.devops" transform="matrix(1 0 0 1 351.0676 97.5995)" class="st63 st62">DevOps</text>
+<text id="headerSVG.insights" transform="matrix(1 0 0 1 349.7676 114.3995)" class="st63 st62">Insights</text>
+<text id="headerSVG.secrets" transform="matrix(1 0 0 1 304.066 359.1411)" class="st63 st62">Secrets</text>
+<text id="headerSVG.manager" transform="matrix(1 0 0 1 300.566 375.9411)" class="st63 st62">Manager</text>
+<text id="headerSVG.keyProtect" transform="matrix(1 0 0 1 386.7487 358.5756)" class="st63 st62">Key Protect</text>
 <g>
 	<line class="st64" x1="423.4" y1="177.7" x2="433.3" y2="187.3"/>
 	<line class="st64" x1="433.2" y1="186.1" x2="423.6" y2="196"/>
