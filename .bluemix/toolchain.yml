@@ -217,6 +217,9 @@ services:
           PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
           PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
           PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
+          SATELLITE_CLUSTER_GROUP: "{{form.pipeline.parameters.satellite-cluster-group}}"
+          SATELLITE_CLUSTER_GROUP_NAMESPACE: "{{form.pipeline.parameters.satellite-cluster-group-namespace}}"          
+          DEPLOYMENT_TARGET_TYPE: "{{form.pipeline.parameters.deployment-target-type}}"
           PIPELINE_REPO: pipeline-repo
           INVENTORY_REPO: inventory-repo
           PIPELINE_REPO_BRANCH: >
@@ -259,7 +262,7 @@ services:
       type: tekton
       configuration:
         content:
-          $text: "deploy_rolling_pipeline_tekton.yml"
+          $text: "deploy_rolling_kubernetes_pipeline_tekton.yml"
         env:
           APP_REPO: repo
           APP_NAME: "{{form.pipeline.parameters.app-name}}"
@@ -271,6 +274,9 @@ services:
           PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
           PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
           PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
+          SATELLITE_CLUSTER_GROUP: "{{form.pipeline.parameters.satellite-cluster-group}}"
+          SATELLITE_CLUSTER_GROUP_NAMESPACE: "{{form.pipeline.parameters.satellite-cluster-group-namespace}}"
+          DEPLOYMENT_TARGET_TYPE: "{{form.pipeline.parameters.deployment-target-type}}"
           PIPELINE_REPO: pipeline-repo
           DEPLOYMENT_STRATEGY: "{{form.deployment_strategy.parameters.deploymentStrategy}}"
           PIPELINE_REPO_BRANCH: >
@@ -323,8 +329,30 @@ form:
       prod-region: '{{prodRegion}}'
       prod-resource-group: '{{prodResourceGroup}}'
       prod-cluster-name: '{{prodClusterName}}'
+      satellite-cluster-group: '{{satelliteClusterGroup}}'
+      satellite-cluster-group-namespace: '{{satelliteClusterGroupNamespace}}'
+      deployment-target-type: >
+        $env.deploymentTargetType ?
+          '{{deployTargetType}}' : 'Kubernetes'
     schema:
-      $ref: deploy.json    
+      $ref: deploy_rolling.json
+
+  pipeline_blue_green:
+    parameters:
+      app-name: >
+        $env.appName ?
+          '{{appName}}' : '{{services.repo.parameters.repo_name}}'
+      prod-cluster-namespace: >
+        $env.prodClusterNamespace ?
+          '{{prodClusterNamespace}}' : 'prod'
+      registry-region: '{{registryRegion}}'
+      registry-namespace: '{{registryNamespace}}'
+      api-key: '{{apiKey}}'
+      prod-region: '{{prodRegion}}'
+      prod-resource-group: '{{prodResourceGroup}}'
+      prod-cluster-name: '{{prodClusterName}}'
+    schema:
+      $ref: deploy_blue_green.json 
 
   pipeline_canary:
     parameters:
@@ -356,5 +384,7 @@ form:
           '{{deploymentStrategy}}' : 'rolling' 
     schema:
       $ref: wizard_strategy.json
+
+      
 
   

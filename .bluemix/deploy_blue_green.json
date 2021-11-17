@@ -24,6 +24,12 @@
                 "v-type": "api-key"
             }
         },
+        "registry":{
+            "type": "info",
+            "text": {
+               "$ref": "#/messages/deploy.containerRegistryDetails"
+            }
+        },
         "registry-region": {
             "description": {
                 "$ref": "#/messages/deploy.registryRegionDescription"

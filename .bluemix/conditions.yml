@@ -24,14 +24,14 @@ repo_conditions:
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'gitlab-pr-listener'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "gitlab-pr-listener"
       - type: update-service-parameters
         service_id: pipeline
         service_label: build
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'grit-or-gitlab-commit'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "grit-or-gitlab-commit"
   - condition:
       any:
         - parameter: source_provider
@@ -56,14 +56,14 @@ repo_conditions:
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'github-pr-listener'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "github-pr-listener"
       - type: update-service-parameters
         service_id: pipeline
         service_label: build
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'github-commit'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "github-commit"
   - condition:
       any:
         - parameter: source_provider
@@ -88,14 +88,14 @@ repo_conditions:
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'gitlab-pr-listener'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "gitlab-pr-listener"
       - type: update-service-parameters
         service_id: pipeline
         service_label: build
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'grit-or-gitlab-commit'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "grit-or-gitlab-commit"
   - condition:
       any:
         - parameter: source_provider
@@ -120,14 +120,14 @@ repo_conditions:
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'bitbucket-commit'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "bitbucket-commit"
       - type: update-service-parameters
         service_id: pipeline
         service_label: build
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'bitbucket-commit'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "bitbucket-commit"
   - condition:
       any:
         - parameter: source_provider
@@ -152,14 +152,14 @@ repo_conditions:
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'github-ent-pr-listener'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "github-ent-pr-listener"
       - type: update-service-parameters
         service_id: pipeline
         service_label: build
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'github-ent-commit'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "github-ent-commit"
   - condition:
       any:
         - parameter: source_provider
@@ -184,14 +184,14 @@ repo_conditions:
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'gitlab-pr-listener'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "gitlab-pr-listener"
       - type: update-service-parameters
         service_id: pipeline
         service_label: build
         parameters:
           configuration:
             env:
-              GIT_COMMIT_EVENT_LISTENER_NAME: 'grit-or-gitlab-commit'
+              GIT_COMMIT_EVENT_LISTENER_NAME: "grit-or-gitlab-commit"
 
 vault_conditions:
   - condition:
@@ -310,14 +310,14 @@ deploy_conditions:
         parameters:
           configuration:
             env:
-              APP_NAME: "{{form.pipeline.parameters.app-name}}"
-              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
-              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
-              API_KEY: "{{form.pipeline.parameters.api-key}}"
-              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
-              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
-              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"                                
+              APP_NAME: "{{form.pipeline_blue_green.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline_blue_green.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline_blue_green.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline_blue_green.parameters.api-key}}"
+              PROD_REGION_ID: "{{form.pipeline_blue_green.parameters.prod-region}}"
+              PROD_RESOURCE_GROUP: "{{form.pipeline_blue_green.parameters.prod-resource-group}}"
+              PROD_CLUSTER_NAME: "{{form.pipeline_blue_green.parameters.prod-cluster-name}}"
+              PROD_CLUSTER_NAMESPACE: "{{form.pipeline_blue_green.parameters.prod-cluster-namespace}}"
   - condition:
       any:
         - parameter: deploymentStrategy
@@ -329,14 +329,14 @@ deploy_conditions:
         parameters:
           configuration:
             env:
-              APP_NAME: "{{form.pipeline.parameters.app-name}}"
-              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
-              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
-              API_KEY: "{{form.pipeline.parameters.api-key}}"
-              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
-              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
-              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
+              APP_NAME: "{{form.pipeline_blue_green.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline_blue_green.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline_blue_green.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline_blue_green.parameters.api-key}}"
+              PROD_REGION_ID: "{{form.pipeline_blue_green.parameters.prod-region}}"
+              PROD_RESOURCE_GROUP: "{{form.pipeline_blue_green.parameters.prod-resource-group}}"
+              PROD_CLUSTER_NAME: "{{form.pipeline_blue_green.parameters.prod-cluster-name}}"
+              PROD_CLUSTER_NAMESPACE: "{{form.pipeline_blue_green.parameters.prod-cluster-namespace}}"
   - condition:
       any:
         - parameter: deploymentStrategy
@@ -348,83 +348,14 @@ deploy_conditions:
         parameters:
           configuration:
             env:
-              APP_NAME: "{{form.pipeline.parameters.app-name}}"
-              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
-              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
-              API_KEY: "{{form.pipeline.parameters.api-key}}"
-              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
-              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
-              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
-  - condition:
-      any:
-        - parameter: deploymentStrategy
-          value: rolling
-    actions:
-      - type: update-service-parameters
-        service_id: pipeline
-        service_label: deploy
-        parameters:
-          configuration:
-            content:
-              $text: "deploy_rolling_pipeline_tekton.yml"
-  - condition:
-      any:
-        - parameter: deploymentStrategy
-          value: rolling
-    actions:
-      - type: update-service-parameters
-        service_id: pipeline
-        service_label: deploy
-        parameters:
-          configuration:
-            env:
-              APP_NAME: "{{form.pipeline.parameters.app-name}}"
-              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
-              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
-              API_KEY: "{{form.pipeline.parameters.api-key}}"
-              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
-              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
-              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"                      
-  - condition:
-      any:
-        - parameter: deploymentStrategy
-          value: rolling
-    actions:
-      - type: update-service-parameters
-        service_id: pipeline
-        service_label: build
-        parameters:
-          configuration:
-            env:
-              APP_NAME: "{{form.pipeline.parameters.app-name}}"
-              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
-              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
-              API_KEY: "{{form.pipeline.parameters.api-key}}"
-              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
-              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
-              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
-  - condition:
-      any:
-        - parameter: deploymentStrategy
-          value: rolling
-    actions:
-      - type: update-service-parameters
-        service_id: pipeline
-        service_label: pr
-        parameters:
-          configuration:
-            env:
-              APP_NAME: "{{form.pipeline.parameters.app-name}}"
-              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
-              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
-              API_KEY: "{{form.pipeline.parameters.api-key}}"
-              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
-              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
-              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"   
+              APP_NAME: "{{form.pipeline_blue_green.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline_blue_green.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline_blue_green.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline_blue_green.parameters.api-key}}"
+              PROD_REGION_ID: "{{form.pipeline_blue_green.parameters.prod-region}}"
+              PROD_RESOURCE_GROUP: "{{form.pipeline_blue_green.parameters.prod-resource-group}}"
+              PROD_CLUSTER_NAME: "{{form.pipeline_blue_green.parameters.prod-cluster-name}}"
+              PROD_CLUSTER_NAMESPACE: "{{form.pipeline_blue_green.parameters.prod-cluster-namespace}}"
   - condition:
       any:
         - parameter: deploymentStrategy
@@ -495,4 +426,114 @@ deploy_conditions:
               PROD_REGION_ID: "{{form.pipeline_canary.parameters.prod-region}}"
               PROD_RESOURCE_GROUP: "{{form.pipeline_canary.parameters.prod-resource-group}}"
               PROD_CLUSTER_NAME: "{{form.pipeline_canary.parameters.prod-cluster-name}}"
-              PROD_CLUSTER_NAMESPACE: "{{form.pipeline_canary.parameters.prod-cluster-namespace}}"        
+              PROD_CLUSTER_NAMESPACE: "{{form.pipeline_canary.parameters.prod-cluster-namespace}}"
+
+deploy_target_conditions:
+  - condition:
+      all:
+        - form: deployment_strategy
+          parameter: deploymentStrategy
+          value: rolling
+        - parameter: deployment-target-type
+          value: Satellite
+    actions:
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: deploy
+        parameters:
+          configuration:
+            content:
+              $text: "deploy_rolling_satellite_pipeline_tekton.yml"
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: deploy
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline.parameters.api-key}}"
+              SATELLITE_CLUSTER_GROUP: "{{form.pipeline.parameters.satellite-cluster-group}}"
+              SATELLITE_CLUSTER_GROUP_NAMESPACE: "{{form.pipeline.parameters.satellite-cluster-group-namespace}}"
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: build
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline.parameters.api-key}}"
+              SATELLITE_CLUSTER_GROUP: "{{form.pipeline.parameters.satellite-cluster-group}}"
+              SATELLITE_CLUSTER_GROUP_NAMESPACE: "{{form.pipeline.parameters.satellite-cluster-group-namespace}}"
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: pr
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline.parameters.api-key}}"
+              SATELLITE_CLUSTER_GROUP: "{{form.pipeline.parameters.satellite-cluster-group}}"
+              SATELLITE_CLUSTER_GROUP_NAMESPACE: "{{form.pipeline.parameters.satellite-cluster-group-namespace}}"
+  - condition:
+      all:
+        - form: deployment_strategy
+          parameter: deploymentStrategy
+          value: rolling
+        - parameter: deployment-target-type
+          value: Kubernetes
+    actions:
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: deploy
+        parameters:
+          configuration:
+            content:
+              $text: "deploy_rolling_kubernetes_pipeline_tekton.yml"
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: deploy
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline.parameters.api-key}}"
+              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
+              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
+              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
+              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: build
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline.parameters.api-key}}"
+              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
+              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
+              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
+              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: pr
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline.parameters.api-key}}"
+              PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
+              PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
+              PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
+              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
