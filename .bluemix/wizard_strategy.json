@@ -14,7 +14,8 @@
   "properties": {
     "deploymentStrategy": {
       "type": "string",
-      "enum": [{
+      "enum": [
+        {
           "name": {
             "$ref": "#/messages/wizard.deploymentStrategy.rolling.title"
           },
@@ -35,17 +36,33 @@
       ]
     }
   },
-  "form": [{
-    "type": "info",
-    "text": {
-      "$ref": "#/messages/wizard.deploymentStrategy.text"
+  "form": [
+    {
+      "type": "notification",
+      "display": {
+        "style": "info",
+        "title": {
+          "$ref": "#/messages/deploy.notification.title"
+        },
+        "subtitle": {
+          "$ref": "#/messages/deploy.notification.text"
+        },
+        "advancedModePosition": "bottom"
+      }
+    },
+    {
+      "type": "info",
+      "text": {
+        "$ref": "#/messages/wizard.deploymentStrategy.text"
+      }
+    },
+    {
+      "type": "tilegroup",
+      "key": "deploymentStrategy",
+      "display": {
+        "showLabel": false,
+        "orientation": "vertical"
+      }
     }
-  }, {
-    "type": "tilegroup",
-    "key": "deploymentStrategy",
-    "display": {
-      "showLabel": false,
-      "orientation": "vertical"
-    }
-  }]
+  ]
 }

@@ -3,7 +3,7 @@ inputs:
   - type: git
     branch: ${PIPELINE_REPO_BRANCH}
     service: ${PIPELINE_REPO}
-    path: .deploy_rolling_pipeline
+    path: .deploy_rolling_kubernetes_pipeline
   - type: git
     branch: ${DEFINITIONS_BRANCH}
     service: ${TEKTON_CATALOG_REPO}
@@ -100,6 +100,9 @@ properties:
   - name: commons-hosted-region
     value: ${COMMONS_HOSTED_REGION}
     type: text
+  - name: deployment-target-type
+    value: ${DEPLOYMENT_TARGET_TYPE}
+    type: text   
   - name: insights
     value: ${INSIGHTS}
     type: integration

@@ -1,0 +1,271 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: download-artifacts
+spec:
+  params:
+    - name: api
+      description: the IBM Cloud api endpoint
+      default: "https://cloud.ibm.com"
+    - name: apikey
+      description: The IBM Cloud API Key
+    - name: shuttle-properties-file
+      description: The name of the build artifact as retrieved from the build metadata
+  workspaces:
+    - name: output
+      description: A workspace
+      mountPath: /output
+  results:
+    - name: artifacts-downloaded
+      description: The variable indicating whether artifact is downloaded or not
+    - name: build_number
+      description: The variable storing build number as retrieved from the build metadata
+    - name: objectname
+      description: The name of the build artifact as retrieved from the build metadata
+  steps:
+    - name: download-artifacts
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.15
+      workingDir: /output
+      env:
+        - name: API
+          value: $(params.api)
+        - name: APIKEY
+          value: $(params.apikey)
+        - name: FILE
+          value: inventory.json
+        - name: ENV_FILE
+          value: $(params.shuttle-properties-file) 
+      script: |
+          #!/bin/bash
+
+          # Code here fetches the artifact metadata as present in the inventory.json.
+          # The task assumes the file /output/inventory-repo/inventory.json is already present as a result of the cloning of the 
+          # by the upstream git-clone-inventory-repo task. The JSON file contains the metadata like the name of the name of the artifact (artifact)
+          # the build number (build_number) among other details. 
+          ls -laht /output/
+          cd /output/inventory-repo;          
+          if [[ -f "$FILE" ]]; then
+            OBJECTNAME=$(cat $FILE |jq -r '.artifact')
+            BUILD=$(cat $FILE |jq -r '.build_number')
+            echo -n "${BUILD}" > $(results.build_number.path)
+            echo -n "${OBJECTNAME}" > $(results.objectname.path)
+            echo -n "yes" > $(results.objectname.path)
+            jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' "$FILE" > "$ENV_FILE"
+            mv "$ENV_FILE" ../
+          fi
+
+
+          # Code here downloads the artifact after processing the information present in the inventory.json.
+          # The downloaded artifacts will be stored in /output directory which can then be utilized by downstream
+          # task to carry out deployment steps on the target Virtual Server instance.
+          cd /output           
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: execute-on-satelite
+spec:
+  params:
+    - name: ibmcloud-api
+      description: the ibmcloud api
+      default: https://cloud.ibm.com
+    - name: continuous-delivery-context-secret
+      description: name of the configmap containing the continuous delivery pipeline context secrets
+      default: secure-properties
+    - name: kubernetes-service-apikey-secret-key
+      description: field in the secret that contains the api key used to login to ibmcloud kubernetes service
+      default: apikey
+    - name: resource-group
+      description: target resource group (name or id) for the ibmcloud login operation
+      default: ""
+    - name: image-url
+      description: URL of an image that is relevant to the deployment action
+      default: ""
+    - name: shuttle-properties-file
+      description: name of the properties file that contain properties to include in the environment for the `cf-commands` snippet/script execution
+      default: ""
+    - name: setup-script
+      description: script that typically set up environment before the _deployment_ script execution.
+      default: ""
+    - name: script
+      description: _deployment_ script to be executed
+      default: ""
+    - name: post-execution-script
+      description: script that get executed after the _deployment_ script has been executed.
+      default: ""
+    - name: pipeline-debug
+      description: Pipeline debug mode. Value can be 0 or 1. Default to 0
+      default: "0"
+    - name: registry-region
+  results:
+    - name: app-url
+      description: The running application's URL (obtained from APP_URL variable set by the executed script)
+  workspaces:
+    - name: artifacts
+      description: A workspace
+      mountPath: /artifacts
+  steps:
+    - name: execute
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.12
+      workingDir: /artifacts
+      env:
+        - name: BUILD_NUMBER
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['devops.cloud.ibm.com/build-number']
+        - name: PIPELINE_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['devops.cloud.ibm.com/pipeline-id']
+        - name: PIPELINE_STAGE_EXECUTION_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['devops.cloud.ibm.com/tekton-pipeline']
+        - name: PIPELINE_TRIGGERING_USER
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['devops.cloud.ibm.com/triggered-by']
+        - name: PIPELINE_BLUEMIX_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: $(params.continuous-delivery-context-secret)
+              key: $(params.kubernetes-service-apikey-secret-key)
+        - name: PIPELINE_BLUEMIX_RESOURCE_GROUP
+          value: $(params.resource-group)
+        - name: PIPELINE_IMAGE_URL
+          value: $(params.image-url)
+        - name: SHUTTLE_PROPERTIES_FILE
+          value: $(params.shuttle-properties-file)
+        - name: PIPELINE_DEBUG
+          value: $(params.pipeline-debug)
+      script: |
+        #!/bin/bash
+        set -e -o pipefail
+        if [ $PIPELINE_DEBUG == 1 ]; then
+            env
+            pwd
+            ls -l
+            echo "=== cat /artifacts/_toolchain.json ==="
+            cat /artifacts/_toolchain.json
+            echo ""
+            echo "======================================"
+            trap env EXIT
+            set -x
+        fi
+        # SETUP BEGIN
+        ibmcloud config --check-version false
+        if [ "$(params.registry-region)" ]; then
+          # if cluster region is in the 'ibm:yp:<region>' just keep the region part
+          export IBM_CLOUD_REGION=$(echo "$(params.registry-region)" | awk -F ':' '{print $NF;}')
+        else
+          export IBM_CLOUD_REGION=$(jq -r '.region_id' /artifacts/_toolchain.json | awk -F: '{print $3}')
+        fi
+        ibmcloud login -a $(params.ibmcloud-api) -r $IBM_CLOUD_REGION --apikey $PIPELINE_BLUEMIX_API_KEY
+        if [ "$PIPELINE_BLUEMIX_RESOURCE_GROUP" ]; then
+          ibmcloud target -g "$PIPELINE_BLUEMIX_RESOURCE_GROUP"
+        fi
+       
+        export PIPELINE_TOOLCHAIN_ID=$(jq -r '.toolchain_guid' /artifacts/_toolchain.json)
+        if [ "$SHUTTLE_PROPERTIES_FILE" ]; then
+          source $SHUTTLE_PROPERTIES_FILE
+          export $(cut -d= -f1 $SHUTTLE_PROPERTIES_FILE)
+        fi
+        $(params.setup-script)
+        # DO THE WORK
+        $(params.script)
+        $(params.post-execution-script)
+        # Record task results
+        echo -n "$APP_URL" > $(results.app-url.path)
+      volumeMounts:
+        - mountPath: /cd-config
+          name: cd-config-volume
+        - mountPath: /steps
+          name: steps-volume
+        - mountPath: /artifacts/_toolchain.json
+          subPath: toolchain.json
+          name: cd-config-volume
+        - name: environment-properties
+          mountPath: /cd-config/environment-properties
+        - name: secure-properties
+          mountPath: /cd-config/secure-properties
+  volumes:
+    - name: steps-volume
+      emptyDir: {}
+    - name: cd-config-volume
+      configMap:
+        name: toolchain
+        items:
+          - key: toolchain.json
+            path: toolchain.json
+    - name: environment-properties
+      configMap:
+        name: environment-properties
+    - name: secure-properties
+      secret:
+        secretName: secure-properties        
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: publish-doi-deployrecord
+spec:
+  params:
+    - name: inventoryrepo
+      description: The variable storing git integration for the repository storing build inventory with the toolchain
+    - name: api
+      description: The IBM Cloud API Endpoint
+    - name: apikey
+      description: The IBM Cloud API Key
+    - name: appname
+      description: The name of the application passed as environment variable
+    - name: target
+      description: The name of the environment where deployment needs to be performed
+    - name: build_number
+      description: The build number of the build as retreived from the build metadata
+  workspaces:
+    - name: output
+      description: A workspace to store the output of intermittent steps
+      mountPath: /output
+  volumes:
+    - name: cd-config
+      configMap:
+        name: toolchain
+  steps:
+    - name: publish-doi-deployrecord
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.15
+      volumeMounts:
+        - name: cd-config
+          mountPath: /cd-config
+      workingDir: /artifacts
+      env:
+        - name: API
+          value: $(params.api)
+        - name: APIKEY
+          value: $(params.apikey)
+        - name: APP_NAME
+          value: $(params.appname)
+        - name: TOOLCHAIN_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['devops.cloud.ibm.com/toolchain-id']
+        - name: DEPLOY_STATUS
+          value: "pass"
+        - name: TARGET
+          value: $(params.target)
+        - name: INVENTORY_REPO
+          value: $(params.inventoryrepo)
+        - name: JOB_URL
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['devops.cloud.ibm.com/pipeline-run-url']
+        - name: BUILD_NUMBER
+          value: $(params.build_number)
+      script: |
+        #!/bin/bash
+        set -e -o pipefail
+        export HOME="/root"
+        TOOLCHAIN_ID=$(jq -r '.toolchain_guid' /cd-config/toolchain.json)
+        export TOOLCHAIN_ID=${TOOLCHAIN_ID} # for doi plugin
+        ibmcloud login -a $API --apikey $APIKEY --no-region
+        ibmcloud doi publishdeployrecord --env "${TARGET}" --status=${DEPLOY_STATUS} --joburl="${JOB_URL}" \
+          --buildnumber="${BUILD_NUMBER}" --logicalappname="${APP_NAME}" ${INVENTORY_REPO}

@@ -1,10 +1,10 @@
 ---
-version: '1'
+version: "1"
 messages:
   $i18n: locales.yml
 welcome:
-  description: 
-      $ref: "#/messages/wizard.welcome.description"
+  description:
+    $ref: "#/messages/wizard.welcome.description"
 steps:
   - name: deployment_strategy
     form: deployment_strategy
@@ -22,7 +22,7 @@ steps:
       $ref: conditions.yml#/repo_conditions
 
   - name: inventory
-    label: 
+    label:
       $ref: "#/messages/wizard.step.inventory.label"
     title:
       $ref: "#/messages/wizard.step.inventory.title"
@@ -80,8 +80,8 @@ steps:
             service_id: hashicorpvault
             service_label: hc-vault
             parameters:
-              name: 'hc-compliance-secrets'
-              authentication_method: 'approle'
+              name: "hc-compliance-secrets"
+              authentication_method: "approle"
       - condition:
           any:
             - parameter: hashicorp-vault
@@ -125,7 +125,7 @@ steps:
             value: true
 
   - name: deploy
-    label: 
+    label:
       $ref: "#/messages/wizard.step.deploy.label"
     title:
       $ref: "#/messages/wizard.step.deploy.title"
@@ -136,22 +136,24 @@ steps:
           - form: deployment_strategy
             parameter: deploymentStrategy
             value: rolling
-  
+    conditions:
+      $ref: conditions.yml#/deploy_target_conditions
+
   - name: deploy_blue_green
-    label: 
+    label:
       $ref: "#/messages/wizard.step.deploy.label"
     title:
       $ref: "#/messages/wizard.step.deploy.title"
-    form: pipeline
+    form: pipeline_blue_green
     visible:
       condition:
         any:
           - form: deployment_strategy
             parameter: deploymentStrategy
             value: blueGreen
-    
+
   - name: deploy_canary
-    label: 
+    label:
       $ref: "#/messages/wizard.step.deploy.label"
     title:
       $ref: "#/messages/wizard.step.deploy.title"
@@ -162,7 +164,6 @@ steps:
           - form: deployment_strategy
             parameter: deploymentStrategy
             value: canary
-
 
   - name: optionaltools
     title:
@@ -199,5 +200,3 @@ form:
   wizard_summary:
     schema:
       $ref: wizard_summary.json
-
-
