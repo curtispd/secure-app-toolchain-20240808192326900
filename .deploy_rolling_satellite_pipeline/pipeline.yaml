@@ -128,8 +128,8 @@ spec:
             DEPLOYMENT_STRATEGY="$(params.deployment-strategy)"
             source ./build.properties
             echo " DEPLOYMENT_STRATEGY :- ${DEPLOYMENT_STRATEGY}"
-            source <(curl -sSL "https://raw.github.ibm.com/AkshayKumar-Vijapur/commons/master/scripts/deployment_strategies/rolling/satellite/prepare_deployment_file.sh?token=AACR2IPPPJX4N64VS2LGX4DBSHRKG")
-            source <(curl -sSL "https://raw.github.ibm.com/AkshayKumar-Vijapur/commons/master/scripts/deployment_strategies/rolling/satellite/satconfig_deploy_artifact.sh?token=AACR2IKZ5NHXHQU4IHGADBDBSHQVY")
+            source <(curl -sSL "https://raw.github.com/open-toolchain/commons/master/scripts/deployment_strategies/rolling/satellite/prepare_deployment_file.sh")
+            source <(curl -sSL "https://raw.github.com/open-toolchain/commons/master/scripts/deployment_strategies/rolling/satellite/satconfig_deploy_artifact.sh")
         - name: post-execution-script
           value: |
             # Keep APP_URL in build.properties shuttle file
