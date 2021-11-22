@@ -136,8 +136,6 @@ steps:
           - form: deployment_strategy
             parameter: deploymentStrategy
             value: rolling
-    conditions:
-      $ref: conditions.yml#/deploy_target_conditions
 
   - name: deploy_blue_green
     label:

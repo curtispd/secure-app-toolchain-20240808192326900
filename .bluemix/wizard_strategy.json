@@ -38,19 +38,6 @@
   },
   "form": [
     {
-      "type": "notification",
-      "display": {
-        "style": "info",
-        "title": {
-          "$ref": "#/messages/deploy.notification.title"
-        },
-        "subtitle": {
-          "$ref": "#/messages/deploy.notification.text"
-        },
-        "advancedModePosition": "bottom"
-      }
-    },
-    {
       "type": "info",
       "text": {
         "$ref": "#/messages/wizard.deploymentStrategy.text"

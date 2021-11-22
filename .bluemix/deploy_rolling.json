@@ -109,36 +109,17 @@
             },
             "type": "string",
             "pattern": "\\S"
-        },
-        "deployment-target-type": {
-            "title": "Deployment target type",
-            "description": {
-                "$ref": "#/messages/deploy.info.deploymentTargetType"
-            },
-            "type": "string",
-            "enum": [
-               "Kubernetes",
-               "Satellite"
-            ]
-        },
-        "satellite-cluster-group": {
-            "description": {
-                "$ref": "#/messages/deploy.satelliteClusterGroup"
-            },
-            "type": "string",
-            "validator": {
-                "v-type": "sat-cluster-group",
-                "params": [
-                    "api-key"
-                ]
-            }
         }
     },
     "required": [
         "app-name",
         "api-key",
         "registry-region",
-        "registry-namespace"
+        "registry-namespace",
+        "prod-region",
+        "prod-resource-group",
+        "prod-cluster-name",
+        "prod-cluster-namespace"
     ],
     "form": [
         {
@@ -208,134 +189,73 @@
             ]
         },
         {
-            "type": "info",
-            "text": {
-                "$ref": "#/messages/deploy.deploymentTarget"
-            }
-        },
-        {
-            "type": "selectfieldset",
-            "key": "deployment-target-type",
-            "display": {
-                "component": "radiogroup"
-             },           
-            "titleMap": {
-                "Kubernetes": "Kubernetes",
-                "Satellite": "Satellite"
-            },
+            "type": "table",
+            "description": "\n\n",
+            "columnCount": 3,
+            "widths": [
+                "48%",
+                "4%",
+                "48%"
+            ],
             "items": [
                 {
-                    "type": "table",
-                    "description": "\n\n",
-                    "columnCount": 3,
-                    "widths": [
-                        "48%",
-                        "4%",
-                        "48%"
-                    ],
-                    "items": [
-                        {
-                            "type": "label",
-                            "title": {
-                                "$ref": "#/messages/region"
-                            }
-                        },
-                        {
-                            "type": "label",
-                            "title": ""
-                        },
-                        {
-                            "type": "label",
-                            "title": {
-                                "$ref": "#/messages/deploy.rg"
-                            }
-                        },
-                        {
-                            "type": "select",
-                            "key": "prod-region"
-                        },
-                        {
-                            "type": "label",
-                            "title": ""
-                        },
-                        {
-                            "type": "select",
-                            "key": "prod-resource-group",
-                            "readonly": false
-                        },
-                        {
-                            "type": "label",
-                            "title": {
-                                "$ref": "#/messages/deploy.cluster"
-                            }
-                        },
-                        {
-                            "type": "label",
-                            "title": ""
-                        },
-                        {
-                            "type": "label",
-                            "title": {
-                                "$ref": "#/messages/deploy.clusterNs"
-                            }
-                        },
-                        {
-                            "type": "select",
-                            "key": "prod-cluster-name",
-                            "readonly": false
-                        },
-                        {
-                            "type": "label",
-                            "title": ""
-                        },
-                        {
-                            "type": "text",
-                            "key": "prod-cluster-namespace",
-                            "readonly": false
-                        }
-                    ]
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/region"
+                    }
                 },
                 {
-                    "type": "table",
-                    "description": "\n\n",
-                    "columnCount": 3,
-                    "widths": [
-                        "48%",
-                        "4%",
-                        "48%"
-                    ],
-                    "items": [
-                        {
-                            "type": "label",
-                            "title": {
-                                "$ref": "#/messages/deploy.satelliteClusterGroup"
-                            }
-                        },
-                        {
-                            "type": "label",
-                            "title": ""
-                        },
-                        {
-                            "type": "label",
-                            "title": {
-                                "$ref": "#/messages/deploy.satelliteClusterGroupNamespace"
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "key": "satellite-cluster-group",
-                            "readonly": false
-                        },
-                        {
-                            "type": "label",
-                            "title": ""
-                        },
-                        {
-                            "type": "text",
-                            "key": "satellite-cluster-group-namespace",
-                            "readonly": false
-                        }
-                    ]
+                    "type": "label",
+                    "title": ""
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.rg"
+                    }
+                },
+                {
+                    "type": "select",
+                    "key": "prod-region"
+                },
+                {
+                    "type": "label",
+                    "title": ""
+                },
+                {
+                    "type": "select",
+                    "key": "prod-resource-group",
+                    "readonly": false
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.cluster"
+                    }
+                },
+                {
+                    "type": "label",
+                    "title": ""
+                },
+                {
+                    "type": "label",
+                    "title": {
+                        "$ref": "#/messages/deploy.clusterNs"
+                    }
+                },
+                {
+                    "type": "select",
+                    "key": "prod-cluster-name",
+                    "readonly": false
+                },
+                {
+                    "type": "label",
+                    "title": ""
+                },
+                {
+                    "type": "text",
+                    "key": "prod-cluster-namespace",
+                    "readonly": false
                 }
             ]
         }
