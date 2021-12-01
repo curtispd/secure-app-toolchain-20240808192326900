@@ -457,7 +457,7 @@ deploy_conditions:
               PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
               PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
               PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"             
+              PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
   - condition:
       any:
         - parameter: deploymentStrategy
@@ -496,7 +496,69 @@ deploy_conditions:
               PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
               PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
               PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
-
+  - condition:
+      any:
+        - parameter: deploymentStrategy
+          value: satellite
+    actions:
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: deploy
+        parameters:
+          configuration:
+            content:
+              $text: "deploy_rolling_satellite_pipeline_tekton.yml"
+  - condition:
+      any:
+        - parameter: deploymentStrategy
+          value: satellite
+    actions:
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: deploy
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline_satellite.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline_satellite.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline_satellite.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline_satellite.parameters.api-key}}"
+              SATELLITE_CLUSTER_GROUP: "{{form.pipeline_satellite.parameters.satellite-cluster-group}}"
+              SATELLITE_CLUSTER_GROUP_NAMESPACE: "{{form.pipeline_satellite.parameters.satellite-cluster-group-namespace}}"
+  - condition:
+      any:
+        - parameter: deploymentStrategy
+          value: satellite
+    actions:
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: build
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline_satellite.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline_satellite.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline_satellite.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline_satellite.parameters.api-key}}"
+              SATELLITE_CLUSTER_GROUP: "{{form.pipeline_satellite.parameters.satellite-cluster-group}}"
+              SATELLITE_CLUSTER_GROUP_NAMESPACE: "{{form.pipeline_satellite.parameters.satellite-cluster-group-namespace}}"
+  - condition:
+      any:
+        - parameter: deploymentStrategy
+          value: satellite
+    actions:
+      - type: update-service-parameters
+        service_id: pipeline
+        service_label: pr
+        parameters:
+          configuration:
+            env:
+              APP_NAME: "{{form.pipeline_satellite.parameters.app-name}}"
+              REGISTRY_REGION_ID: "{{form.pipeline_satellite.parameters.registry-region}}"
+              REGISTRY_NAMESPACE: "{{form.pipeline_satellite.parameters.registry-namespace}}"
+              API_KEY: "{{form.pipeline_satellite.parameters.api-key}}"
+              SATELLITE_CLUSTER_GROUP: "{{form.pipeline_satellite.parameters.satellite-cluster-group}}"
+              SATELLITE_CLUSTER_GROUP_NAMESPACE: "{{form.pipeline_satellite.parameters.satellite-cluster-group-namespace}}"
 
 deploy_target_conditions:
   - condition:

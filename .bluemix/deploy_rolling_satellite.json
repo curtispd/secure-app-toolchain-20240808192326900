@@ -57,58 +57,24 @@
                 "validate": false
             }
         },
-        "prod-region": {
-            "description": {
-                "$ref": "#/messages/region"
-            },
-            "type": "string",
-            "disabled": false,
-            "validator": {
-                "v-type": "k8s-region",
-                "params": [
-                    "api-key"
-                ]
-            }
-        },
-        "prod-resource-group": {
-            "description": {
-                "$ref": "#/messages/deploy.rg"
-            },
-            "type": "string",
-            "validator": {
-                "v-type": "resource-group",
-                "params": [
-                    "api-key"
-                ]
-            }
-        },
-        "prod-cluster-name": {
-            "description": {
-                "$ref": "#/messages/deploy.cluster"
-            },
-            "type": "string",
-            "pattern": "\\S",
-            "validator": {
-                "v-type": "k8s-cluster-name",
-                "params": [
-                    "prod-resource-group",
-                    "prod-region"
-                ]
-            }
-        },
-        "prod-cluster-namespace": {
-            "description": {
-                "$ref": "#/messages/deploy.clusterNs"
-            },
-            "type": "string",
-            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-        },
         "app-name": {
             "description": {
                 "$ref": "#/messages/deploy.appDescription"
             },
             "type": "string",
             "pattern": "\\S"
+        },
+        "satellite-cluster-group": {
+            "description": {
+                "$ref": "#/messages/deploy.satelliteClusterGroup"
+            },
+            "type": "string",
+            "validator": {
+                "v-type": "sat-cluster-group",
+                "params": [
+                    "api-key"
+                ]
+            }
         }
     },
     "required": [
@@ -116,9 +82,7 @@
         "api-key",
         "registry-region",
         "registry-namespace",
-        "prod-region",
-        "prod-resource-group",
-        "prod-cluster-name"
+        "satellite-cluster-group"
     ],
     "form": [
         {
@@ -190,7 +154,7 @@
         {
             "type": "info",
             "text": {
-                "$ref": "#/messages/deploy.deploymentTarget.kubernetes.info"
+                "$ref": "#/messages/deploy.deploymentTarget.satellite.info"
             }
         },
         {
@@ -206,7 +170,7 @@
                 {
                     "type": "label",
                     "title": {
-                        "$ref": "#/messages/region"
+                        "$ref": "#/messages/deploy.satelliteClusterGroup"
                     }
                 },
                 {
@@ -216,41 +180,12 @@
                 {
                     "type": "label",
                     "title": {
-                        "$ref": "#/messages/deploy.rg"
+                        "$ref": "#/messages/deploy.satelliteClusterGroupNamespace"
                     }
                 },
                 {
-                    "type": "select",
-                    "key": "prod-region"
-                },
-                {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "select",
-                    "key": "prod-resource-group",
-                    "readonly": false
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.cluster"
-                    }
-                },
-                {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.clusterNs"
-                    }
-                },
-                {
-                    "type": "select",
-                    "key": "prod-cluster-name",
+                    "type": "text",
+                    "key": "satellite-cluster-group",
                     "readonly": false
                 },
                 {
@@ -259,7 +194,7 @@
                 },
                 {
                     "type": "text",
-                    "key": "prod-cluster-namespace",
+                    "key": "satellite-cluster-group-namespace",
                     "readonly": false
                 }
             ]
