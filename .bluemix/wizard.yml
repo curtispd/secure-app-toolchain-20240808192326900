@@ -136,8 +136,6 @@ steps:
           - form: deployment_strategy
             parameter: deploymentStrategy
             value: rolling
-    conditions:
-      $ref: conditions.yml#/deploy_target_conditions
 
   - name: deploy_blue_green
     label:
@@ -164,6 +162,19 @@ steps:
           - form: deployment_strategy
             parameter: deploymentStrategy
             value: canary
+
+  - name: deploy_satellite
+    label:
+      $ref: "#/messages/wizard.step.deploy.label"
+    title:
+      $ref: "#/messages/wizard.step.deploy.title"
+    form: pipeline_satellite
+    visible:
+      condition:
+        any:
+          - form: deployment_strategy
+            parameter: deploymentStrategy
+            value: satellite
 
   - name: optionaltools
     title:
