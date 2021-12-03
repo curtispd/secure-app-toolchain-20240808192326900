@@ -123,4 +123,6 @@ wizard.optional.tools.doi.description: "DevOps Insights stellt umfassende Einbli
 wizard.summary.title: "Zusammenfassung"
 wizard.summary.success.title: "Herzlichen Glückwunsch"
 wizard.summary.success.subtitle: "Sie haben die Konfiguration Ihrer Toolchain abgeschlossen. Klicken Sie auf die Schaltfläche 'Erstellen' unten, um die Toolchain mit Ihren ausgewählten Tools und Einstellungen zu erstellen."
+deploy.notification.title: "Deploy to Satellite"
+deploy.notification.text: "Rolling strategy offers an additonal option to deploy the application to a group of clusters managed within IBM Cloud Satellite. Follow instructions on how to [Create cluster groups](https://cloud.ibm.com/satellite/locations/create) to deploy application to a group of clusters configured within IBM Cloud Satellite."
 ...

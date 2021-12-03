@@ -123,4 +123,6 @@ wizard.optional.tools.doi.description: "DevOps Insights는 많이 사용되는 �
 wizard.summary.title: "요약"
 wizard.summary.success.title: "축하합니다!"
 wizard.summary.success.subtitle: "도구 체인 구성을 완료했습니다. 아래의 '작성' 단추를 클릭하여 선택한 도구 및 설정으로 도구 체인을 작성하십시오."
+deploy.notification.title: "Deploy to Satellite"
+deploy.notification.text: "Rolling strategy offers an additonal option to deploy the application to a group of clusters managed within IBM Cloud Satellite. Follow instructions on how to [Create cluster groups](https://cloud.ibm.com/satellite/locations/create) to deploy application to a group of clusters configured within IBM Cloud Satellite."
 ...
