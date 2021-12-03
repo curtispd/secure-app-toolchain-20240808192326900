@@ -123,4 +123,6 @@ wizard.optional.tools.doi.description: "O DevOps Insights fornece insights abran
 wizard.summary.title: "Resumo"
 wizard.summary.success.title: "Parabéns"
 wizard.summary.success.subtitle: "Você concluiu a configuração de sua cadeia de ferramentas. Clique no botão 'Criar', abaixo, para criar a cadeia de ferramentas com suas ferramentas e configurações escolhidas."
+deploy.notification.title: "Deploy to Satellite"
+deploy.notification.text: "Rolling strategy offers an additonal option to deploy the application to a group of clusters managed within IBM Cloud Satellite. Follow instructions on how to [Create cluster groups](https://cloud.ibm.com/satellite/locations/create) to deploy application to a group of clusters configured within IBM Cloud Satellite."
 ...
