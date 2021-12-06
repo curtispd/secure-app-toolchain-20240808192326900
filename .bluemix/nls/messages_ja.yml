@@ -123,4 +123,6 @@ wizard.optional.tools.doi.description: "DevOps Insights は、一般的な継続
 wizard.summary.title: "サマリー"
 wizard.summary.success.title: "完了しました"
 wizard.summary.success.subtitle: "ツールチェーンの構成を完了しました。 選択したツールおよび設定でツールチェーンを作成するには、下の「作成」ボタンをクリックしてください。"
+deploy.notification.title: "Deploy to Satellite"
+deploy.notification.text: "Rolling strategy offers an additonal option to deploy the application to a group of clusters managed within IBM Cloud Satellite. Follow instructions on how to [Create cluster groups](https://cloud.ibm.com/satellite/locations/create) to deploy application to a group of clusters configured within IBM Cloud Satellite."
 ...

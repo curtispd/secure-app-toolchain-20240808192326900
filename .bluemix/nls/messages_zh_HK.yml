@@ -123,4 +123,6 @@ wizard.optional.tools.doi.description: "DevOps Insights 可以從熱門的連續
 wizard.summary.title: "摘要"
 wizard.summary.success.title: "恭喜！"
 wizard.summary.success.subtitle: "您已完成工具鏈的配置。 按下面的「建立」按鈕，以使用您選擇的工具及設定來建立工具鏈。"
+deploy.notification.title: "Deploy to Satellite"
+deploy.notification.text: "Rolling strategy offers an additonal option to deploy the application to a group of clusters managed within IBM Cloud Satellite. Follow instructions on how to [Create cluster groups](https://cloud.ibm.com/satellite/locations/create) to deploy application to a group of clusters configured within IBM Cloud Satellite."
 ...
