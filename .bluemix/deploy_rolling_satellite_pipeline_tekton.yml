@@ -45,7 +45,7 @@ triggers:
     name: commit-push
     eventListener: ${GIT_COMMIT_EVENT_LISTENER_NAME}
     service: ${INVENTORY_REPO}
-    branch: ${APP_REPO_BRANCH}
+    branch: ${INVENTORY_BRANCH}
     events: { "push": true }
   - type: manual
     name: manual-run

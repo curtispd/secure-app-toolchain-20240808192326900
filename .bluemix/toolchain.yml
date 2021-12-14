@@ -301,6 +301,7 @@ services:
             $env.template.info.hosted_region !== "" ? 'main': 'master'
           APP_REPO_BRANCH: >
             $env.template.info.hosted_region !== "" ? 'main': 'master'
+          INVENTORY_BRANCH: 'master'  
         execute: false
   devops-insights:
     service_id: 'draservicebroker'
