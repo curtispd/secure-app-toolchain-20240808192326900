@@ -45,7 +45,7 @@ triggers:
     name: blue-green-commit-push
     eventListener: blue-green-${GIT_COMMIT_EVENT_LISTENER_NAME}
     service: ${INVENTORY_REPO}
-    branch: ${APP_REPO_BRANCH}
+    branch: ${INVENTORY_BRANCH}
     events: { "push": true }
   - type: manual
     name: blue-green-manual-run
