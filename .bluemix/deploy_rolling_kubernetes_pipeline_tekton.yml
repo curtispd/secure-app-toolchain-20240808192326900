@@ -3,7 +3,7 @@ inputs:
   - type: git
     branch: ${PIPELINE_REPO_BRANCH}
     service: ${PIPELINE_REPO}
-    path: .deploy_canary_pipeline
+    path: .deploy_rolling_kubernetes_pipeline
   - type: git
     branch: ${DEFINITIONS_BRANCH}
     service: ${TEKTON_CATALOG_REPO}
@@ -42,18 +42,14 @@ inputs:
     path: utils
 triggers:
   - type: git
-    name: canary-commit-push
-    eventListener: canary-${GIT_COMMIT_EVENT_LISTENER_NAME}
+    name: commit-push
+    eventListener: ${GIT_COMMIT_EVENT_LISTENER_NAME}
     service: ${INVENTORY_REPO}
     branch: ${INVENTORY_BRANCH}
     events: { "push": true }
   - type: manual
-    name: canary-manual-run
-    eventListener: canary-manual-run
-    properties: []
-  - type: manual
-    name: abort-canary
-    eventListener: abort-canary
+    name: manual-run
+    eventListener: manual-run
     properties: []
   
 properties:
@@ -101,16 +97,14 @@ properties:
   - name: branch
     type: text
     value: ${APP_REPO_BRANCH}
-  - name: canary-step-interval
-    value: ${CANARY_STEP_INTERVAL}
-    type: text
-  - name: canary-step-size
-    value: ${CANARY_STEP_SIZE}
-    type: text
   - name: commons-hosted-region
     value: ${COMMONS_HOSTED_REGION}
     type: text
+  - name: deployment-target-type
+    value: ${DEPLOYMENT_TARGET_TYPE}
+    type: text   
   - name: insights
     value: ${INSIGHTS}
     type: integration
     path: service_id 
+  

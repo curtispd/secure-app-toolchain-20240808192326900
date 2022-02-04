@@ -3,7 +3,7 @@ inputs:
   - type: git
     branch: ${PIPELINE_REPO_BRANCH}
     service: ${PIPELINE_REPO}
-    path: .deploy_rolling_pipeline
+    path: .deploy_rolling_satellite_pipeline
   - type: git
     branch: ${DEFINITIONS_BRANCH}
     service: ${TEKTON_CATALOG_REPO}
@@ -45,7 +45,7 @@ triggers:
     name: commit-push
     eventListener: ${GIT_COMMIT_EVENT_LISTENER_NAME}
     service: ${INVENTORY_REPO}
-    branch: ${APP_REPO_BRANCH}
+    branch: ${INVENTORY_BRANCH}
     events: { "push": true }
   - type: manual
     name: manual-run
@@ -71,18 +71,6 @@ properties:
   - name: app-name
     value: ${APP_NAME}
     type: text
-  - name: dev-cluster-namespace
-    value: ${PROD_CLUSTER_NAMESPACE}
-    type: text
-  - name: dev-region
-    value: ${PROD_REGION_ID}
-    type: text
-  - name: cluster-name
-    value: ${PROD_CLUSTER_NAME}
-    type: text
-  - name: dev-resource-group
-    value: ${PROD_RESOURCE_GROUP}
-    type: text
   - name: deployment-strategy
     value: ${DEPLOYMENT_STRATEGY}
     type: text
@@ -100,8 +88,20 @@ properties:
   - name: commons-hosted-region
     value: ${COMMONS_HOSTED_REGION}
     type: text
+  - name: satellite-cluster-group
+    value: ${SATELLITE_CLUSTER_GROUP}
+    type: text
+  - name: satellite-cluster-group-namespace
+    value: ${SATELLITE_CLUSTER_GROUP_NAMESPACE}
+    type: text    
+  - name: deployment-target-type
+    value: ${DEPLOYMENT_TARGET_TYPE}
+    type: text
   - name: insights
     value: ${INSIGHTS}
     type: integration
     path: service_id 
+  
+
+
   

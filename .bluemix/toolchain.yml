@@ -216,7 +216,7 @@ services:
           PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
           PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
           PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-          PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
+          PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"             
           PIPELINE_REPO: pipeline-repo
           INVENTORY_REPO: inventory-repo
           PIPELINE_REPO_BRANCH: >
@@ -259,7 +259,7 @@ services:
       type: tekton
       configuration:
         content:
-          $text: "deploy_rolling_pipeline_tekton.yml"
+          $text: "deploy_rolling_kubernetes_pipeline_tekton.yml"
         env:
           APP_REPO: repo
           APP_NAME: "{{form.pipeline.parameters.app-name}}"
@@ -301,6 +301,7 @@ services:
             $env.template.info.hosted_region !== "" ? 'main': 'master'
           APP_REPO_BRANCH: >
             $env.template.info.hosted_region !== "" ? 'main': 'master'
+          INVENTORY_BRANCH: 'master'  
         execute: false
   devops-insights:
     service_id: 'draservicebroker'
@@ -324,7 +325,24 @@ form:
       prod-resource-group: '{{prodResourceGroup}}'
       prod-cluster-name: '{{prodClusterName}}'
     schema:
-      $ref: deploy.json    
+      $ref: deploy_rolling.json
+
+  pipeline_blue_green:
+    parameters:
+      app-name: >
+        $env.appName ?
+          '{{appName}}' : '{{services.repo.parameters.repo_name}}'
+      prod-cluster-namespace: >
+        $env.prodClusterNamespace ?
+          '{{prodClusterNamespace}}' : 'prod'
+      registry-region: '{{registryRegion}}'
+      registry-namespace: '{{registryNamespace}}'
+      api-key: '{{apiKey}}'
+      prod-region: '{{prodRegion}}'
+      prod-resource-group: '{{prodResourceGroup}}'
+      prod-cluster-name: '{{prodClusterName}}'
+    schema:
+      $ref: deploy_blue_green.json 
 
   pipeline_canary:
     parameters:
@@ -345,6 +363,19 @@ form:
     schema:
       $ref: deploy_canary.json
 
+  pipeline_satellite:
+    parameters:
+      app-name: >
+        $env.appName ?
+          '{{appName}}' : '{{services.repo.parameters.repo_name}}'
+      registry-region: '{{registryRegion}}'
+      registry-namespace: '{{registryNamespace}}'
+      api-key: '{{apiKey}}'
+      satellite-cluster-group: '{{satelliteClusterGroup}}'
+      satellite-cluster-group-namespace: '{{satelliteClusterGroupNamespace}}'
+    schema:
+      $ref: deploy_rolling_satellite.json
+
   wizard_inventory:
     schema:
       $ref: wizard_inventory.json
@@ -356,5 +387,7 @@ form:
           '{{deploymentStrategy}}' : 'rolling' 
     schema:
       $ref: wizard_strategy.json
+
+      
 
   
