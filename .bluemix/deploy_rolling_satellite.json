@@ -10,7 +10,7 @@
         "$ref": "#/messages/deploy.description"
     },
     "longDescription": {
-        "$ref": "#/messages/deploy.longDescription"
+        "$ref": "#/messages/deploy.sat.longDescription"
     },
     "type": "object",
     "properties": {
@@ -82,7 +82,8 @@
         "api-key",
         "registry-region",
         "registry-namespace",
-        "satellite-cluster-group"
+        "satellite-cluster-group",
+        "satellite-cluster-group-namespace"
     ],
     "form": [
         {
@@ -180,7 +181,7 @@
                 {
                     "type": "label",
                     "title": {
-                        "$ref": "#/messages/deploy.satelliteClusterGroupNamespace"
+                        "$ref": "#/messages/deploy.clusterNs"
                     }
                 },
                 {
