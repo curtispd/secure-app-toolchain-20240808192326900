@@ -1,9 +1,20 @@
 ---
+###############################################################################
+# Licensed Materials - Property of IBM
+# (c) Copyright IBM Corporation 2016, 2022. All Rights Reserved.
+#
+# Note to U.S. Government Users Restricted Rights:
+# Use, duplication or disclosure restricted by GSA ADP Schedule
+# Contract with IBM Corp.
+###############################################################################
+#NLS_MESSAGEFORMAT_NONE
+#NLS_ENCODING=UTF-8
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
-template.name: "애플리케이션을 개발하고 배치 전략을 사용하여 이를 Kubernetes에 배치"
-template.description: "이 도구 체인을 사용하여 애플리케이션을 개발하고 IBM Cloud Kubernetes Service에서 관리하는 kubernetes 클러스터에 이를 배치할 수 있습니다.  템플리트는 요구사항 충족을 위해 Rolling, Blue/Green 또는 Canary 등의 선택 가능한 고급 배치 전략을 제공합니다. 기본적으로, 도구 체인은 샘플 Node.js \"Hello World\" 앱을 사용하지만, 고유 앱을 가져와서 대신 연결할 수도 있습니다. 이 도구 체인은 [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index), [Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos), 소스 제어, 문제 추적 및 온라인 편집 기능을 사용하여 지속적 딜리버리를 지원하도록 사전 구성되어 있습니다.\n\n[콘솔](https://cloud.ibm.com/kubernetes/clusters)을 사용하여 IBM Cloud 컨테이너 클러스터를 관리할 수 있습니다.\n\n이 도구 체인은 지속적 딜리버리 서비스의 일부인 도구를 사용합니다. 해당 서비스의 인스턴스가 선택된 리소스 그룹이나 조직에 아직 없는 경우, **작성**을 클릭하면 무료 [Lite](/catalog/services/continuous-delivery/) 플랜이 선택된 상태로 인스턴스가 자동으로 추가됩니다.\n\n시작하려면 **작성**을 클릭하십시오.\n\n단계별 지시사항을 보려면 [튜토리얼](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-on-Kubernetes-using-deployment-strategies)을 따르십시오."
-template.gettingStarted: " **도구 체인이 준비되었습니다.**\n**빠른 시작:** 취약성이 스캔되어 Kubernetes 클러스터에 배치될 새 docker 이미지 빌드를 트리거할 수 있도록 Git 저장소에 대해 변경사항을 커미트하십시오. 단계별 지시사항은 이 도구 체인에 대한 [튜토리얼](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-on-Kubernetes-using-deployment-strategies)을 참조하십시오."
+template.name: "배치 전략을 사용하여 OpenShift 또는 Kubernetes에 애플리케이션 개발 및 배치"
+template.description: "이 도구 체인을 사용하여 애플리케이션을 개발하고 단일 IBM Kubernetes Service / RedHat openshift 클러스터 또는 IBM Satellite를 사용하여 여러 클러스터로 배치할 수 있습니다.  템플리트는 요구사항 충족을 위해 Rolling, Blue/Green 또는 Canary 등의 선택 가능한 고급 배치 전략을 제공합니다. \n\n기본적으로, 도구 체인은 샘플 Node.js \"Hello World\" 앱을 사용하지만, 고유 앱을 가져와서 대신 연결할 수도 있습니다. 이 도구 체인은 [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index), [Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos), 소스 제어, 문제 추적 및 온라인 편집 기능을 사용하여 지속적 딜리버리를 지원하도록 사전 구성되어 있습니다.\n\n[콘솔](https://cloud.ibm.com/kubernetes/clusters)을 사용하여 IBM Cloud 컨테이너 클러스터를 관리할 수 있습니다.\n\n이 도구 체인은 지속적 딜리버리 서비스의 일부인 도구를 사용합니다. 해당 서비스의 인스턴스가 선택된 리소스 그룹이나 조직에 아직 없는 경우, **작성**을 클릭하면 무료 [Lite](/catalog/services/continuous-delivery/) 플랜이 선택된 상태로 인스턴스가 자동으로 추가됩니다.\n\n시작하려면 **작성**을 클릭하십시오.\n\n단계별 지시사항은 [학습서](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)의 내용을 따르십시오."
+template.gettingStarted: " **도구 체인이 준비되었습니다!**\n**빠른 시작:** 새 Docker 이미지 빌드를 트리거하도록 Git 저장소에 변경사항을 커미트하십시오. 이는 취약성에 대해 스캔되어 Kubernetes 클러스터에 배치됩니다. 단계별 지시사항은 이 도구 체인의 [학습서](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)의 내용을 참조하십시오."
 deploy.longDescription: "배치할 앱의 이름을 입력하십시오. 새 IBM Cloud API 키를 작성하거나 기존 IBM Cloud API 키를 사용하여 빌드된 애플리케이션 docker 이미지를 저장하기 위한 IBM Container Registry 구성을 검색하거나 빌드된 이미지를 배치하기 위한 IBM Kubernetes 클러스터 구성을 검색하십시오.\n**참고**: 클러스터 네임스페이스가 없는 경우, 이는 자동으로 작성되고 구성됩니다."
+deploy.sat.longDescription: "배치할 앱의 이름을 입력하십시오. 새 IBM Cloud API키를 작성하거나 기존 IBM Cloud API 키를 사용하여 IBM Container Registry 구성을 검색하여 빌드된 애플리케이션 Docker 이미지를 저장하고 IBM Satellite 구성을 사용하여 빌드된 이미지를 배치하십시오."
 deploy.appDescription: "배치할 앱의 이름을 입력하십시오."
 deploy.blueGreen.longDescription: "**Blue-Green 전략**은 2개의 영구 프로덕션 환경(파란색 및 녹색)을 활용하며, 임의의 시점에 오직 하나만 트래픽만 수신합니다. 유휴 환경에 새 릴리스를 배치한 후 중단 시간 없이 모든 트래픽을 이로 전환합니다. 신속한 롤백을 위해서는 모든 트래픽을 미변경 상태를 유지하는 다른 환경으로 다시 전환하기만 하면 됩니다.\n배치할 앱의 이름을 입력하십시오. 새 IBM Cloud API 키를 작성하거나 기존 IBM Cloud API 키를 사용하여 빌드된 애플리케이션 docker 이미지를 저장하기 위한 IBM Container Registry 구성을 검색하거나 빌드된 이미지를 배치하기 위한 IBM Kubernetes 클러스터 구성을 검색하십시오."
 deploy.rolling.longDescription: "**Rolling 전략**은 신속하게 모든 인스턴스를 증분 방식으로 업데이트하여 중단 시간 없이 새 릴리스를 배치합니다. 롤백하려면 이전 릴리스의 재배치가 필요하며, 이는 즉각적이지 않을 수도 있습니다.\n배치할 앱의 이름을 입력하십시오. 새 IBM Cloud API 키를 작성하거나 기존 IBM Cloud API 키를 사용하여 빌드된 애플리케이션 docker 이미지를 저장하기 위한 IBM Container Registry 구성을 검색하거나 빌드된 이미지를 배치하기 위한 IBM Kubernetes 클러스터 구성을 검색하십시오."
@@ -24,7 +35,7 @@ deploy.imgregNs: "컨테이너 이미지 레지스트리 네임스페이스"
 deploy.cluster: "클러스터 이름"
 deploy.rg: "리소스 그룹"
 deploy.clusterNs: "클러스터 네임스페이스"
-deploy.clusterDetails: "**클러스터 세부사항**\n애플리케이션을 배치할 IBM Cloud Kubernetes Service 클러스터 및 네임스페이스를 선택하십시오. 네임스페이스가 아직 존재하지 않는 경우, 애플리케이션 배치 중에 CD 파이프라인에 의해 새 네임스페이스가 작성됩니다. [자세히 보기]()\n"
+deploy.clusterDetails: "**클러스터 세부사항**\nIBM Cloud Kubernetes Service 클러스터를 선택하고 애플리케이션을 배치할 네임스페이스를 제공하십시오. 제공된 네임스페이스가 아직 존재하지 않는 경우 애플리케이션 배치 중에 새 네임스페이스가 CD 파이프라인에 의해 작성됩니다. [자세히 보기]()\n\n"
 deploy.containerRegistryDetails: "**Container Registry**\n\nIBM Container Registry에서는 CI 파이프라인에 의해 빌드된 docker 컨테이너 이미지를 저장합니다. 빌드된 애플리케이션 docker 이미지를 푸시할 계획인 대상 컨테이너 레지스트리 지역 및 네임스페이스를 선택하십시오. [자세히 보기]()\n"
 deploy.canary: "**Canary 세부사항**\nCanary 롤아웃은 사용자 요청을 가상 서버 인스턴스에 배치된 애플리케이션의 새 버전으로 점진적으로 전환합니다. 각 증분에 대한 트래픽 증분 크기와 간격을 선택하십시오. [자세히 보기]()\n"
 deploy.canaryStepSize: "Canary 배치로 경로 재지정되는 트래픽 증분(%)을 정의합니다."
@@ -113,7 +124,7 @@ wizard.deploymentStrategy.text: "애플리케이션에 적합한 배치 전략 �
 wizard.deploymentStrategy.rolling.title: "**Rolling**\n\n순차 방식으로 모든 인스턴스를 증분식으로 업데이트하여 중단 시간 없이 새 릴리스를 배치합니다."
 wizard.deploymentStrategy.blueGreen.title: "**Blue-Green**\n\n보다 빠른 롤백과 테스트 용이성을 위해 현재 프로덕션과 동일하고 격리된 환경에 새 릴리스를 배치합니다."
 wizard.deploymentStrategy.canary.title: "**Canary**\n\n새 릴리스를 증분식으로 프로덕션 환경에 배치하면, 점진적으로 애플리케이션의 이전 버전을 신규 버전으로 대체하여 위험을 줄일 수 있습니다."
-wizard.deploymentStrategy.satellite.title: "**Satellite 구성을 통한 다중 클러스터**\n\nSatellite 구성을 사용하여 클러스터 그룹 내의 다중 클러스터에 새 릴리스 배치.\n\nSatellite 구성을 사용하여 배치할 [클러스터 그룹 작성](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-using-IBM-Cloud-Satellite) "
+wizard.deploymentStrategy.satellite.title: "**Satellite를 통한 다중 클러스터**\n\n[Satellite](https://cloud.ibm.com/satellite/overview)를 사용하여 클러스터 그룹 내의 여러 클러스터에 동시에 새 릴리스를 배치하십시오.\n\nSatellite 구성에 대한 자세한 내용은 [학습서](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-satellite)의 내용을 참조하십시오."
 wizard.step.deploymentStrategy.title: "배치"
 wizard.optional.tools.title: "기타 도구"
 wizard.optional.tools.longDescription: "도구 체인에 포함될 수 있는 선택적 도구입니다."
@@ -127,10 +138,10 @@ wizard.summary.success.subtitle: "도구 체인 구성을 완료했습니다. �
 wizard.deploymentTarget.kubernetes.title: "**Kubernetes**\n\nIBM Cloud의 IKS 또는 OpenShift 클러스터에 앱 배치"
 wizard.deploymentTarget.satellite.title: "**Satellite**\n\nSatellite 클러스터 그룹으로 관리되는 IKS 또는 OpenShift 클러스터에 앱 배치"
 deploy.satelliteClusterGroup: "Satellite 클러스터 그룹 이름"
-deploy.satelliteClusterGroupNamespace: "Satellite 클러스터 그룹 네임스페이스"
+deploy.satelliteClusterGroupNamespace: "네임스페이스"
 deploy.deploymentTarget: "선택한 배치 대상에서 선택하십시오.  배치 대상 유형을 Kubernetes로 사용하는 동안 선택한 클러스터 지역 및 리소스 그룹에 따라 클러스터 이름을 검색하십시오. Satellite의 경우 클러스터 그룹의 이름을 선택하십시오.\n\n**참고**: 클러스터 네임스페이스가 없는 경우, 이는 자동으로 작성되고 구성됩니다."
 deploy.notification.title: "Satellite에 배치"
 deploy.notification.text: "롤링 전략은 IBM Cloud Satellite 내에서 관리되는 클러스터 그룹에 애플리케이션을 배치하기 위한 추가 옵션을 제공합니다. IBM Cloud Satellite 내에 구성된 클러스터 그룹에 애플리케이션을 배치하려면 [클러스터 그룹 작성](https://cloud.ibm.com/satellite/locations/create) 방법에 대한 지시사항을 따르십시오."
 deploy.deploymentTarget.kubernetes.info: "애플리케이션을 배치하려는 클러스터 지역 및 리소스 그룹 선택사항에 따라 클러스터 이름을 선택하십시오.\n\n**참고**: 클러스터 네임스페이스가 선택한 클러스터에 없는 경우 파이프라인에서 작성됩니다."
-deploy.deploymentTarget.satellite.info: "애플리케이션을 배치할 클러스터 그룹 이름을 선택하십시오.\n\n**참고**: 클러스터 네임스페이스가 클러스터 그룹 내의 클러스터에 없는 경우 파이프라인에서 클러스터에 자동으로 작성합니다."
+deploy.deploymentTarget.satellite.info: "클러스터 그룹 이름을 선택하고 애플리케이션을 배치할 클러스터 네임스페이스를 제공합니다.\n\n**참고**: 제공된 클러스터 네임스페이스가 클러스터 그룹 내의 클러스터에 존재하지 않는 경우 파이프라인에 의해 클러스터에 작성됩니다."
 ...

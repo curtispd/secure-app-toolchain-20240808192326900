@@ -1,9 +1,20 @@
 ---
+###############################################################################
+# Licensed Materials - Property of IBM
+# (c) Copyright IBM Corporation 2016, 2022. All Rights Reserved.
+#
+# Note to U.S. Government Users Restricted Rights:
+# Use, duplication or disclosure restricted by GSA ADP Schedule
+# Contract with IBM Corp.
+###############################################################################
+#NLS_MESSAGEFORMAT_NONE
+#NLS_ENCODING=UTF-8
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
-template.name: "开发应用程序并使用部署策略将其部署到 Kubernetes"
-template.description: "利用此工具链，您可以开发应用程序并将其部署到由 IBM Cloud Kubernetes Service 管理的 Kubernetes 集群。  该模板为您提供 Rolling、Blue/Green 或 Canary 等高级部署策略的选项，以满足您的需求。 缺省情况下，此工具链使用样本 Node.js“Hello World”应用程序，但您也可以使用自己的应用程序并与其链接。 为实现持续交付，对此工具链预先配置了 [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index)、[Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos)、源代码控制、问题跟踪和联机编辑。\n\n您可以使用[控制台](https://cloud.ibm.com/kubernetes/clusters)来管理 IBM Cloud 容器集群。\n此工具链使用的工具属于 Continuous Delivery 服务的一部分。 如果所选资源组或组织中没有该服务的实例，那么当您单击**创建**时，会自动添加该服务实例并选择免费[轻量](/catalog/services/continuous-delivery/)套餐。\n\n单击**创建**以开始。\n\n有关分步骤指示信息，请按[教程](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-on-Kubernetes-using-deployment-strategies)操作"
-template.gettingStarted: " **您的工具链已就绪！**\n**快速启动：**落实对 Git 存储库的更改以触发新的 Docker 映像构建，将对该构建进行漏洞扫描，并将其部署到 Kubernetes 集群。 有关逐步指示信息，请参阅此工具链的[教程](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-on-Kubernetes-using-deployment-strategies)。"
+template.name: "使用部署策略来开发应用程序并将其部署到 Kubernetes 或 OpenShift"
+template.description: "利用此工具链，您可以使用 IBM Satellite 来开发应用程序并部署到单个 IBM Kubernetes Service / RedHat Openshift 集群或多个集群。  该模板为您提供 Rolling、Blue/Green 或 Canary 等高级部署策略的选项，以满足您的需求。 缺省情况下，此工具链使用样本 Node.js“Hello World”应用程序，但您也可以使用自己的应用程序并与其链接。 为实现持续交付，对此工具链预先配置了 [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index)、[Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos)、源代码控制、问题跟踪和联机编辑。\n\n 您可以使用[控制台](https://cloud.ibm.com/kubernetes/clusters)来管理 IBM Cloud 容器集群。\n\n此工具链使用的工具属于 Continuous Delivery 服务的一部分。 如果所选资源组或组织中没有该服务的实例，那么当您单击**创建**时，会自动添加该服务实例并选择免费[轻量](/catalog/services/continuous-delivery/)套餐。\n\n单击**创建**以开始。\n\n有关逐步指示信息，请遵循[教程](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)"
+template.gettingStarted: " **工具链已就绪！**\n**快速启动：** 将更改落实到 Git 存储库以触发新的 Docker 映像构建，该构建将被扫描以查找漏洞并部署到 Kubernetes 集群。 有关逐步指示信息，请参阅此工具链的[教程](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)。"
 deploy.longDescription: "输入要部署的应用程序的名称。 创建新的 IBM Cloud API 密钥或使用现有 IBM Cloud API 密钥来检索 IBM Container Registry 配置，以存储构建的应用程序 Docker 映像，并检索 IBM Kubernetes 集群配置以部署构建的映像。\n\n**注**：如果集群名称空间不存在，那么会为您自动创建和配置集群名称空间。"
+deploy.sat.longDescription: "输入要部署的应用程序的名称。 创建新的 IBM Cloud API 密钥，或者使用现有 IBM Cloud API 密钥来检索 IBM Container Registry 配置以存储已构建的应用程序 Docker 映像，并使用 IBM Satellite 配置来部署已构建的映像。"
 deploy.appDescription: "输入要部署的应用程序的名称。"
 deploy.blueGreen.longDescription: "**Blue-Green 策略**\n\n使用两个永久生产环境（蓝色和绿色），任何时候都只有一个接收流量。 将新发行版部署到空闲环境中，然后将所有流量切换到该环境，没有任何停机时间。 对于快速回滚，只需将所有流量切换回另一个保持不变的环境即可。\n\n输入要部署的应用程序的名称。 创建新的 IBM Cloud API 密钥或使用现有 IBM Cloud API 密钥来检索 IBM Container Registry 配置，以存储构建的应用程序 Docker 映像，并检索 IBM Kubernetes 集群配置以部署构建的映像。"
 deploy.rolling.longDescription: "**Rolling 策略**\n\n通过以快速方式增量更新所有实例来部署新发行版，没有任何停机时间。 回滚需要重新部署先前的发行版，可能不是立即就能完成。\n\n输入要部署的应用程序的名称。 创建新的 IBM Cloud API 密钥或使用现有 IBM Cloud API 密钥来检索 IBM Container Registry 配置，以存储构建的应用程序 Docker 映像，并检索 IBM Kubernetes 集群配置以部署构建的映像。"
@@ -24,7 +35,7 @@ deploy.imgregNs: "Container Registry 名称空间"
 deploy.cluster: "集群名称"
 deploy.rg: "资源组"
 deploy.clusterNs: "集群名称空间"
-deploy.clusterDetails: "**集群详细信息**\n选择您计划在其中部署应用程序的 IBM Cloud Kubernetes Service 集群和名称空间。 如果名称空间尚不存在，那么在应用程序部署期间，CD 管道将创建新的名称空间。 [了解更多信息]()\n"
+deploy.clusterDetails: "**集群详细信息**\n\n选择 IBM Cloud Kubernetes Service 集群，并提供您计划在其中部署应用程序的名称空间。 如果提供的名称空间尚不存在，那么在应用程序部署期间由 CD 管道创建新的名称空间。 [了解更多信息]()\n\n"
 deploy.containerRegistryDetails: "**Container Registry**\n\nIBM Container Registry 存储由 CI 管道构建的 Docker 容器映像。 选择您计划推送构建的应用程序 Docker 映像的目标 Container Registry 区域和名称空间。 [了解更多信息]()\n"
 deploy.canary: "**Canary 详细信息**\n\nCanary 部署会逐步将用户请求转移到部署在虚拟服务器实例上的新版应用程序。 为每个增量选择流量增量大小和时间间隔。 [了解更多信息]()\n"
 deploy.canaryStepSize: "定义要重定向到 Canary 部署的流量增量（以 % 为单位）。"
@@ -113,7 +124,7 @@ wizard.deploymentStrategy.text: "选择适合您应用程序的部署策略"
 wizard.deploymentStrategy.rolling.title: "**Rolling**\n\n通过按顺序增量更新所有实例，实现无停机时间部署新发行版。"
 wizard.deploymentStrategy.blueGreen.title: "**Blue-Green**\n\n将新发行版部署到与当前生产完全相同但相互隔离的环境中，以便更快地回滚和轻松测试。"
 wizard.deploymentStrategy.canary.title: "**Canary**\n\n以递增方式将新发行版部署到生产环境，逐步将应用程序的较旧版本替换为较新版本，从而降低风险。"
-wizard.deploymentStrategy.satellite.title: "**多个集群通过 Satellite Config**\n\n使用 Satellite Config 将新发行版同时部署到集群组中的多个集群。\n\n[创建集群组](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-using-IBM-Cloud-Satellite) 以使用 Satellite Config 进行部署 "
+wizard.deploymentStrategy.satellite.title: "**通过 Satellite 的多个集群**\n\n使用 [Satellite](https://cloud.ibm.com/satellite/overview) 将新的发行版同时部署到集群组中的多个集群。\n\n请查看[教程](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-satellite) 以获取有关配置 Satellite 的更多详细信息。"
 wizard.step.deploymentStrategy.title: "部署"
 wizard.optional.tools.title: "其他工具"
 wizard.optional.tools.longDescription: "这些是可选工具，可包含在工具链中。"
@@ -127,10 +138,10 @@ wizard.summary.success.subtitle: "您已完成工具链的配置。 单击下面
 wizard.deploymentTarget.kubernetes.title: "**Kubernetes**\n\n将应用程序部署到 IBM Cloud 上的 IKS 或 OpenShift 集群"
 wizard.deploymentTarget.satellite.title: "**Satellite**\n\n将应用程序部署到作为 Satellite 集群组管理的 IKS 或 OpenShift 集群"
 deploy.satelliteClusterGroup: "Satellite 集群组名"
-deploy.satelliteClusterGroupNamespace: "Satellite 集群组名称空间"
+deploy.satelliteClusterGroupNamespace: "名称空间"
 deploy.deploymentTarget: "从您选择的部署目标中进行选择。  将部署目标类型用作 Kubernetes 时，请根据集群区域和资源组的选择来检索集群名称。 假设 Satellite 选择集群组的名称。\n\n**注**：如果集群名称空间不存在，那么会为您自动创建和配置集群名称空间。"
 deploy.notification.title: "部署到 Satellite"
 deploy.notification.text: "滚动策略提供了一个附加选项，用于将应用程序部署到 IBM Cloud Satellite 中管理的一组集群。 请遵循有关如何 [创建集群组](https://cloud.ibm.com/satellite/locations/create) 来将应用程序部署到 IBM Cloud Satellite 中配置的集群组的指示信息。"
 deploy.deploymentTarget.kubernetes.info: "根据要部署应用程序的集群区域和资源组的选择来选择集群名称。\n\n**注意 **：假设在所选集群中不存在集群名称空间，它由管道创建。"
-deploy.deploymentTarget.satellite.info: "选择要在其中部署应用程序的集群组名。\n\n**注意 **：如果集群组内的集群中不存在集群名称空间，那么将通过管道在集群中自动创建集群名称空间。"
+deploy.deploymentTarget.satellite.info: "选择集群组名称，并提供要在其中部署应用程序的集群名称空间。\n\n**注：**：如果在集群组内的集群中不存在所提供的集群名称空间，那么管道将在集群中创建该名称空间。"
 ...

@@ -1,9 +1,20 @@
 ---
+###############################################################################
+# Licensed Materials - Property of IBM
+# (c) Copyright IBM Corporation 2016, 2022. All Rights Reserved.
+#
+# Note to U.S. Government Users Restricted Rights:
+# Use, duplication or disclosure restricted by GSA ADP Schedule
+# Contract with IBM Corp.
+###############################################################################
+#NLS_MESSAGEFORMAT_NONE
+#NLS_ENCODING=UTF-8
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
-template.name: "使用部署策略來開發及部署應用程式至 Kubernetes"
-template.description: "使用此工具鏈，您可以開發應用程式，並將其部署至 IBM Cloud Kubernetes Service 所管理的 Kubernetes 叢集。  此範本為您提供了數個進階部署策略選項，例如 Rolling、Blue/Green 或 Canary，以滿足您的需要。 依預設，此工具鏈會使用範例 Node.js \"Hello World\" 應用程式，但您也可以改為帶來自己的應用程式並鏈結至其中。 此工具鏈已針對[漏洞顧問](https://cloud.ibm.com/docs/services/va?topic=va-va_index)、[程式碼風險分析器](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos)、來源控制、問題追蹤及線上編輯的持續交付進行預先配置。\n\n 您可以使用[主控台](https://cloud.ibm.com/kubernetes/clusters)來管理 IBM Cloud 儲存器叢集。\n此工具鏈使用的工具是 Continuous Delivery 服務的一部分。 \n\n當您按一下**建立**時，如果選取的資源群組或組織中尚未具有該服務的實例，則它會自動新增選定的免費 [Lite](/catalog/services/continuous-delivery/) 方案。\n\n若要開始使用，請按一下**建立**。\n\n如需逐步指示，請遵循[指導教學](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-on-Kubernetes-using-deployment-strategies)"
-template.gettingStarted: " **您的工具鏈已備妥！**\n**快速入門：**確定對 Git 儲存庫的變更，以觸發新的 Docker 映像檔建置，將對該建置進行掃描以尋找漏洞，並將其部署至 Kubernetes 叢集。 如需逐步指示，請參閱此工具鏈的 [教學課程](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-on-Kubernetes-using-deployment-strategies)。"
+template.name: "使用部署策略開發應用程式並將其部署至 Kubernetes 或 OpenShift"
+template.description: "使用此工具鏈，可以開發應用程式，並使用 IBM Satellite 部署至單一 IBM Kubernetes Service /RedHat openshift 叢集或多個叢集。  此範本為您提供了數個進階部署策略選項，例如 Rolling、Blue/Green 或 Canary，以滿足您的需要。 依預設，此工具鏈會使用範例 Node.js \"Hello World\" 應用程式，但您也可以改為帶來自己的應用程式並鏈結至其中。 此工具鏈已針對[漏洞顧問](https://cloud.ibm.com/docs/services/va?topic=va-va_index)、[程式碼風險分析器](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos)、來源控制、問題追蹤及線上編輯的持續交付進行預先配置。\n\n 您可以使用[主控台](https://cloud.ibm.com/kubernetes/clusters)來管理 IBM Cloud 儲存器叢集。\n\n此工具鏈使用的工具是 Continuous Delivery 服務的一部分。 當您按一下**建立**時，如果選取的資源群組或組織中尚未具有該服務的實例，則它會自動新增選定的免費 [Lite](/catalog/services/continuous-delivery/) 方案。\n\n若要開始使用，請按一下**建立**。\n\n如需逐步指示，請遵循 [指導教學](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)"
+template.gettingStarted: " **工具鏈已備妥!**\n**快速入門：** 將變更確定至 Git 儲存庫，以觸發新的 Docker 映像檔建置，將會掃描其漏洞並部署至 Kubernetes 叢集。 如需逐步指示，請參閱此工具鏈的 [指導教學](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)。"
 deploy.longDescription: "輸入您要部署之應用程式的名稱。 建立新的 IBM Cloud API 金鑰，或使用現有的 IBM Cloud API 金鑰來擷取 IBM Container Registry 配置，以儲存建置的應用程式 Docker 映像檔和 IBM Kubernetes 叢集配置，從而部署建置的映像檔。\n\n**附註**：如果叢集名稱空間不存在，則會自動為您建立並配置它。"
+deploy.sat.longDescription: "輸入您要部署之應用程式的名稱。 建立新的 IBM Cloud API 金鑰，或使用現有的 IBM Cloud API 金鑰來擷取 IBM Container Registry 配置，以儲存建置的應用程式 Docker 映像檔及 IBM Satellite 配置來部署建置的映像檔。"
 deploy.appDescription: "輸入您要部署之應用程式的名稱。"
 deploy.blueGreen.longDescription: "**Blue-Green 策略**\n\n會善用兩個永久正式作業環境（藍色和綠色），而且在任何時間只有一個會接收資料流量。 將新版本部署至閒置環境，然後將所有資料流量切換到該環境，沒有關閉時間。 若要快速回復，只需將所有資料流量切換回另一個維持不變的環境。\n\n輸入您要部署之應用程式的名稱。 建立新的 IBM Cloud API 金鑰，或使用現有的 IBM Cloud API 金鑰來擷取 IBM Container Registry 配置，以儲存建置的應用程式 Docker 映像檔和 IBM Kubernetes 叢集配置，從而部署建置的映像檔。"
 deploy.rolling.longDescription: "**Rolling 策略**\n\n會以快速的方式漸進式更新其所有實例，來部署新版本並且無關閉時間。 回復需要重新部署前一個版本，這可能不是立即進行的。\n\n輸入您要部署之應用程式的名稱。 建立新的 IBM Cloud API 金鑰，或使用現有的 IBM Cloud API 金鑰來擷取 IBM Container Registry 配置，以儲存建置的應用程式 Docker 映像檔和 IBM Kubernetes 叢集配置，從而部署建置的映像檔。"
@@ -24,7 +35,7 @@ deploy.imgregNs: "容器映像檔登錄名稱空間"
 deploy.cluster: "叢集名稱"
 deploy.rg: "資源群組"
 deploy.clusterNs: "叢集名稱空間"
-deploy.clusterDetails: "**叢集詳細資料**\n選取您計劃在其中部署應用程式的 IBM Cloud Kubernetes Service 叢集和名稱空間。 如果名稱空間尚未存在，則在應用程式部署期間，CD 管線會建立新的名稱空間。 [進一步瞭解]()\n"
+deploy.clusterDetails: "** 叢集詳細資料 ** 選取 IBM Cloud Kubernetes Service 叢集，並提供計劃在其中部署應用程式的名稱空間。 如果提供的名稱空間尚未存在，CD Pipeline 會在應用程式部署期間建立新的名稱空間。 [進一步瞭解]()\n\n"
 deploy.containerRegistryDetails: "**Container Registry**\n\nIBM Container Registry 會儲存 CI 管線所建置的 Docker 儲存器映像檔。 選取您計劃在其中推送建置應用程式 Docker 映像檔的目標儲存器登錄區域和名稱空間。 [進一步瞭解]()\n"
 deploy.canary: "**Canary 詳細資料**\n\nCanary 轉出會逐漸將使用者要求轉移至在虛擬伺服器實例上部署的新應用程式版本。 選取資料流量增量大小，以及每一個增量的間隔。 [進一步瞭解]()\n"
 deploy.canaryStepSize: "定義要重新導向至 Canary 部署的資料流量增量（以 % 表示）。"
@@ -113,7 +124,7 @@ wizard.deploymentStrategy.text: "為您的應用程式選取適當的部署策�
 wizard.deploymentStrategy.rolling.title: "**Rolling**\n\n以循序方式逐步更新所有實例來部署新版本，並且沒有關閉時間。"
 wizard.deploymentStrategy.blueGreen.title: "**Blue-Green**\n\n將新版本部署至相同的環境並將其與現行正式作業隔離，以加快回復及易於測試。"
 wizard.deploymentStrategy.canary.title: "**Canary**\n\n漸進式地將新版本部署至正式作業環境，並逐漸將舊版應用程式取代為新版本，從而降低風險。"
-wizard.deploymentStrategy.satellite.title: "**透過 Satellite Config 配置多個叢集**\n\n使用 Satellite Config，將新版本同時部署至叢集群組內的多個叢集。\n\n[建立叢集群組](https://github.com/open-toolchain/sdk/wiki/Develop-and-deploy-an-application-using-IBM-Cloud-Satellite) 使用 Satellite Config 進行部署 "
+wizard.deploymentStrategy.satellite.title: "**多個叢集透過 Satellite**\n\n使用 [Satellite](https://cloud.ibm.com/satellite/overview) 將新版本同步部署至叢集群組內的多個叢集。\n\n如需配置 Satellite 的詳細資料，請參閱 [指導教學](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-satellite)。"
 wizard.step.deploymentStrategy.title: "部署"
 wizard.optional.tools.title: "其他工具"
 wizard.optional.tools.longDescription: "這些是可包括在您的工具鏈中的選用工具。"
@@ -127,10 +138,10 @@ wizard.summary.success.subtitle: "您已完成工具鏈的配置。 按下面的
 wizard.deploymentTarget.kubernetes.title: "**Kubernetes**\n\n將應用程式部署至 IBM Cloud 上的 IKS 或 OpenShift 叢集"
 wizard.deploymentTarget.satellite.title: "**Satellite**\n\n將應用程式部署至作為 Satellite 叢集群組管理的 IKS 或 OpenShift Cluster"
 deploy.satelliteClusterGroup: "Satellite 叢集群組名稱"
-deploy.satelliteClusterGroupNamespace: "Satellite 叢集群組名稱空間"
+deploy.satelliteClusterGroupNamespace: "名稱空間"
 deploy.deploymentTarget: "從您選擇的部署目標選取。  當使用部署目標類型 Kubernetes 時，請根據選擇的叢集區域和資源群組來擷取叢集名稱。 如果為 Satellite 則選取叢集群組的名稱。\n\n**附註**：如果叢集名稱空間不存在，則會自動為您建立並配置叢集名稱空間。"
 deploy.notification.title: "部署至 Satellite"
 deploy.notification.text: "滾動策略提供了一個附加選項，用於將應用程式部署到 IBM Cloud Satellite 中管理的一組叢集。 遵循關於 [建立叢集群組](https://cloud.ibm.com/satellite/locations/create) 的指示，將應用程式部署至 IBM Cloud Satellite 中配置的叢集群組。"
 deploy.deploymentTarget.kubernetes.info: "根據選擇之要在其中部署應用程式的叢集區域和資源群組來選取叢集名稱。\n\n**附註**：如果選取的叢集中不存在叢集名稱空間，則會由管線建立。"
-deploy.deploymentTarget.satellite.info: "選取您要在其中部署應用程式的叢集群組名稱。\n\n**附註**：在叢集群組內的叢集中，不存在叢集名稱空間，它會由管線自動在叢集中建立。"
+deploy.deploymentTarget.satellite.info: "選取叢集群組名稱，並提供要在其中部署應用程式的叢集名稱空間。\n\n**附註**：假設所提供的叢集名稱空間不存在於叢集群組內的叢集中，管線會在叢集中建立它。"
 ...
