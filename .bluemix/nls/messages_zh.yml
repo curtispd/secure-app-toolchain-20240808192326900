@@ -145,6 +145,6 @@ deploy.satelliteClusterGroupNamespace: "名称空间"
 deploy.deploymentTarget: "从您选择的部署目标中进行选择。  将部署目标类型用作 Kubernetes 时，请根据集群区域和资源组的选择来检索集群名称。 假设 Satellite 选择集群组的名称。\n\n**注**：如果集群名称空间不存在，那么会为您自动创建和配置集群名称空间。"
 deploy.notification.title: "部署到 Satellite"
 deploy.notification.text: "滚动策略提供了一个附加选项，用于将应用程序部署到 IBM Cloud Satellite 中管理的一组集群。 请遵循有关如何 [创建集群组](https://cloud.ibm.com/satellite/locations/create) 来将应用程序部署到 IBM Cloud Satellite 中配置的集群组的指示信息。"
-deploy.deploymentTarget.kubernetes.info: "根据要部署应用程序的集群区域和资源组的选择来选择集群名称。\n\n**注意 **：假设在所选集群中不存在集群名称空间，它由管道创建。"
+deploy.deploymentTarget.kubernetes.info: "根据要部署应用程序的集群区域和资源组的选择来选择集群名称。\n\n**注意**：假设在所选集群中不存在集群名称空间，它由管道创建。"
 deploy.deploymentTarget.satellite.info: "选择集群组名称，并提供要在其中部署应用程序的集群名称空间。\n\n**注：**：如果在集群组内的集群中不存在所提供的集群名称空间，那么管道将在集群中创建该名称空间。"
 ...
