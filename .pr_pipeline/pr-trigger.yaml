@@ -7,6 +7,9 @@ spec:
   params:
     - name: apikey
       description: The ibmcloud api key
+    - name: git-token
+      description: access token for the git repo
+      default: ""
     - name: ibmcloud-api
       description: The ibmcloud api
       default: "https://cloud.ibm.com"
@@ -153,6 +156,8 @@ spec:
         params:
           - name: ibmcloud-api
             value: $(params.ibmcloud-api)
+          - name: git-token
+            value: $(params.git-token)
           - name: ibmcloud-region
             value: $(params.ibmcloud-region)
           - name: pipeline-debug

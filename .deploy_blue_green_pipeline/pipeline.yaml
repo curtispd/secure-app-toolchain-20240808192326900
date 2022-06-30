@@ -19,6 +19,8 @@ spec:
     - name: revision
       description: the git revision/commit for the git repo
       default: ""
+    - name: git-token
+      description: access token for the git repo
     - name: app-name
       description: application name
     - name: deployment-file
@@ -83,6 +85,8 @@ spec:
           value: "secure-properties"
         - name: ibmcloud-apikey-secret-key
           value: "apikey"
+        - name: git-access-token
+          value: $(params.git-token)
         - name: repository
           value: $(params.inventoryRepo)
         - name: branch
