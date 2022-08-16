@@ -1,14 +1,4 @@
 ---
-###############################################################################
-# Licensed Materials - Property of IBM
-# (c) Copyright IBM Corporation 2016, 2022. All Rights Reserved.
-#
-# Note to U.S. Government Users Restricted Rights:
-# Use, duplication or disclosure restricted by GSA ADP Schedule
-# Contract with IBM Corp.
-###############################################################################
-#NLS_MESSAGEFORMAT_NONE
-#NLS_ENCODING=UTF-8
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
 template.name: "Sviluppare e Distribuire l'applicazione a Kubernetes o OpenShift utilizzando le strategie di distribuzione"
 template.description: "Con questa toolchain, puoi sviluppare un'applicazione e distribuire in un unico cluster openshift IBM Kubernetes Service/RedHat o a più cluster utilizzando IBM Satellite. Il modello fornisce scelte per strategie di distribuzione avanzate, come Rolling, Blue/Green o Canary per soddisfare le diverse esigenze. Per impostazione predefinita, la toolchain utilizza un'app Node.js \"Hello World\" di esempio, ma, invece, puoi anche utilizzare la tua app e collegarla ad essa. Questa toolchain è preconfigurata per continuous delivery con [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index), [Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos), controllo origine, issue tracking e modifiche in linea.\n\nPuoi gestire i cluster di contenitori IBM Cloud utilizzando la [console](https://cloud.ibm.com/kubernetes/clusters).Questa toolchain utilizza strumenti che fanno parte del servizio di distribuzione continua. Se un'istanza di tale servizio non è già presente nell'organizzazione o nel gruppo di risorse selezionato, quando fai clic su **Crea**, viene automaticamente aggiunta al piano gratuito [Lite](/catalog/services/continuous-delivery/) selezionato.\n\nPer iniziare, fai clic su **Crea**.\n\nPer istruzioni passo passo segui il [tutorial](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)"
@@ -59,7 +49,6 @@ headerSVG.gitlab2: "GitLab"
 headerSVG.pipeline: "PIPELINE"
 headerSVG.ibmCloud: "IBM Cloud"
 headerSVG.bluemix: "BLUEMIX"
-headerSVG.webIde: "IDE WEB"
 headerSVG.kubernetes: "Kubernetes"
 headerSVG.cluster: "Cluster"
 headerSVG.github1: "GitHub"
@@ -131,8 +120,6 @@ wizard.deploymentStrategy.satellite.title: "**Più cluster via Satellite**\n\nDi
 wizard.step.deploymentStrategy.title: "Distribuisci"
 wizard.optional.tools.title: "Altri strumenti"
 wizard.optional.tools.longDescription: "Si tratta di strumenti facoltativi che possono essere inclusi nella tua toolchain."
-wizard.optional.tools.webide.title: "Orion WebIDE (nessuna configurazione richiesta)"
-wizard.optional.tools.webide.description: "Consente di sviluppare per il web e per il cloud in questo ambiente IDE (integrated development environment) su browser."
 wizard.optional.tools.doi.title: "DevOps Insights (nessuna configurazione richiesta)"
 wizard.optional.tools.doi.description: "DevOps Insights fornisce informazioni generali sugli strumenti di integrazione e distribuzione continua per incrementare la velocità e il controllo della distribuzione dell'applicazione."
 wizard.summary.title: "Riepilogo"
@@ -142,9 +129,8 @@ wizard.deploymentTarget.kubernetes.title: "**Kubernetes**\n\nDistribuire l'app s
 wizard.deploymentTarget.satellite.title: "**Satellite**\n\nDistribuire l'app su un cluster IKS o OpenShift gestito come gruppo di cluster Satellite"
 deploy.satelliteClusterGroup: "Nome del gruppo di cluster Satellite"
 deploy.satelliteClusterGroupNamespace: "Spazio dei nomi"
-deploy.deploymentTarget: "Selezionare dalla destinazione di distribuzione scelta.  Durante l'utilizzo del tipo di destinazione di distribuzione come Kubernetes, richiamare il nome del cluster in base alla scelta della regione del cluster e gruppo di risorse. Nel caso di Satellite selezionare il nome del gruppo di cluster.\n\n**Nota**: Se il namespace del cluster non esiste, viene creato e configurato automaticamente."
+deploy.deploymentTarget: "Selezionare dalla destinazione di distribuzione scelta.  Durante l'utilizzo del tipo di destinazione di distribuzione come Kubernetes, richiamare il nome del cluster in base alla scelta della regione del cluster e gruppo di risorse. Nel caso di Satellite, selezionare il nome del gruppo di cluster.\n\n**Nota**: se il namespace del cluster non esiste, viene creato e configurato automaticamente."
 deploy.notification.title: "Distribuire su Satellite"
 deploy.notification.text: "La strategia di reversione offre un'opzione aggiuntiva per distribuire l'applicazione su un gruppo di cluster gestiti all'interno di IBM Cloud Satellite. Seguire le istruzioni su come [creare gruppi di cluster](https://cloud.ibm.com/satellite/locations/create) per distribuire l'applicazione su un gruppo di cluster configurati all'interno di IBM Cloud Satellite."
-deploy.deploymentTarget.kubernetes.info: "Seleziona il nome del cluster in base alla scelta della regione del cluster e del gruppo di risorse, in cui desideri distribuire l'applicazione.\n\n**Nota**: nel caso in cui lo spazio dei nomi del cluster non esista nel cluster selezionato, viene creato dalla pipeline."
-deploy.deploymentTarget.satellite.info: "Selezionare il nome del gruppo di cluster e fornire uno spazio dei nomi del cluster dove distribuire l'applicazione.**Nota**: Nel caso in cui lo spazio dei nomi del cluster fornito non esiste nei cluster all'interno del gruppo cluster, verrà creato nei cluster da parte della pipeline."
-...
+deploy.deploymentTarget.kubernetes.info: "Selezionare il nome del cluster in base alla scelta della regione del cluster e del gruppo di risorse in cui si desidera distribuire l'applicazione.\n\n**Nota**: nel caso in cui il namespace del cluster non esista nel cluster selezionato, viene creato dalla pipeline."
+deploy.deploymentTarget.satellite.info: "Selezionare il nome del gruppo di cluster e fornire un namespace del cluster in cui distribuire l'applicazione.\n\n**Nota**: nel caso in cui il namespace del cluster fornito non esista nei cluster all'interno del gruppo di cluster, verrà creato nei cluster dalla pipeline."

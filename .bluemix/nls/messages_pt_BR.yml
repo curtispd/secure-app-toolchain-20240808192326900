@@ -1,14 +1,4 @@
 ---
-###############################################################################
-# Licensed Materials - Property of IBM
-# (c) Copyright IBM Corporation 2016, 2022. All Rights Reserved.
-#
-# Note to U.S. Government Users Restricted Rights:
-# Use, duplication or disclosure restricted by GSA ADP Schedule
-# Contract with IBM Corp.
-###############################################################################
-#NLS_MESSAGEFORMAT_NONE
-#NLS_ENCODING=UTF-8
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
 template.name: "Desenvolva e implemente aplicativos no Kubernetes ou OpenShift usando estratégias de implementação"
 template.description: "Com esta cadeia de ferramentas, pode-se desenvolver um aplicativo e implementar em um único cluster IBM Kubernetes Service / RedHat openshift ou para diversos clusters usando IBM Satellite.  O modelo fornece opções de estratégias avançadas de implementação como Rolling, Blue/Green ou Canary para atender às suas necessidades. Por padrão, a cadeia de ferramentas usa um aplicativo de amostra \"Hello World\" do Node.js, mas também é possível trazer seu próprio aplicativo e vinculá-lo. Esta cadeia de ferramentas é pré-configurada para entrega contínua com o [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index) e o [Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos), controle de versão, rastreamento de problema e edição on-line. \n\nÉ possível gerenciar seus clusters do IBM Cloud Container usando o [console](https://cloud.ibm.com/kubernetes/clusters).\n\nEsta cadeia de ferramentas utiliza ferramentas que fazem parte do serviço de Entrega Contínua. Se uma instância desse serviço ainda não estiver no grupo de recursos ou na organização selecionada, quando você clicar em **Criar**, ela será incluída automaticamente com o plano [Lite](/catalog/services/continuous-delivery/) sem custo selecionado.\n\nPara iniciar, clique em **Criar**.\n\nPara instruções passo-a-passo, siga o [tutorial](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)"
@@ -59,7 +49,6 @@ headerSVG.gitlab2: "GitLab"
 headerSVG.pipeline: "OLEODUTO"
 headerSVG.ibmCloud: "IBM Cloud"
 headerSVG.bluemix: "BLUEMIX"
-headerSVG.webIde: "WEB IDE"
 headerSVG.kubernetes: "Kubernetes"
 headerSVG.cluster: "Cluster"
 headerSVG.github1: "GitHub"
@@ -131,8 +120,6 @@ wizard.deploymentStrategy.satellite.title: "**Diversos clusters via Satellite**\
 wizard.step.deploymentStrategy.title: "Implementar o"
 wizard.optional.tools.title: "Outras ferramentas"
 wizard.optional.tools.longDescription: "Estas são ferramentas opcionais que podem ser incluídas em sua cadeia de ferramentas."
-wizard.optional.tools.webide.title: "Orion WebIDE (nenhuma configuração é necessária)"
-wizard.optional.tools.webide.description: "Desenvolva para a web e a nuvem nesse ambiente de desenvolvimento integrado (IDE) baseado em navegador."
 wizard.optional.tools.doi.title: "DevOps Insights (nenhuma configuração é necessária)"
 wizard.optional.tools.doi.description: "O DevOps Insights fornece insights abrangentes da integração contínua popular e das ferramentas de entrega contínua para aumentar a velocidade e o controle da entrega de seu aplicativo."
 wizard.summary.title: "Resumo"
@@ -142,9 +129,8 @@ wizard.deploymentTarget.kubernetes.title: "**Kubernetes**\n\nImplementar o app e
 wizard.deploymentTarget.satellite.title: "**Satellite**\n\nImplementar o app em um Cluster IKS ou OpenShift gerenciado como Satellite Cluster Group"
 deploy.satelliteClusterGroup: "Nome do grupo de clusters Satellite"
 deploy.satelliteClusterGroupNamespace: "Namespace"
-deploy.deploymentTarget: "Selecione a partir do destino de implementação de sua escolha.  Enquanto utiliza o tipo de destino de implementação como Kubernetes, recupere o nome do cluster com base na escolha de região de Cluster e Grupo de recursos. No caso do Satellite, selecione o nome do grupo de clusters.\n\n**Nota**: se o namespace do cluster não existir, ele será automaticamente criado e configurado."
+deploy.deploymentTarget: "Selecione a partir do destino de implementação de sua escolha.  Enquanto utiliza o tipo de destino de implementação como Kubernetes, recupere o nome do cluster com base na escolha de região de Cluster e Grupo de recursos. Em caso do Satellite, selecione o nome do grupo de clusters.\n\n**Nota**: Se o namespace do cluster não existir, ele será automaticamente criado e configurado para você."
 deploy.notification.title: "Implementar para Satellite"
 deploy.notification.text: "A estratégia de lançamento oferece uma opção adicional para implementar o aplicativo em um grupo de clusters gerenciado dentro de IBM Cloud Satellite. Siga instruções sobre como [Criar grupos de clusters](https://cloud.ibm.com/satellite/locations/create) para implementar aplicativo em um grupo de clusters configurado dentro de IBM Cloud Satellite."
-deploy.deploymentTarget.kubernetes.info: "Selecione o nome do cluster com base na escolha da região do Cluster e do Grupo de recursos em que deseja implementar o aplicativo.\n\n**Nota**: caso o namespace do cluster não exista no cluster selecionado, ele é criado pelo pipeline."
-deploy.deploymentTarget.satellite.info: "Selecione o nome do grupo de cluster e forneça um namespace de cluster em que deseja implementar seu aplicativo.\n\n**Note**: No caso do namespace de cluster fornecido não existir nos clusters dentro do grupo cluster, ele será criado nos clusters pelo pipeline."
-...
+deploy.deploymentTarget.kubernetes.info: "Selecione o nome do cluster com base na escolha da região do cluster e do grupo de recursos, em que deseja implementar o aplicativo.\n\n**Nota**: Caso o namespace do cluster não exista no cluster selecionado, ele será criado pelo pipeline."
+deploy.deploymentTarget.satellite.info: "Selecione o nome do grupo de cluster e forneça um namespace de cluster no qual deseja implementar seu aplicativo.\n\n**Nota**: Caso o namespace de cluster fornecido não exista nos clusters dentro do grupo de clusters, ele será criado nos clusters pelo pipeline."

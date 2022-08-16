@@ -1,14 +1,4 @@
 ---
-###############################################################################
-# Licensed Materials - Property of IBM
-# (c) Copyright IBM Corporation 2016, 2022. All Rights Reserved.
-#
-# Note to U.S. Government Users Restricted Rights:
-# Use, duplication or disclosure restricted by GSA ADP Schedule
-# Contract with IBM Corp.
-###############################################################################
-#NLS_MESSAGEFORMAT_NONE
-#NLS_ENCODING=UTF-8
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
 template.name: "배치 전략을 사용하여 OpenShift 또는 Kubernetes에 애플리케이션 개발 및 배치"
 template.description: "이 도구 체인을 사용하여 애플리케이션을 개발하고 단일 IBM Kubernetes Service / RedHat openshift 클러스터 또는 IBM Satellite를 사용하여 여러 클러스터로 배치할 수 있습니다.  템플리트는 요구사항 충족을 위해 Rolling, Blue/Green 또는 Canary 등의 선택 가능한 고급 배치 전략을 제공합니다. \n\n기본적으로, 도구 체인은 샘플 Node.js \"Hello World\" 앱을 사용하지만, 고유 앱을 가져와서 대신 연결할 수도 있습니다. 이 도구 체인은 [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index), [Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos), 소스 제어, 문제 추적 및 온라인 편집 기능을 사용하여 지속적 딜리버리를 지원하도록 사전 구성되어 있습니다.\n\n[콘솔](https://cloud.ibm.com/kubernetes/clusters)을 사용하여 IBM Cloud 컨테이너 클러스터를 관리할 수 있습니다.\n\n이 도구 체인은 지속적 딜리버리 서비스의 일부인 도구를 사용합니다. 해당 서비스의 인스턴스가 선택된 리소스 그룹이나 조직에 아직 없는 경우, **작성** 을 클릭하면 무료 [Lite](/catalog/services/continuous-delivery/) 플랜이 선택된 상태로 인스턴스가 자동으로 추가됩니다.\n\n시작하려면 **작성**을 클릭하십시오.\n\n단계별 지시사항은 [학습서](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)의 내용을 따르십시오."
@@ -59,7 +49,6 @@ headerSVG.gitlab2: "GitLab"
 headerSVG.pipeline: "PIPELINE"
 headerSVG.ibmCloud: "IBM Cloud"
 headerSVG.bluemix: "BLUEMIX"
-headerSVG.webIde: "WEB IDE"
 headerSVG.kubernetes: "Kubernetes"
 headerSVG.cluster: "클러스터"
 headerSVG.github1: "GitHub"
@@ -131,8 +120,6 @@ wizard.deploymentStrategy.satellite.title: "**Satellite를 통한 다중 클러�
 wizard.step.deploymentStrategy.title: "배치"
 wizard.optional.tools.title: "기타 도구"
 wizard.optional.tools.longDescription: "도구 체인에 포함될 수 있는 선택적 도구입니다."
-wizard.optional.tools.webide.title: "Orion WebIDE(필요한 구성 없음)"
-wizard.optional.tools.webide.description: "이 브라우저 기반 IDE(Integrated Development Environment)에서 웹 및 클라우드 관련 개발을 수행합니다."
 wizard.optional.tools.doi.title: "DevOps Insights(필요한 구성 없음)"
 wizard.optional.tools.doi.description: "DevOps Insights는 많이 사용되는 지속적 통합 및 지속적 딜리버리 도구에서 포괄적인 인사이트를 제공하여 애플리케이션 딜리버리의 속도 및 제어 기능을 개선합니다."
 wizard.summary.title: "요약"
@@ -142,9 +129,8 @@ wizard.deploymentTarget.kubernetes.title: "**Kubernetes**\n\nIBM Cloud의 IKS �
 wizard.deploymentTarget.satellite.title: "**Satellite**\n\nSatellite 클러스터 그룹으로 관리되는 IKS 또는 OpenShift 클러스터에 앱 배치"
 deploy.satelliteClusterGroup: "Satellite 클러스터 그룹 이름"
 deploy.satelliteClusterGroupNamespace: "네임스페이스"
-deploy.deploymentTarget: "선택한 배치 대상에서 선택하십시오.  배치 대상 유형을 Kubernetes로 사용하는 동안 선택한 클러스터 지역 및 리소스 그룹에 따라 클러스터 이름을 검색하십시오. Satellite의 경우 클러스터 그룹의 이름을 선택하십시오.\n\n**참고**: 클러스터 네임스페이스가 없는 경우, 이는 자동으로 작성되고 구성됩니다."
+deploy.deploymentTarget: "선택한 배치 대상에서 선택하십시오.  배치 대상 유형을 Kubernetes로 사용하는 동안 선택한 클러스터 지역 및 리소스 그룹에 따라 클러스터 이름을 검색하십시오. Satellite의 경우 클러스터 그룹의 이름을 선택하십시오.\n\n**참고**: 클러스터 네임스페이스가 없는 경우 자동으로 작성되며 사용자를 위해 구성됩니다."
 deploy.notification.title: "Satellite에 배치"
 deploy.notification.text: "롤링 전략은 IBM Cloud Satellite 내에서 관리되는 클러스터 그룹에 애플리케이션을 배치하기 위한 추가 옵션을 제공합니다. IBM Cloud Satellite 내에 구성된 클러스터 그룹에 애플리케이션을 배치하려면 [클러스터 그룹 작성](https://cloud.ibm.com/satellite/locations/create) 방법에 대한 지시사항을 따르십시오."
-deploy.deploymentTarget.kubernetes.info: "애플리케이션을 배치하려는 클러스터 지역 및 리소스 그룹 선택사항에 따라 클러스터 이름을 선택하십시오.\n\n**참고**: 클러스터 네임스페이스가 선택한 클러스터에 없는 경우 파이프라인에서 작성됩니다."
-deploy.deploymentTarget.satellite.info: "클러스터 그룹 이름을 선택하고 애플리케이션을 배치할 클러스터 네임스페이스를 제공합니다.\n\n**참고**: 제공된 클러스터 네임스페이스가 클러스터 그룹 내의 클러스터에 존재하지 않는 경우 파이프라인에 의해 클러스터에 작성됩니다."
-...
+deploy.deploymentTarget.kubernetes.info: "애플리케이션을 배치하려는 클러스터 영역 및 리소스 그룹의 선택에 따라 클러스터 이름을 선택하십시오.\n\n**참고**: 선택한 클러스터에 클러스터 네임스페이스가 없는 경우 파이프라인에 의해 작성됩니다."
+deploy.deploymentTarget.satellite.info: "클러스터 그룹 이름을 선택하고 애플리케이션을 배치할 클러스터 네임스페이스를 제공하십시오.\n\n**참고**: 제공된 클러스터 네임스페이스가 클러스터 그룹 내의 클러스터에 없다면, 파이프라인에 의해 클러스터에 작성됩니다."

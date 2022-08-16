@@ -1,14 +1,4 @@
 ---
-###############################################################################
-# Licensed Materials - Property of IBM
-# (c) Copyright IBM Corporation 2016, 2022. All Rights Reserved.
-#
-# Note to U.S. Government Users Restricted Rights:
-# Use, duplication or disclosure restricted by GSA ADP Schedule
-# Contract with IBM Corp.
-###############################################################################
-#NLS_MESSAGEFORMAT_NONE
-#NLS_ENCODING=UTF-8
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
 template.name: "Desarrollar y desplegar la aplicación en Kubernetes o OpenShift utilizando estrategias de despliegue"
 template.description: "Con esta cadena de herramientas, puede desarrollar una aplicación y desplegar en un único clúster de IBM Kubernetes Service / RedHat Openshift o en varios clústeres utilizando IBM Satellite.  La plantilla le proporciona opciones de estrategias de despliegue avanzadas como Rolling, Blue/Green o Canary para tener en cuenta sus necesidades. De forma predeterminada, la cadena de herramientas utiliza un aplicación  Node.js \"Hello World\" de ejemplo pero, en su lugar también puede utilizar su propia aplicación y enlazarla. Esta cadena de herramientas se ha preconfigurado para la entrega continua con [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index), [Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos), control de origen, seguimiento de problemas y edición en línea.\n\n Puede gestionar los clústeres de IBM Cloud Container utilizando la [consola](https://cloud.ibm.com/kubernetes/clusters).\n\nEsta cadena de herramientas utiliza herramientas que forman parte del servicio de entrega continua. Si aún no hay una instancia de dicho servicio en la organización o el grupo de recursos seleccionado, cuando pulse **Crear**, se añadirá automáticamente con el plan sin coste [Lite](/catalog/services/continuous-delivery/) seleccionado.\n\nPara comenzar, pulse **Crear**.\n\nPara obtener instrucciones paso a paso, siga el [tutorial](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)"
@@ -59,7 +49,6 @@ headerSVG.gitlab2: "GitLab"
 headerSVG.pipeline: "PIPELINE"
 headerSVG.ibmCloud: "IBM Cloud"
 headerSVG.bluemix: "BLUEMIX"
-headerSVG.webIde: "IDE WEB"
 headerSVG.kubernetes: "Kubernetes"
 headerSVG.cluster: "Clúster"
 headerSVG.github1: "GitHub"
@@ -131,8 +120,6 @@ wizard.deploymentStrategy.satellite.title: "**Varios clústeres a través de Sat
 wizard.step.deploymentStrategy.title: "Despliegue de"
 wizard.optional.tools.title: "Otras herramientas"
 wizard.optional.tools.longDescription: "Estas son herramientas opcionales que se pueden incluir en la cadena de herramientas."
-wizard.optional.tools.webide.title: "Orion WebIDE (no requiere configuración)"
-wizard.optional.tools.webide.description: "Desarrollo para web y nube en IDE basado en navegador."
 wizard.optional.tools.doi.title: "DevOps Insights (no requiere configuración)"
 wizard.optional.tools.doi.description: "DevOps Insights proporciona información completa de herramientas populares de integración continua y de entrega continua para aumentar la velocidad y el control de la entrega de aplicaciones."
 wizard.summary.title: "Resumen"
@@ -142,9 +129,8 @@ wizard.deploymentTarget.kubernetes.title: "**Kubernetes**\n\nDespliegue la aplic
 wizard.deploymentTarget.satellite.title: "**Satellite**\n\nDespliegue la aplicación en un clúster IKS u OpenShift gestionado como un grupo de clústeres de Satellite"
 deploy.satelliteClusterGroup: "Nombre de grupo de clúster de Satellite"
 deploy.satelliteClusterGroupNamespace: "Espacio de nombres"
-deploy.deploymentTarget: "Seleccione el destino de despliegue que desee.  Al utilizar un tipo de destino de despliegue como Kubernetes, recupere el nombre de clúster según su selección de región de clúster y grupo de recursos. En el caso de Satellite, seleccione el nombre del grupo de clústeres.\n\n**Nota**: si el espacio de nombres del clúster no existe, se creará y se configurará automáticamente."
+deploy.deploymentTarget: "Seleccione el destino de despliegue que desee.  Al utilizar un tipo de destino de despliegue como Kubernetes, recupere el nombre de clúster según su selección de región de clúster y grupo de recursos. En el caso de Satellite, seleccione el nombre del grupo de clústeres.\n\n**Nota**: Si el espacio de nombres del clúster no existe, se crea y se configura automáticamente."
 deploy.notification.title: "Desplegar en Satellite"
 deploy.notification.text: "La estrategia de rotación ofrece una opción adicional para desplegar la aplicación en un grupo de clústeres gestionados en IBM Cloud Satellite. Siga las instrucciones sobre cómo [Crear grupos de clústeres](https://cloud.ibm.com/satellite/locations/create) para desplegar la aplicación en un grupo de clústeres configurados en IBM Cloud Satellite."
-deploy.deploymentTarget.kubernetes.info: "Seleccione el nombre de clúster según su selección de región de clúster y grupo de recursos, donde desee desplegar la aplicación.\n\n**Nota**: Si el espacio de nombres del clúster no existe en el clúster seleccionado, la interconexión lo crea."
-deploy.deploymentTarget.satellite.info: "Seleccione el nombre de grupo de clúster y proporcione un espacio de nombres de clúster en el que desee desplegar la aplicación.**Nota**: si el espacio de nombres del clúster proporcionado no existe en los clústeres del grupo de clústeres, se creará en los clústeres mediante la interconexión."
-...
+deploy.deploymentTarget.kubernetes.info: "Seleccione el nombre de clúster, basado en la elección de la región de clúster y el grupo de recursos, donde desea desplegar la aplicación.\n\n**Nota**: Si el espacio de nombres del clúster no existe en el clúster seleccionado, la interconexión lo creará."
+deploy.deploymentTarget.satellite.info: "Seleccione el nombre de grupo de clústeres y proporcione un espacio de nombres de clúster donde desee desplegar la aplicación.\n\n**Nota**: si el espacio de nombres del clúster proporcionado no existe en los clústeres del grupo de clústeres, la interconexión lo creará en los clústeres."

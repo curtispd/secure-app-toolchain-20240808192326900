@@ -1,14 +1,4 @@
 ---
-###############################################################################
-# Licensed Materials - Property of IBM
-# (c) Copyright IBM Corporation 2016, 2022. All Rights Reserved.
-#
-# Note to U.S. Government Users Restricted Rights:
-# Use, duplication or disclosure restricted by GSA ADP Schedule
-# Contract with IBM Corp.
-###############################################################################
-#NLS_MESSAGEFORMAT_NONE
-#NLS_ENCODING=UTF-8
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
 template.name: "Anwendung unter Verwendung von Bereitstellungsstrategien in Kubernetes oder OpenShift entwickeln und bereitstellen"
 template.description: "Mit dieser Toolchain können Sie eine Anwendung entwickeln und in einem einzelnen IBM Kubernetes Service-/RedHat-OpenShift-Cluster oder in mehreren Clustern mit IBM Satellite bereitstellen.  Die Vorlage bietet Ihnen Optionen für erweiterte Bereitstellungsstrategien wie Rolling, Blue/Green oder Canary, um Ihren Anforderungen gerecht zu werden. Standardmäßig verwendet die Toolchain die Node.js-Beispiel-App 'Hello World', aber Sie können stattdessen auch eine eigene App bereitstellen und eine Verknüpfung zu dieser App herstellen. Diese Toolchain ist für die kontinuierliche Bereitstellung mit [Vulnerability Advisor](https://cloud.ibm.com/docs/services/va?topic=va-va_index), [Code Risk Analyzer](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-cd-configure-cra-repos), Quellcodeverwaltung, Issue-Verfolgung und Onlinebearbeitung vorkonfiguriert. \n\nSie können Ihre IBM Cloud Container-Cluster mithilfe der [Konsole](https://cloud.ibm.com/kubernetes/clusters) verwalten.\n\nDiese Toolchain verwendet Tools, die Teil des Continuous Delivery-Service sind. Wenn sich noch keine Instanz dieses Service in der ausgewählten Ressourcengruppe oder Organisation befindet, wird sie automatisch hinzugefügt, wenn Sie auf **Erstellen** klicken. Dabei ist der kostenlose Plan [Lite](/catalog/services/continuous-delivery/) ausgewählt.\n\nKlicken Sie auf **Erstellen**, um zu beginnen.\n\nSchrittweise Anweisungen enthält das [Lernprogramm](https://cloud.ibm.com/docs/ContinuousDelivery?topic=ContinuousDelivery-tutorial-cd-kubernetes)."
@@ -59,7 +49,6 @@ headerSVG.gitlab2: "GitLab"
 headerSVG.pipeline: "PIPELINE"
 headerSVG.ibmCloud: "IBM Cloud"
 headerSVG.bluemix: "BLUEMIX"
-headerSVG.webIde: "WEB-IDE"
 headerSVG.kubernetes: "Kubernetes"
 headerSVG.cluster: "Cluster"
 headerSVG.github1: "GitHub"
@@ -131,8 +120,6 @@ wizard.deploymentStrategy.satellite.title: "**Mehrere Cluster über Satellite**\
 wizard.step.deploymentStrategy.title: "Bereitstellen"
 wizard.optional.tools.title: "Andere Tools"
 wizard.optional.tools.longDescription: "Dies sind optionale Tools, die in Ihre Toolchain eingeschlossen werden können."
-wizard.optional.tools.webide.title: "Orion WebIDE (keine Konfiguration erforderlich)"
-wizard.optional.tools.webide.description: "Entwickeln Sie für das Web und die Cloud in dieser browserbasierten integrierte Entwicklungsumgebung (IDE)."
 wizard.optional.tools.doi.title: "DevOps Insights (keine Konfiguration erforderlich)"
 wizard.optional.tools.doi.description: "DevOps Insights stellt umfassende Einblicke aus gängigen Tools für kontinuierliche Integration und Continuous Delivery bereit, um die Geschwindigkeit und Steuerung der Bereitstellung Ihrer Anwendung zu erhöhen."
 wizard.summary.title: "Zusammenfassung"
@@ -142,9 +129,8 @@ wizard.deploymentTarget.kubernetes.title: "**Kubernetes**\n\nApp in einem IKS- o
 wizard.deploymentTarget.satellite.title: "**Satellite**\n\nApp auf einem IKS- oder OpenShift-Cluster implementieren, der als Satellite-Clustergruppe verwaltet wird"
 deploy.satelliteClusterGroup: "Name der Satellite-Clustergruppe"
 deploy.satelliteClusterGroupNamespace: "Namensbereich"
-deploy.deploymentTarget: "Wählen Sie aus dem Implementierungsziel Ihrer Wahl aus.  Wenn Sie den Implementierungszieltyp 'Kubernetes' verwenden, rufen Sie den Clusternamen auf der Basis der Auswahl der Clusterregion und der Ressourcengruppe ab. Wählen Sie bei der Verwendung von Satellite den Namen der Clustergruppe aus.\n\n**Hinweis**: Wenn der Cluster-Namespace nicht vorhanden ist, wird er automatisch erstellt und für Sie konfiguriert."
+deploy.deploymentTarget: "Wählen Sie aus dem Implementierungsziel Ihrer Wahl aus.  Wenn Sie den Implementierungszieltyp 'Kubernetes' verwenden, rufen Sie den Clusternamen auf der Basis der Auswahl der Clusterregion und der Ressourcengruppe ab. Im Fall von Satellite wählen Sie den Namen der Clustergruppe aus.\n\n**Hinweis**: Wenn der Clusternamensbereich nicht vorhanden ist, wird er automatisch erstellt und konfiguriert."
 deploy.notification.title: "In Satellite implementieren"
 deploy.notification.text: "Die fortlaufende Strategie bietet eine zusätzliche Option, um die Anwendung in einer Gruppe von Clustern zu implementieren, die in IBM Cloud Satellite verwaltet werden. Befolgen Sie die Anweisungen zum [Erstellen von Clustergruppen](https://cloud.ibm.com/satellite/locations/create), um die Anwendung in einer Gruppe von Clustern zu implementieren, die in IBM Cloud Satellite konfiguriert sind."
-deploy.deploymentTarget.kubernetes.info: "Wählen Sie den Clusternamen basierend auf der Auswahl der Clusterregion und der Ressourcengruppe aus, in der die Anwendung implementiert werden soll.\n\n**Hinweis**: Falls der Clusternamensbereich im ausgewählten Cluster nicht vorhanden ist, wird er aus der Pipeline erstellt."
-deploy.deploymentTarget.satellite.info: "Wählen Sie den Namen der Clustergruppe aus und geben Sie einen Namensbereich für den Cluster an, in dem Sie Ihre Anwendung bereitstellen wollen.**Hinweis**: Falls der für den Cluster angegebene Namensbereich nicht in den Clustern innerhalb der Clustergruppe vorhanden ist, wird er von der Pipeline in den Clustern erstellt."
-...
+deploy.deploymentTarget.kubernetes.info: "Wählen Sie den Clusternamen basierend auf der Auswahl der Clusterregion und der Ressourcengruppe aus, in der Sie die Anwendung bereitstellen möchten.\n\n**Hinweis**: Falls der Clusternamensbereich im ausgewählten Cluster nicht vorhanden ist, wird er von der Pipeline erstellt."
+deploy.deploymentTarget.satellite.info: "Wählen Sie den Clustergruppennamen aus und geben Sie einen Clusternamensbereich an, in dem Sie Ihre Anwendung implementieren möchten.\n\n**Hinweis**: Wenn der bereitgestellte Clusternamensbereich in den Clustern innerhalb der Clustergruppe nicht vorhanden ist, wird er in den Clustern von der Pipeline erstellt."
