@@ -22,6 +22,9 @@ spec:
     - name: fail-on-scanned-issues
       description: force failure of task when vulnerability advisor scan issues are found
       default: "true"
+    - name: build-script
+      description: The command(s) to run the build in run-build step. It will override the default commands
+      default: ""
     - name: path-to-context
       default: "."
     - name: path-to-dockerfile
@@ -54,6 +57,12 @@ spec:
       description: The variable storing git integration for the repository storing build inventory with the toolchain
     - name: insights
       description: The variable storing DevOps Insight integration with the toolchain
+    - name: toolchain-build-image
+      description: Image to use for `build` task
+      default: "icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.29"
+    - name: tester-tests-image
+      description: Image to use for `unit-test` task
+      default: "icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.29"
   workspaces:
     - name: pipeline-ws
   tasks:
@@ -110,8 +119,10 @@ spec:
       taskRef:
         name: toolchain-build
       params:
+        - name: run-build-image
+          value: $(params.toolchain-build-image)
         - name: custom-script
-          value: ""
+          value: $(params.build-script)
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:
@@ -122,6 +133,8 @@ spec:
       taskRef:
         name: tester-run-tests
       params:
+        - name: tests-image
+          value: $(params.tester-tests-image)
         - name: tests-script
           value: |
             if [ -f ./test/run-tests.sh ]; then
