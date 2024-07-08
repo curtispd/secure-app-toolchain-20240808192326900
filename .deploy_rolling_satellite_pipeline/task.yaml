@@ -24,7 +24,7 @@ spec:
       description: The name of the build artifact as retrieved from the build metadata
   steps:
     - name: download-artifacts
-      image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.29
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.46
       workingDir: /output
       env:
         - name: API
@@ -232,7 +232,7 @@ spec:
         name: toolchain
   steps:
     - name: publish-doi-deployrecord
-      image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.29
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-ubi:3.46
       volumeMounts:
         - name: cd-config
           mountPath: /cd-config
